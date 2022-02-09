@@ -1,19 +1,19 @@
 import React from 'react';
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react';
-import { Popover, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
+// import { Fragment } from 'react';
+// import { Popover, Transition } from '@headlessui/react';
+// import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import phoneIcon from '../../assets/img/phone.png';
-import rieicon from '../../assets/img/rieicon.png';
+// import rieicon from '../../assets/img/rieicon.png';
 import { Navbar } from '../../components/shared/Navbars';
 import { Footer } from '../../components/shared/Footer';
 
-const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-];
+// const navigation = [
+//   { name: 'Product', href: '#' },
+//   { name: 'Features', href: '#' },
+//   { name: 'Marketplace', href: '#' },
+//   { name: 'Company', href: '#' },
+// ];
 
 export default function Home() {
   return (

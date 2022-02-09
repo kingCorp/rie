@@ -1,12 +1,11 @@
 import React from 'react';
-import rieicon from '../../../assets/img/rieicon.png';
 export const Footer = () => {
   const year = new Date();
   return (
     <footer className="bg-white-800">
       <div className="grid grid-cols-2 gap-8 py-8 px-6 md:grid-cols-4">
         <div>
-          <h3 className="mb-6 text-sm font-semibold text-dark-400 uppercase">Company</h3>
+          <h3 className="mb-6 text-sm font-semibold text-dark-400 uppercase">Rietickets</h3>
           <ul>
             <li className="mb-4">
               <a

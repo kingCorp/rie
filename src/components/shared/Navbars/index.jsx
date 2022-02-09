@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
-import { Popover, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
+// import { Popover, Transition } from '@headlessui/react';
+// import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import rieicon from '../../../assets/img/rieicon.png';
 
-const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-];
+// const navigation = [
+//   { name: 'Product', href: '#' },
+//   { name: 'Features', href: '#' },
+//   { name: 'Marketplace', href: '#' },
+//   { name: 'Company', href: '#' },
+// ];
 
 export const Navbar = () => {
   return (
@@ -108,7 +108,7 @@ export const Navbar = () => {
           </div>
         </div>
       </nav>
-      <Popover>
+      {/* <Popover>
         <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
           <nav
             className="relative flex items-center justify-between sm:h-10 lg:justify-start"
@@ -197,7 +197,7 @@ export const Navbar = () => {
             </div>
           </Popover.Panel>
         </Transition>
-      </Popover>
+      </Popover> */}
     </Fragment>
   );
 };
