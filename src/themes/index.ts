@@ -1,0 +1,47 @@
+export const colors = {
+  white: '#fff',
+  black: '#000',
+  lightestGray: '#f9f9f9',
+  lightGray: '#dedede',
+  lightGray1: '#e6e5eb',
+  lightGray2: '#d8d8d8',
+  gray: '#8d8d91',
+  secondaryGray: '#979797',
+  darkGray: '#757575',
+  darkGray1: '#6D7278',
+  opacityGray: 'rgba(60, 60, 67, 0.6)',
+  opacityLightGray: 'rgba(141, 141, 145, 0.3)',
+  opacityLightGray1: 'rgba(141, 141, 145, 0.5)',
+  primaryBlue: '#016F96',
+  opacityPrimaryBlue: 'rgba(1, 111, 150, 0.1)',
+  lightPrimaryBlue: '#0094C9',
+  blue: '#0091ff',
+  bluePurple: '#3B77F2',
+  lightBlue: '#32c5ff',
+  opacityBlue: 'rgba(50, 197, 255, 0.3)',
+  opacityDarkBlue: 'rgb(0, 35, 48, 0.5)',
+  orange: '#fa6400',
+  yellow: '#f7b500',
+  purple: '#6236ff',
+  red: '#e94235',
+  primaryRed: '#ff2d55',
+  pink: '#ce0881',
+  green: '#578e1c',
+  lightGreen: '#6dd400',
+};
+
+export const fontSizes = {
+  xSmall: 11,
+  small: 12,
+  medium: 14,
+  large: 16,
+  large2: 18,
+  xLarge: 20,
+  xLarge2: 22,
+  xLarge3: 34,
+};
+
+export const themes = {
+  colors: { ...colors },
+  fontSizes: { ...fontSizes },
+};
