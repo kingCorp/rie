@@ -2,194 +2,198 @@ import React from 'react';
 export const Footer = () => {
   const year = new Date();
   return (
-    <footer className="bg-white-800">
-      <div className="grid grid-cols-2 gap-8 py-8 px-6 md:grid-cols-4">
-        <div>
-          <h3 className="mb-6 text-sm font-semibold text-dark-400 uppercase">Rietickets</h3>
-          <ul>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                About
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Careers
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Brand Center
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Blog
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="mb-6 text-sm font-semibold text-dark-400 uppercase">Help center</h3>
-          <ul>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Discord Server
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Twitter
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Facebook
-              </a>
-            </li>
-            <a
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              className="text-dark-300 hover:underline"
-            ></a>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              ></a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Contact Us
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="mb-6 text-sm font-semibold text-dark-400 uppercase">Legal</h3>
-          <ul>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Privacy Policy
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Licensing
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Terms &amp; Conditions
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="mb-6 text-sm font-semibold text-dark-400 uppercase">Download</h3>
-          <ul>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                iOS
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Android
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                Windows
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer"
-                className="text-dark-300 hover:underline"
-              >
-                MacOS
-              </a>
-            </li>
-          </ul>
+    <footer className="footer bg-white relative pt-1">
+      <div className="container mx-auto px-6">
+        <div className="sm:flex sm:mt-8">
+          <div className="my-10 mx-10 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
+            <div className="flex flex-col">
+              <h3 className="mb-6 text-lg font-bold text-dark-500 uppercase">Rieticket</h3>
+              <ul>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    About
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Careers
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Brand Center
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Blog
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="flex flex-col">
+              <h3 className="mb-6 text-lg font-bold text-dark-500 uppercase">Help center</h3>
+              <ul>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Discord Server
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Twitter
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Facebook
+                  </a>
+                </li>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-dark-300 hover:underline"
+                ></a>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  ></a>
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Contact Us
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="mb-6 text-lg font-bold text-dark-500 uppercase">Legal</h3>
+              <ul>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Privacy Policy
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Licensing
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Terms &amp; Conditions
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="flex flex-col">
+              <h3 className="mb-6 text-lg font-bold text-dark-500 uppercase">Download</h3>
+              <ul>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    iOS
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Android
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    Windows
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-dark-300 hover:underline"
+                  >
+                    MacOS
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       <div className="py-6 px-4 bg-dark-700 md:flex md:items-center md:justify-between">
         <span className="text-sm text-dark-300 sm:text-center">
-          © {year.getFullYear()} <a href="https://flowbite.com">Rietickets</a>. All Rights Reserved.
+          © {year.getFullYear()} <a href="/">Rieticket</a>. All Rights Reserved.
         </span>
         <div className="flex mt-4 space-x-6 sm:justify-center md:mt-0">
           <a href="#" className="text-dark-400 hover:text-dark">
