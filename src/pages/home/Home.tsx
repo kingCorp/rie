@@ -5,12 +5,11 @@ import eve from '../../assets/img/eve1.png';
 import eve2 from '../../assets/img/eve2.png';
 import eve3 from '../../assets/img/eve3.png';
 import eve4 from '../../assets/img/eve4.png';
-import { Navbar } from '../../components/shared/Navbars';
-import { Footer } from '../../components/shared/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import CardEvent from '../../components/CardEvent';
 import { paths } from '../../utils/constants';
+import MainLayout from '../../components/MainLayout';
 
 const events = [
   {
@@ -45,10 +44,8 @@ const events = [
 
 export default function Home() {
   return (
-    <div className="relative bg-white">
-      <Navbar />
-      {/* landind info */}
-      <div className="relative bg-white overflow-hidden h-4/5">
+    <MainLayout>
+      <div className="relative bg-white overflow-hidden head">
         <div className="max-w-1xl mx-auto">
           <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
             <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:pl-40 lg:px-8 xl:mt-28">
@@ -110,7 +107,7 @@ export default function Home() {
         </section>
         <div className="w-full flex justify-center pt-10">
           <a
-            href="#"
+            href={paths.SELLING}
             className="flex w-40 justify-center py-2  text-base font-medium border rounded-full text-white border-white hover:bg-red-700"
           >
             see more
@@ -139,24 +136,13 @@ export default function Home() {
         </section>
         <div className="w-full flex justify-center pt-10">
           <a
-            href="#"
+            href={paths.UPCOMING}
             className="flex w-40 justify-center py-2  text-base font-medium border rounded-full bg-gray-800 text-white hover:bg-red-700"
           >
             see more
           </a>
         </div>
       </section>
-
-      {/* page util info */}
-      <div className="relative bg-white overflow-hidden">
-        <div className="max-w-1xl mx-auto"></div>
-        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"></div>
-      </div>
-      <div className="relative bg-white overflow-hidden">
-        <div className="max-w-1xl mx-auto"></div>
-        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"></div>
-      </div>
-      <Footer />
-    </div>
+    </MainLayout>
   );
 }

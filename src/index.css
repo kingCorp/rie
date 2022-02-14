@@ -13,3 +13,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.homebg {
+  background-image: url('/src/assets/img/backgd.jpeg');
+}
+
+.head {
+  height: 500px;
+}

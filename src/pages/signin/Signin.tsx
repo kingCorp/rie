@@ -4,9 +4,9 @@ import { paths } from '../../utils/constants';
 
 const Signin = () => {
   return (
-    <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+    <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
       <div className="w-full sm:max-w-md p-5 mx-auto">
-        <div className="flex justify-center py-3">
+        <div className="flex justify-center py-10">
           <a href={paths.HOME}>
             <img
               src={rt}
@@ -24,7 +24,7 @@ const Signin = () => {
               id="email"
               type="text"
               name="email"
-              className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
+              className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
             />
           </div>
           <div className="mb-4">
@@ -35,7 +35,7 @@ const Signin = () => {
               id="password"
               type="password"
               name="password"
-              className="py-2 px-3 border border-gray-300 focus:border-red-300 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm disabled:bg-gray-100 mt-1 block w-full"
+              className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
             />
           </div>
           <div className="mt-6 flex items-center justify-between">

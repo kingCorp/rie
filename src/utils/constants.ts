@@ -5,6 +5,7 @@ export const paths = {
   SIGNUP: '/signup',
   UPCOMING: '/upcoming',
   SELLING: '/selling',
+  EVENT_DETAIL: '/event/{id}',
   ERROR: '*',
 };
 

@@ -1,22 +1,13 @@
 import React, { Fragment } from 'react';
-// import { Popover, Transition } from '@headlessui/react';
-// import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import rt from '../../../assets/img/rt.png';
 import { paths } from '../../../utils/constants';
-
-// const navigation = [
-//   { name: 'Product', href: '#' },
-//   { name: 'Features', href: '#' },
-//   { name: 'Marketplace', href: '#' },
-//   { name: 'Company', href: '#' },
-// ];
 
 export const Navbar = () => {
   return (
     <Fragment>
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
-          <a href="#" className="flex">
+          <a href={paths.HOME} className="flex">
             <img
               src={rt}
               alt="logo"
