@@ -12,12 +12,14 @@ import SignUp from '../pages/signup/Signup';
 import Selling from '../pages/selling/Selling';
 import Upcoming from '../pages/upcoming/Upcoming';
 import EventDetails from '../pages/eventdetails/EventDetails';
+import ComingSoon from '../pages/comingsoon/ComingSoon';
 
 const AppRoutes = () => {
   return (
     <div>
       <BrowserRouter>
         <Routes>
+          <Route path={paths.COMING} element={<ComingSoon />} />
           <Route path={paths.HOME} element={<Home />} />
           <Route path={paths.SIGNIN} element={<Signin />} />
           <Route path={paths.SIGNUP} element={<SignUp />} />
