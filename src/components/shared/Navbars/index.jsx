@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import rt from '../../../assets/img/rt.png';
+import rt from '../../../assets/img/rieicon.png';
 import { paths } from '../../../utils/constants';
 
 export const Navbar = () => {

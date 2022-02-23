@@ -5,7 +5,7 @@ export default function MainLayout(props: {
   children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined;
 }) {
   return (
-    <div className="relative bg-white">
+    <div className="bg-white">
       <Navbar />
       {props.children}
       <Footer />

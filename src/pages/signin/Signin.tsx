@@ -1,5 +1,6 @@
 import React from 'react';
-import rt from '../../assets/img/rt.png';
+import rt from '../../assets/img/rieicon.png';
+import { ButtonAction, InputField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
 
 const Signin = () => {
@@ -16,28 +17,8 @@ const Signin = () => {
           </a>
         </div>
         <form>
-          <div className="mb-4">
-            <label className="block mb-1" htmlFor="email">
-              Email-Address
-            </label>
-            <input
-              id="email"
-              type="text"
-              name="email"
-              className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-            />
-          </div>
+          <InputField name="email" label="Email-Address" type="email" />
+          <InputField name="password" label="Password" type="password" />
           <div className="mt-6 flex items-center justify-between">
             <div className="flex items-center">
               <input
@@ -56,12 +37,7 @@ const Signin = () => {
             </a>
           </div>
           <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <button
-              type="button"
-              className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
-            >
-              Sign in
-            </button>
+            <ButtonAction name="Sign in" />
           </div>
           <div className="mt-6 text-left">
             <span>Dont have an account ? </span>

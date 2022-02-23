@@ -1,3 +1,5 @@
+import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 type Props = {
@@ -6,9 +8,10 @@ type Props = {
   date: string;
   price: number;
   href: string;
+  booked?: boolean;
 };
 
-export default function CardEvent({ img, title, date, price, href }: Props) {
+export default function CardEvent({ img, title, date, price, href, booked }: Props) {
   return (
     <a
       href={href}
@@ -18,9 +21,12 @@ export default function CardEvent({ img, title, date, price, href }: Props) {
         <img src={img} alt={title} className="w-full h-full object-cover object-fill rounded-lg" />
       </div>
       <div className="px-3 py-3">
-        <p className="text-base lg:text-xl font-bold text-gray-900 group-hover:text-red-600">
-          {title}
-        </p>
+        <div className="flex justify-between">
+          <p className="text-base lg:text-xl font-bold text-gray-900 group-hover:text-red-600">
+            {title}
+          </p>
+          {booked && <FontAwesomeIcon icon={faCheckCircle} size="1x" color="red" />}
+        </div>
         <div className="flex justify-between">
           <p className="text-base lg:text-sm text-gray-700 font-semibold">{date}</p>
           <p className="text-base text-gray-900 font-bold">{price}</p>
