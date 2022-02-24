@@ -5,6 +5,7 @@ import eve3 from '../../assets/img/eve3.png';
 import eve4 from '../../assets/img/eve4.png';
 import CardEvent from '../../components/CardEvent';
 import { Navbar } from '../../components/shared/Navbars';
+import { Footer } from '../../components/shared/Footer';
 const events = [
   {
     title: 'Freshers Night',
@@ -108,6 +109,7 @@ const Upcoming = () => {
           })}
         </section>
       </section>
+      <Footer />
     </div>
   );
 };

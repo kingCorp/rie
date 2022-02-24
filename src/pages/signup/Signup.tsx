@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
 import rt from '../../assets/img/rieicon.png';
-import { ButtonAction, InputField } from '../../components/shared/Common';
+import { ButtonAction, InputField, SelectField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
 import { useAppThunkDispatch } from '../../redux/store';
 import { signUpUser } from '../../redux/actions/auth';
-
+import { SelectChangeEvent } from '@mui/material/Select';
+import { useNavigate } from 'react-router-dom';
+type PayLoad = {
+  status: boolean;
+  message: string;
+};
 const SignUp = () => {
   const dispatch = useAppThunkDispatch();
+  const navigate = useNavigate();
   const [signUpDetails, setSignUpDetails] = useState({
     fullname: '',
     email: '',
     password: '',
-    // phone: 'string',
+    phone: '',
   });
+
+  const [selectValue, setSelectValue] = useState('user');
+
+  const handleSelect = (e: SelectChangeEvent) => {
+    setSelectValue(e.target.value);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,13 +34,19 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('submits');
     e.preventDefault();
 
-    await dispatch(signUpUser(signUpDetails))
+    await dispatch(signUpUser({ data: signUpDetails, userType: selectValue }))
       .then((res) => {
-        console.log(res.payload);
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          console.log(payload.message);
+          navigate(paths.SIGNIN);
+        } else {
+          console.log(payload.message);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -47,7 +65,7 @@ const SignUp = () => {
               />
             </a>
           </div>
-          <form>
+          <form onSubmit={handleSubmit}>
             <InputField
               name="fullname"
               label="Full name"
@@ -66,8 +84,19 @@ const SignUp = () => {
               type="password"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
+            <InputField
+              name="phone"
+              label="Phone"
+              type="text"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+            />
+            <SelectField
+              label="Are you a show promoter?"
+              value={selectValue}
+              onChange={handleSelect}
+            />
             <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-              <ButtonAction name="Sign up" onClick={handleSubmit} />
+              <ButtonAction name="Sign up" type="submit" />
             </div>
             <div className="mt-6 text-center">
               <a href={paths.SIGNIN} className="underline font-bold">

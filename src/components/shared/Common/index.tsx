@@ -1,8 +1,17 @@
 import React from 'react';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 type NavLinkDarkProps = { path: string; name: string };
 
-type ButtonActionProps = { onClick?: React.MouseEventHandler; name: string };
+type ButtonActionProps = {
+  onClick?: React.MouseEventHandler;
+  name: string;
+  type?: 'button' | 'submit' | 'reset' | undefined;
+};
 
 type TabButtonActionProps = { onClick?: () => void; name: string; active?: boolean };
 
@@ -12,6 +21,18 @@ type InputFieldProps = {
   label: string;
   placeholder?: string;
   onChange?: React.ChangeEventHandler;
+};
+
+type SelectFieldProps = {
+  value: string;
+  label: string;
+  onChange: (e: SelectChangeEvent) => void;
+};
+
+type AlertProps = {
+  title: string;
+  message: string;
+  severity: 'success' | 'error' | 'warning' | 'info';
 };
 
 export const NavlinkDark = ({ path, name }: NavLinkDarkProps) => {
@@ -36,11 +57,11 @@ export const NavlinkDefault = ({ path, name }: NavLinkDarkProps) => {
   );
 };
 
-export const ButtonAction = ({ onClick, name }: ButtonActionProps) => {
+export const ButtonAction = ({ onClick, name, type }: ButtonActionProps) => {
   return (
     <button
       onClick={onClick}
-      type="button"
+      type={type ? type : 'button'}
       className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
     >
       {name}
@@ -69,6 +90,7 @@ export const InputField = ({ type, name, label, placeholder, onChange }: InputFi
         {label}
       </label>
       <input
+        required
         onChange={onChange}
         id={name}
         type={type}
@@ -76,6 +98,39 @@ export const InputField = ({ type, name, label, placeholder, onChange }: InputFi
         placeholder={placeholder}
         className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
       />
+    </div>
+  );
+};
+
+export const SelectField = ({ value, label, onChange }: SelectFieldProps) => {
+  return (
+    <div>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={value}
+        label={label}
+        onChange={onChange}
+        sx={{
+          borderRadius: '16px',
+        }}
+        required
+      >
+        <MenuItem value={'organizer'}>YES</MenuItem>
+        <MenuItem value={'user'}>NO</MenuItem>
+      </Select>
+    </div>
+  );
+};
+
+export const AlertNote = ({ title, message, severity }: AlertProps) => {
+  return (
+    <div>
+      <Alert severity={severity}>
+        <AlertTitle>{title}</AlertTitle>
+        {message}
+      </Alert>
     </div>
   );
 };
