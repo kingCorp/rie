@@ -11,6 +11,7 @@ import { ThunkAppDispatch, RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 // import { AlertNote } from '../../components/shared/Common';
 import { SelectChangeEvent } from '@mui/material/Select';
+import { ToastContainer, toast } from 'react-toastify';
 
 type PayLoad = {
   status: boolean;
@@ -47,6 +48,10 @@ const Signin = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('submits', selectValue);
     e.preventDefault();
+    if (loginDetails.email === '' || loginDetails.password === '') {
+      toast('Kindly fill all fields');
+      return;
+    }
     await dispatch(signInUser({ data: loginDetails, userType: selectValue }))
       .then((res) => {
         const payload = res.payload as PayLoad;
@@ -59,6 +64,7 @@ const Signin = () => {
 
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
+      <ToastContainer />
       <div className="w-full sm:max-w-md p-5 mx-auto">
         <div className="flex justify-center py-10">
           <a href={paths.HOME}>
