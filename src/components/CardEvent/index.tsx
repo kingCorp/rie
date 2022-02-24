@@ -18,7 +18,7 @@ export default function CardEvent({ img, title, date, price, href, booked }: Pro
       className="bg-white group relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform duration-200"
     >
       <div className="relative w-full h-80 md:h-64 lg:h-60">
-        <img src={img} alt={title} className="w-full h-full object-cover object-fill rounded-lg" />
+        <img src={img} alt={title} className="w-full h-full object-cover rounded-t-lg" />
       </div>
       <div className="px-3 py-3">
         <div className="flex justify-between">

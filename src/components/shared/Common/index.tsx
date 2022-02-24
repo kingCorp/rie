@@ -2,7 +2,7 @@ import React from 'react';
 
 type NavLinkDarkProps = { path: string; name: string };
 
-type ButtonActionProps = { onClick?: () => void; name: string };
+type ButtonActionProps = { onClick?: React.MouseEventHandler; name: string };
 
 type TabButtonActionProps = { onClick?: () => void; name: string; active?: boolean };
 
@@ -11,7 +11,7 @@ type InputFieldProps = {
   name: string;
   label: string;
   placeholder?: string;
-  onChange?: () => void;
+  onChange?: React.ChangeEventHandler;
 };
 
 export const NavlinkDark = ({ path, name }: NavLinkDarkProps) => {
