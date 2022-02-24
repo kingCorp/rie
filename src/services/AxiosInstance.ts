@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios, { AxiosRequestConfig } from 'axios';
 import { push } from 'connected-react-router';
 import Auth from '../middleware/storage';

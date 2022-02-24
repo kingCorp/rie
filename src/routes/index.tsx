@@ -17,6 +17,7 @@ import Profile from '../pages/profile/Profile';
 import CreateEvent from '../pages/createEvent/CreateEvent';
 import CreateTicket from '../pages/createTicket/CreateTicket';
 import EventPreview from '../pages/eventpreview/EventPreview';
+import ProtectedRoutes from './ProtectedRoutes';
 
 const AppRoutes = () => {
   return (
@@ -30,7 +31,7 @@ const AppRoutes = () => {
           <Route path={paths.SELLING} element={<Selling />} />
           <Route path={paths.UPCOMING} element={<Upcoming />} />
           <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
-          <Route path={paths.PROFILE} element={<Profile />} />
+
           <Route path={paths.CREATE_EVENT} element={<CreateEvent />} />
           <Route path={paths.ADD_TICKET} element={<CreateTicket />} />
           <Route path={paths.PREVIEW_EVENT} element={<EventPreview />} />
@@ -38,6 +39,11 @@ const AppRoutes = () => {
             path={paths.ABOUT}
             element={!Auth.isAuthenticated() ? <About /> : <Navigate to={paths.ERROR} />}
           />
+
+          <Route element={<ProtectedRoutes />}>
+            <Route path={paths.PROFILE} element={<Profile />} />
+          </Route>
+
           <Route path={paths.ERROR} element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

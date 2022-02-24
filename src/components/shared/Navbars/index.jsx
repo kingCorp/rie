@@ -1,8 +1,38 @@
+/* eslint-disable */
 import React, { Fragment } from 'react';
 import rt from '../../../assets/img/rieicon.png';
 import { paths } from '../../../utils/constants';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { clearState } from '../../../redux/reducers/authSlice';
+import Popover from '@mui/material/Popover';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import './index.css'
+import { Link } from 'react-router-dom';
+import Auth from '../../../middleware/storage';
 
 export const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  const Logout = async (e) => {
+    console.log('logout');
+    await dispatch(clearState());
+    localStorage.clear();
+    navigate('/');
+  };
   return (
     <Fragment>
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
@@ -16,18 +46,57 @@ export const Navbar = () => {
             <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white"></span>
           </a>
           <div className="flex md:order-2">
-            <a
-              href={paths.SIGNUP}
-              className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700"
-            >
-              Get started
-            </a>
-            <a
-              href={paths.SIGNIN}
-              className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700"
-            >
-              Sign in
-            </a>
+            {!Auth.isAuthenticated()? (
+              <div>
+                <a
+                  href={paths.SIGNUP}
+                  className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700"
+                >
+                  Get started
+                </a>
+                <a
+                  href={paths.SIGNIN}
+                  className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700"
+                >
+                  Sign in
+                </a>
+              </div>
+            ) : (
+              <div>
+                <div
+                  className="cursor-pointer"
+                  onClick={(e) => {
+                    handleClick(e);
+                  }}
+                >
+                  <AccountCircleOutlinedIcon fontSize='large'/>
+                </div>
+
+                <Popover
+                
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  // anchorReference="anchorPosition"
+                  // anchorPosition={{ top: 60, left: 1030 }}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  sx={{'& .MuiPopover-paper': {
+                    borderRadius: '16px',
+                  },}}
+                >
+                  <div className='user-modal cursor-pointer'>
+                  <Link to={paths.PROFILE} state={{from: "ticket"}}><div className='pop-list pop-list-top'>My Tickets</div></Link>  
+                  <Link to={paths.PROFILE} state={{from: "booked"}}><div className='pop-list '>Booked Events</div></Link>  
+                  <Link to={paths.PROFILE} state={{from: "timeline"}}><div className='pop-list'>Timeline</div></Link>  
+                    <div className='pop-list pop-list-bottom' onClick={(e)=>{Logout(e)}}>Sign Out</div>
+                  </div>
+                </Popover>
+              </div>
+            )}
             <button
               data-collapse-toggle="mobile-menu-4"
               type="button"

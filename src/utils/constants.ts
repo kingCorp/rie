@@ -14,4 +14,4 @@ export const paths = {
   ERROR: '*',
 };
 
-export const BASE_URL = ' https://rie-tickets.herokuapp.com/api/v1';
+export const BASE_URL = ' https://rie-ticket.herokuapp.com/api/v1';
