@@ -4,6 +4,7 @@ import { ButtonAction, InputField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
 import { useAppThunkDispatch } from '../../redux/store';
 import { signUpUser } from '../../redux/actions/auth';
+import { ToastContainer, toast } from 'react-toastify';
 
 const SignUp = () => {
   const dispatch = useAppThunkDispatch();
@@ -25,7 +26,10 @@ const SignUp = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log('submits');
     e.preventDefault();
-
+    if (signUpDetails.email === '' || signUpDetails.password === '') {
+      toast('Kindly fill all fields');
+      return;
+    }
     await dispatch(signUpUser(signUpDetails))
       .then((res) => {
         console.log(res.payload);
@@ -36,6 +40,7 @@ const SignUp = () => {
   };
   return (
     <div>
+      <ToastContainer />
       <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
         <div className="w-full sm:max-w-md p-5 mx-auto">
           <div className="flex justify-center py-3">

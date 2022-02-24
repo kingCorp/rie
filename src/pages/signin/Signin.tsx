@@ -9,6 +9,7 @@ import { signInUser } from '../../redux/actions/auth';
 import { useNavigate } from 'react-router-dom';
 import { ThunkAppDispatch, RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Signin = () => {
   const dispatch: ThunkAppDispatch = useDispatch();
@@ -36,11 +37,16 @@ const Signin = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log('submits');
     e.preventDefault();
+    if(loginDetails.email === '' || loginDetails.password === '') {
+      toast("Kindly fill all fields");
+      return;
+    }
     await dispatch(signInUser(loginDetails));
   };
 
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
+      <ToastContainer />
       <div className="w-full sm:max-w-md p-5 mx-auto">
         <div className="flex justify-center py-10">
           <a href={paths.HOME}>

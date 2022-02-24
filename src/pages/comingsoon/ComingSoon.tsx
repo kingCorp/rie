@@ -9,8 +9,8 @@ const ComingSoon = () => {
   return (
     <div className="bodysoon">
       <div className="App">
-        <div className="container">
-          <h1>
+        <div className="containerCome">
+          <h1 className="title">
             RIETICKET
             <br />
             Coming Soon
