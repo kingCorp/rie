@@ -1,10 +1,52 @@
-import React from 'react';
-import rt from '../../assets/img/rt.png';
+/* eslint-disable */
+import React, { useEffect } from 'react';
+import rt from '../../assets/img/rieicon.png';
+import { ButtonAction, InputField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { signInUser } from '../../redux/actions/auth';
+import { useNavigate } from 'react-router-dom';
+import { ThunkAppDispatch, RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Signin = () => {
+  const dispatch: ThunkAppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isAuthorized } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/profile');
+    }
+  }, [isAuthorized]);
+  const [loginDetails, setLoginDetails] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginDetails({
+      ...loginDetails,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('submits');
+    e.preventDefault();
+    if (loginDetails.email === '' || loginDetails.password === '') {
+      toast('Kindly fill all fields');
+      return;
+    }
+    await dispatch(signInUser(loginDetails));
+  };
+
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
+      <ToastContainer />
       <div className="w-full sm:max-w-md p-5 mx-auto">
         <div className="flex justify-center py-10">
           <a href={paths.HOME}>
@@ -16,28 +58,18 @@ const Signin = () => {
           </a>
         </div>
         <form>
-          <div className="mb-4">
-            <label className="block mb-1" htmlFor="email">
-              Email-Address
-            </label>
-            <input
-              id="email"
-              type="text"
-              name="email"
-              className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-            />
-          </div>
+          <InputField
+            name="email"
+            label="Email-Address"
+            type="email"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+          />
+          <InputField
+            name="password"
+            label="Password"
+            type="password"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+          />
           <div className="mt-6 flex items-center justify-between">
             <div className="flex items-center">
               <input
@@ -56,12 +88,7 @@ const Signin = () => {
             </a>
           </div>
           <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <button
-              type="button"
-              className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
-            >
-              Sign in
-            </button>
+            <ButtonAction name="Sign in" onClick={handleSubmit} />
           </div>
           <div className="mt-6 text-left">
             <span>Dont have an account ? </span>

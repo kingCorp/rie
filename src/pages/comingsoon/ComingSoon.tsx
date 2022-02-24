@@ -7,16 +7,18 @@ import Timer from '../../components/Countdown/Timer';
 import './style.css';
 const ComingSoon = () => {
   return (
-    <div className="App">
-      <div className="container">
-        <h1>
-          RIETICKET
-          <br />
-          Coming Soon
-        </h1>
-        <Timer />
-        {/* <Optin /> */}
-        <Preloader />
+    <div className="bodysoon">
+      <div className="App">
+        <div className="containerCome">
+          <h1 className="title">
+            RIETICKET
+            <br />
+            Coming Soon
+          </h1>
+          <Timer />
+          {/* <Optin /> */}
+          <Preloader />
+        </div>
       </div>
     </div>
   );

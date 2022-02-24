@@ -1,14 +1,14 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap'); */
 
-body {
+.bodysoon {
   color: rgb(250, 248, 248);
   font-family: 'Roboto Condensed', sans-serif;
   background-position: top top;
   background-size: cover;
   margin: 0;
 
-  background: url(https://mysuperevent.com/wp-content/uploads/2016/08/LiveEvents01.jpg) no-repeat
-    center center fixed;
+  background-image: url(https://mysuperevent.com/wp-content/uploads/2016/08/LiveEvents01.jpg)
+    no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -30,7 +30,7 @@ body {
   );
 }
 
-.container {
+.containerCome {
   width: 100%;
   margin: 15% auto;
 }
@@ -38,18 +38,17 @@ body {
   width: 25%;
   float: left;
 }
-
-h1 {
+*/ .title {
   font-size: 38px;
   text-transform: uppercase;
   line-height: 1;
 }
 
 @media (min-width: 768px) {
-  .container {
+  .containerCome {
     width: 1100px;
   }
-  h1 {
+  title {
     font-size: 58px;
   }
 }

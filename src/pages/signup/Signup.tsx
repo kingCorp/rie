@@ -1,10 +1,46 @@
-import React from 'react';
-import rt from '../../assets/img/rt.png';
+import React, { useState } from 'react';
+import rt from '../../assets/img/rieicon.png';
+import { ButtonAction, InputField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
+import { useAppThunkDispatch } from '../../redux/store';
+import { signUpUser } from '../../redux/actions/auth';
+import { ToastContainer, toast } from 'react-toastify';
 
 const SignUp = () => {
+  const dispatch = useAppThunkDispatch();
+  const [signUpDetails, setSignUpDetails] = useState({
+    fullname: '',
+    email: '',
+    password: '',
+    // phone: 'string',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSignUpDetails({
+      ...signUpDetails,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('submits');
+    e.preventDefault();
+    if (signUpDetails.email === '' || signUpDetails.password === '') {
+      toast('Kindly fill all fields');
+      return;
+    }
+    await dispatch(signUpUser(signUpDetails))
+      .then((res) => {
+        console.log(res.payload);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
+      <ToastContainer />
       <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
         <div className="w-full sm:max-w-md p-5 mx-auto">
           <div className="flex justify-center py-3">
@@ -17,46 +53,26 @@ const SignUp = () => {
             </a>
           </div>
           <form>
-            <div className="mb-4">
-              <label className="block mb-1" htmlFor="fullname">
-                Full Name
-              </label>
-              <input
-                id="fullname"
-                type="text"
-                name="fullname"
-                className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1" htmlFor="email">
-                Email-Address
-              </label>
-              <input
-                id="email"
-                type="text"
-                name="email"
-                className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1" htmlFor="password">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
-              />
-            </div>
+            <InputField
+              name="fullname"
+              label="Full name"
+              type="text"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+            />
+            <InputField
+              name="email"
+              label="Email-Address"
+              type="email"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+            />
+            <InputField
+              name="password"
+              label="Password"
+              type="password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+            />
             <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-              <button
-                type="button"
-                className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
-              >
-                Sign up
-              </button>
+              <ButtonAction name="Sign up" onClick={handleSubmit} />
             </div>
             <div className="mt-6 text-center">
               <a href={paths.SIGNIN} className="underline font-bold">

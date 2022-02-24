@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { signInUser } from '../actions/auth';
 
 type InitialState = {
   userId: string;
@@ -36,6 +37,13 @@ export const authSlice = createSlice({
       state.role = '';
       state.isAuthorized = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(signInUser.pending, (state, action) => {});
+    builder.addCase(signInUser.fulfilled, (state, action) => {
+      state.isAuthorized = action.payload;
+    });
+    builder.addCase(signInUser.rejected, (state, action) => {});
   },
 });
 
