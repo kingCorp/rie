@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 import Api from '../../services/apis';
 import { setEvents, setUploadedUrl } from '../reducers/eventSlice';
 import { setLoading } from '../reducers/loaderSlice';
@@ -18,7 +17,6 @@ export const getEvents = createAsyncThunk('getevents', async (userData: object, 
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.getOrganizerEvents();
     // thunkAPI.dispatch(setEvents(response.data.data));
-    // thunkAPI.dispatch(setLoading(false));
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
     return response;
@@ -33,8 +31,6 @@ export const createEvents = createAsyncThunk('createEvent', async (eventData: ob
   try {
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.createEvent(eventData);
-    // thunkAPI.dispatch(setEvents(response.data.data));
-    // thunkAPI.dispatch(setLoading(false));
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
     return response;
@@ -52,23 +48,22 @@ export const handleFileUpload = createAsyncThunk('uploadFile', async (file: File
   formData.append('file', file);
   formData.append('upload_preset', process.env.REACT_APP_PUBLIC_CLOUDINARY_PRESET as string);
   const options = { method: 'POST', body: formData };
-  await fetch(CLOUDINARY_URL, options)
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-      thunkAPI.dispatch(setLoading(false));
-      const { secure_url } = res as Response;
-      thunkAPI.dispatch(setUploadedUrl(secure_url));
-      return {
-        status: true,
-        message: 'Image uploaded successfully',
-      };
-    })
-    .catch((err) => {
-      thunkAPI.dispatch(setLoading(false));
-      return {
-        status: false,
-        message: 'An error occurred in uploading the image',
-      };
-    });
+  try {
+    const response = await fetch(CLOUDINARY_URL, options);
+    const res = response.json() as object;
+    console.log(res);
+    thunkAPI.dispatch(setLoading(false));
+    const { secure_url } = res as Response;
+    thunkAPI.dispatch(setUploadedUrl(secure_url));
+    return {
+      status: true,
+      message: 'Image uploaded successfully',
+    };
+  } catch (err) {
+    thunkAPI.dispatch(setLoading(false));
+    return {
+      status: false,
+      message: 'An error occurred in uploading the image',
+    };
+  }
 });

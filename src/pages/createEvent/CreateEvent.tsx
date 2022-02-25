@@ -59,6 +59,8 @@ const CreateEvent = () => {
     if (!e.target.files) return console.error('No file selected');
     const file = e.target.files[0];
     // check if file is an image
+    if (!file) return toast.warn('No File Selected');
+
     if (!file.type.match('image/')) return toast.warn('File must be an image');
     // check if file is larger than 1mb
     if (file.size > 1000000) return console.error('File is larger than 1mb');
@@ -78,11 +80,12 @@ const CreateEvent = () => {
       };
       anony()
         .then((res) => {
+          console.log(res, 'upload res');
           const payload = res.payload as PayLoad;
           if (payload.status) {
-            return toast.warn(payload.message);
-          } else {
             return toast.success(payload.message);
+          } else {
+            return toast.warn(payload.message);
           }
         })
         .catch((err) => {
