@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from 'react';
 import rt from '../../assets/img/rieicon.png';
-import { ButtonAction, InputField } from '../../components/shared/Common';
+import { ButtonAction, InputField, SelectField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -9,7 +9,14 @@ import { signInUser } from '../../redux/actions/auth';
 import { useNavigate } from 'react-router-dom';
 import { ThunkAppDispatch, RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
+// import { AlertNote } from '../../components/shared/Common';
+import { SelectChangeEvent } from '@mui/material/Select';
 import { ToastContainer, toast } from 'react-toastify';
+
+type PayLoad = {
+  status: boolean;
+  message: string;
+};
 
 const Signin = () => {
   const dispatch: ThunkAppDispatch = useDispatch();
@@ -25,6 +32,10 @@ const Signin = () => {
     email: '',
     password: '',
   });
+  const [selectValue, setSelectValue] = useState('user');
+  const handleSelect = (e: SelectChangeEvent) => {
+    setSelectValue(e.target.value as string);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,14 +45,21 @@ const Signin = () => {
     });
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('submits');
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('submits', selectValue);
     e.preventDefault();
     if (loginDetails.email === '' || loginDetails.password === '') {
       toast('Kindly fill all fields');
       return;
     }
-    await dispatch(signInUser(loginDetails));
+    await dispatch(signInUser({ data: loginDetails, userType: selectValue }))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        console.log(payload.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -57,7 +75,7 @@ const Signin = () => {
             />
           </a>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <InputField
             name="email"
             label="Email-Address"
@@ -69,6 +87,11 @@ const Signin = () => {
             label="Password"
             type="password"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+          />
+          <SelectField
+            label="Are you a show promoter?"
+            value={selectValue}
+            onChange={handleSelect}
           />
           <div className="mt-6 flex items-center justify-between">
             <div className="flex items-center">
@@ -88,7 +111,7 @@ const Signin = () => {
             </a>
           </div>
           <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <ButtonAction name="Sign in" onClick={handleSubmit} />
+            <ButtonAction name="Sign in" type="submit" />
           </div>
           <div className="mt-6 text-left">
             <span>Dont have an account ? </span>

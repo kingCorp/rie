@@ -2,7 +2,7 @@ import React from 'react';
 export const Footer = () => {
   const year = new Date();
   return (
-    <footer className="footer bg-white relative pt-1">
+    <footer className="footer bg-gray-200 relative pt-1">
       <div className="container mx-auto px-6">
         <div className="sm:flex sm:mt-8">
           <div className="my-10 mx-10 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">

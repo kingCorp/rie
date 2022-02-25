@@ -41,7 +41,7 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signInUser.pending, () => {});
     builder.addCase(signInUser.fulfilled, (state, action) => {
-      state.isAuthorized = action.payload;
+      state.isAuthorized = action.payload.status;
     });
     builder.addCase(signInUser.rejected, () => {});
   },

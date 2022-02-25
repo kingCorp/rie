@@ -5,9 +5,8 @@ import Api from '../../services/apis';
 // import { paths } from '../../utils/constants';
 import { setUser, setUserId, setRole } from '../reducers/authSlice';
 import { setLoading } from '../reducers/loaderSlice';
-// import { AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-// import { useDispatch } from 'react-redux';
 
 // export const signUpUser =
 //   (userData: object) => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
@@ -25,19 +24,49 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 //     }
 //   };
 
-export const signUpUser = createAsyncThunk('users/signup', async (userData: object, thunkAPI) => {
+type AuthData = {
+  data: object;
+  userType: string;
+};
+
+type SignUpRes = {
+  data: User;
+  message: string;
+  status: boolean;
+};
+type AxiosRes = {
+  data: SignInRes;
+};
+
+export const signUpUser = createAsyncThunk('users/signup', async (userData: AuthData, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
-    const response = await Api.auth.signUpEmail(userData);
-    // const res: AxiosRes = response;
-    // const data: SignInRes = res.data;
-    console.log(response);
 
-    return true as boolean;
+    if (userData.userType === 'user') {
+      const response = await Api.auth.signUpEmail(userData.data);
+      const res: AxiosRes = response;
+      const data: SignUpRes = res.data;
+      console.log(response);
+      return {
+        status: true,
+        message: data.message,
+      };
+    } else {
+      const response = await Api.auth.signUpOrganizerEmail(userData.data);
+      const res: AxiosRes = response;
+      const data: SignUpRes = res.data;
+      return {
+        status: true,
+        message: data.message,
+      };
+    }
   } catch (error) {
-    console.log(error);
+    const err = error as AxiosError;
     thunkAPI.dispatch(setLoading(false));
-    return false as boolean;
+    return {
+      status: false,
+      message: err.message,
+    };
   }
 });
 
@@ -76,25 +105,47 @@ type SignInRes = {
   token: string;
 };
 
-type AxiosRes = {
-  data: SignInRes;
-};
-export const signInUser = createAsyncThunk('users/signin', async (userData: object, thunkAPI) => {
+export const signInUser = createAsyncThunk('users/signin', async (userData: AuthData, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
-    const response = await Api.auth.signInEmail(userData);
-    const res: AxiosRes = response;
-    const data: SignInRes = res.data;
-    console.log(response);
-    thunkAPI.dispatch(setLoading(false));
-    thunkAPI.dispatch(setUser(data.data));
-    thunkAPI.dispatch(setUserId(data.data._id));
-    thunkAPI.dispatch(setRole('user'));
-    Auth.setToken(data.token, data.token);
-    return true as boolean;
+
+    if (userData.userType === 'user') {
+      const response = await Api.auth.signInEmail(userData.data);
+      const res: AxiosRes = response;
+      const data: SignInRes = res.data;
+      console.log(response);
+      thunkAPI.dispatch(setLoading(false));
+      thunkAPI.dispatch(setUser(data.data));
+      thunkAPI.dispatch(setUserId(data.data._id));
+      thunkAPI.dispatch(setRole('user'));
+      Auth.setToken(data.token, data.token);
+      Auth.setRole('user');
+      return {
+        status: true as boolean,
+        message: data.message,
+      };
+    } else {
+      const response = await Api.auth.signInOrganizerEmail(userData.data);
+      const res: AxiosRes = response;
+      const data: SignInRes = res.data;
+      console.log(response);
+      thunkAPI.dispatch(setLoading(false));
+      thunkAPI.dispatch(setUser(data.data));
+      thunkAPI.dispatch(setUserId(data.data._id));
+      thunkAPI.dispatch(setRole('organizer'));
+      Auth.setRole('organizer');
+      Auth.setToken(data.token, data.token);
+      return {
+        status: true as boolean,
+        message: data.message,
+      };
+    }
   } catch (error) {
-    console.log(error);
+    const err = error as AxiosError;
     thunkAPI.dispatch(setLoading(false));
-    return false as boolean;
+    return {
+      status: false,
+      message: err.message,
+    };
   }
 });

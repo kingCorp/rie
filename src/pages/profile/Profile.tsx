@@ -5,14 +5,20 @@ import BookedEvent from './BookedEvents';
 import MyEvent from './MyEvents';
 import Tickets from './Tickets';
 import { useLocation } from 'react-router-dom';
+// import { useAppSelector } from '../../redux/store';
+import Auth from '../../middleware/storage';
+
 interface LocationState {
   from: string;
 }
+
 const Profile = () => {
   const location = useLocation();
-  const { from } = (location.state as LocationState) || { from: 'myevent' };
+  const { from } = (location.state as LocationState) || { from: 'ticket' };
 
-  const [active, setActive] = useState('myevent');
+  // const { auth } = useAppSelector((state) => state);
+
+  const [active, setActive] = useState('ticket');
 
   const makeActive = (tab: string) => {
     setActive(tab);
@@ -24,13 +30,15 @@ const Profile = () => {
   return (
     <MainLayout>
       <ul className="pt-14 flex divide-x divide-gray-200 shadow sm:flex dark:divide-gray-700">
-        <li className="w-full flex justify-center">
-          <TabButtonAction
-            onClick={() => makeActive('myevent')}
-            name="My Events"
-            active={active === 'myevent' ? true : false}
-          />
-        </li>
+        {Auth?.getRole() === 'organizer' && (
+          <li className="w-full flex justify-center">
+            <TabButtonAction
+              onClick={() => makeActive('myevent')}
+              name="My Events"
+              active={active === 'myevent' ? true : false}
+            />
+          </li>
+        )}
         <li className="w-full flex justify-center">
           <TabButtonAction
             onClick={() => makeActive('ticket')}

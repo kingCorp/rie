@@ -1,6 +1,6 @@
 export const paths = {
-  COMING: '/',
-  HOME: '/home',
+  COMING: '/home',
+  HOME: '/',
   ABOUT: '/about',
   SIGNIN: '/signin',
   SIGNUP: '/signup',
