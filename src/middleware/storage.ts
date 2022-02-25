@@ -26,6 +26,13 @@ const Auth = {
     if (token) return true;
     return false;
   },
+  setRole: (role: string) => {
+    localStorage.setItem('role', role);
+  },
+  getRole: () => {
+    const role = localStorage.getItem('role');
+    return role;
+  },
   destroyToken: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('refresh_token');

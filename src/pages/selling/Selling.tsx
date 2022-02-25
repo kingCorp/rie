@@ -4,6 +4,7 @@ import eve2 from '../../assets/img/eve2.png';
 import eve3 from '../../assets/img/eve3.png';
 import eve4 from '../../assets/img/eve4.png';
 import CardEvent from '../../components/CardEvent';
+import { Footer } from '../../components/shared/Footer';
 import { Navbar } from '../../components/shared/Navbars';
 const events = [
   {
@@ -108,6 +109,7 @@ const Selling = () => {
           })}
         </section>
       </section>
+      <Footer />
     </div>
   );
 };
