@@ -10,6 +10,7 @@ type NavLinkDarkProps = { path: string; name: string };
 type ButtonActionProps = {
   onClick?: React.MouseEventHandler;
   name: string;
+  disabled?: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
 };
 
@@ -57,12 +58,15 @@ export const NavlinkDefault = ({ path, name }: NavLinkDarkProps) => {
   );
 };
 
-export const ButtonAction = ({ onClick, name, type }: ButtonActionProps) => {
+export const ButtonAction = ({ onClick, name, type, disabled }: ButtonActionProps) => {
   return (
     <button
       onClick={onClick}
       type={type ? type : 'button'}
-      className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
+      disabled={disabled ? disabled : false}
+      className={`flex w-40 justify-center py-2  text-base font-medium rounded-full text-white ${
+        disabled ? 'bg-gray-400 text-gray-300' : 'bg-red-600 hover:bg-gray-700'
+      }`}
     >
       {name}
     </button>
@@ -131,6 +135,24 @@ export const AlertNote = ({ title, message, severity }: AlertProps) => {
         <AlertTitle>{title}</AlertTitle>
         {message}
       </Alert>
+    </div>
+  );
+};
+
+export const CheckField = ({ type, name, label, placeholder, onChange }: InputFieldProps) => {
+  return (
+    <div className="mb-4">
+      <label className="block mb-1" htmlFor={name}>
+        {label}
+      </label>
+      <input
+        onChange={onChange}
+        id={name}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block"
+      />
     </div>
   );
 };

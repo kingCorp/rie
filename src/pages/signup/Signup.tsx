@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import rt from '../../assets/img/rieicon.png';
 import { ButtonAction, InputField, SelectField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
 import { useAppThunkDispatch } from '../../redux/store';
-import { signUpUser } from '../../redux/actions/auth';
+import { signUpUser, signInUser } from '../../redux/actions/auth';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { ThunkAppDispatch, RootState } from '../../redux/store';
+
 type PayLoad = {
   status: boolean;
   message: string;
@@ -15,6 +18,7 @@ type PayLoad = {
 const SignUp = () => {
   const dispatch = useAppThunkDispatch();
   const navigate = useNavigate();
+  const [signedUp, setSignedUp] = useState(false);
   const [signUpDetails, setSignUpDetails] = useState({
     fullname: '',
     email: '',
@@ -36,6 +40,37 @@ const SignUp = () => {
     });
   };
 
+  const { isAuthorized } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/profile');
+    }
+  }, [isAuthorized]);
+
+  useEffect(() => {
+    const anony = async () => {
+      return await dispatch(
+        signInUser({
+          data: { email: signUpDetails.email, password: signUpDetails.password },
+          userType: selectValue,
+        }),
+      );
+    };
+    anony()
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          toast.success(payload.message);
+        } else {
+          toast.error(payload.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [signedUp]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('submits');
     e.preventDefault();
@@ -48,10 +83,10 @@ const SignUp = () => {
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
-          console.log(payload.message);
-          navigate(paths.SIGNIN);
+          toast.success(payload.message);
+          setSignedUp(true);
         } else {
-          console.log(payload.message);
+          toast.error(payload.message);
         }
       })
       .catch((error) => {
