@@ -7,6 +7,7 @@ const initialState = {
   sellingEvents: [],
   upcomingEvents: [],
   pastEvents: [],
+  uploadedUrl: '',
 };
 
 export const eventSlice = createSlice({
@@ -25,11 +26,15 @@ export const eventSlice = createSlice({
     setPastEvents: (state, action) => {
       state.pastEvents = action.payload as [];
     },
+    setUploadedUrl: (state, action) => {
+      state.uploadedUrl = action.payload as string;
+    },
   },
 });
 
 // actions
-export const { setEvents, setEvent, setMyEvents, setPastEvents } = eventSlice.actions;
+export const { setEvents, setEvent, setMyEvents, setPastEvents, setUploadedUrl } =
+  eventSlice.actions;
 
 // reducer
 export const eventReducer = eventSlice.reducer;

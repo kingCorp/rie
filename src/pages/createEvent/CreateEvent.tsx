@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
-import { ButtonAction, InputField } from '../../components/shared/Common';
+import { ButtonAction, InputField, CheckField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
 import { createEvents } from '../../redux/actions/events';
 import { useAppThunkDispatch } from '../../redux/store';
+import { toast, ToastContainer } from 'react-toastify';
+import { handleFileUpload } from '../../redux/actions/events';
+import { useAppSelector } from '../../redux/store';
 
+type PayLoad = {
+  status: boolean;
+  message: string;
+};
 const CreateEvent = () => {
   const dispatch = useAppThunkDispatch();
+  const [file, setFile] = useState({
+    state: false,
+    fileData: {} as File,
+  });
+
+  const { uploadedUrl } = useAppSelector((state) => state.events);
+  const { isLoading } = useAppSelector((state) => state.loader);
+  const [previewImage, setPreviewImage] = useState('');
+
   const [eventDetails, setEventDetails] = useState({
     title: '',
     description: '',
@@ -40,15 +56,54 @@ const CreateEvent = () => {
   };
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
-    setEventDetails({
-      ...eventDetails,
-      [name]: 'high',
+    if (!e.target.files) return console.error('No file selected');
+    const file = e.target.files[0];
+    // check if file is an image
+    if (!file) return toast.warn('No File Selected');
+
+    if (!file.type.match('image/')) return toast.warn('File must be an image');
+    // check if file is larger than 1mb
+    if (file.size > 1000000) return console.error('File is larger than 1mb');
+    const currentImage = URL.createObjectURL(e.target.files[0]);
+    setPreviewImage(currentImage);
+    setFile({
+      state: true,
+      fileData: file,
     });
   };
 
+  useEffect(() => {
+    if (file.state) {
+      console.log('file changed');
+      const anony = async () => {
+        return await dispatch(handleFileUpload(file.fileData));
+      };
+      anony()
+        .then((res) => {
+          console.log(res, 'upload res');
+          const payload = res.payload as PayLoad;
+          if (payload.status) {
+            return toast.success(payload.message);
+          } else {
+            return toast.warn(payload.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [file]);
+
+  useEffect(() => {
+    setEventDetails({
+      ...eventDetails,
+      image: uploadedUrl,
+    });
+  }, [uploadedUrl]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     console.log(eventDetails);
     await dispatch(createEvents(eventDetails))
       .then((res) => {
@@ -61,8 +116,9 @@ const CreateEvent = () => {
 
   return (
     <MainLayout>
-      <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
-        <div className="w-full sm:max-w-md p-5 mx-auto">
+      <div className="w-full min-h-screen bg-gray-50 flex md:flex-row lg:flex-row flex-col sm:justify-center  pt-6 sm:pt-0 homebg ">
+        <ToastContainer />
+        <div className="w-full sm:max-w-md p-5">
           <form onSubmit={handleSubmit}>
             <InputField
               name="title"
@@ -106,7 +162,7 @@ const CreateEvent = () => {
               type="time"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
-            <InputField
+            <CheckField
               name="is_security_requested"
               label="Is Security Requested"
               type="checkbox"
@@ -114,7 +170,7 @@ const CreateEvent = () => {
                 handleCheckBox(e, 'is_security_requested')
               }
             />
-            <InputField
+            <CheckField
               name="is_tag_requested"
               label="Is Tag Requested"
               type="checkbox"
@@ -130,11 +186,19 @@ const CreateEvent = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImage(e)}
             />
 
-            <input type="" />
+            {/* <input type="" /> */}
             <div className="mt-6 text-center"></div>
-
-            <ButtonAction type="submit" name="Register Event" />
+            {isLoading ? (
+              <ButtonAction type="submit" name="Register Event" disabled />
+            ) : (
+              <ButtonAction type="submit" name="Register Event" />
+            )}
           </form>
+        </div>
+        <div className="w-full border-2 border-black">
+          <div>
+            <img src={previewImage} className="w-full h-full object-cover rounded-l-xl" />
+          </div>
         </div>
       </div>
     </MainLayout>

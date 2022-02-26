@@ -33,7 +33,7 @@ export const Navbar = () => {
     console.log('logout');
     await dispatch(clearState());
     localStorage.clear();
-    navigate('/');
+    navigate(paths.HOME);
   };
   return (
     <Fragment>
