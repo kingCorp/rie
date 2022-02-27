@@ -1,11 +1,9 @@
 /* eslint/no-unsafe-member-access: 0 */ // --> OFF
-import { push } from 'connected-react-router';
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
-import { paths } from '../../utils/constants';
 import { setUser, setUserId, setRole } from '../reducers/authSlice';
 import { setLoading } from '../reducers/loaderSlice';
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // export const signUpUser =

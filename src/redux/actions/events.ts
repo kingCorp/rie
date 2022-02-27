@@ -11,12 +11,16 @@ import { CLOUDINARY_URL } from '../../utils/constants';
 interface Response {
   secure_url: string;
 }
+interface Res {
+  data: [];
+}
 
 export const getEvents = createAsyncThunk('getevents', async (userData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.getOrganizerEvents();
-    // thunkAPI.dispatch(setEvents(response.data.data));
+    const res = response.data as Res;
+    thunkAPI.dispatch(setEvents(res.data));
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
     return response;
@@ -50,10 +54,11 @@ export const handleFileUpload = createAsyncThunk('uploadFile', async (file: File
   const options = { method: 'POST', body: formData };
   try {
     const response = await fetch(CLOUDINARY_URL, options);
-    const res = response.json() as object;
+    const res = (await response.json()) as object;
     console.log(res);
     thunkAPI.dispatch(setLoading(false));
     const { secure_url } = res as Response;
+    console.log(secure_url);
     thunkAPI.dispatch(setUploadedUrl(secure_url));
     return {
       status: true,
