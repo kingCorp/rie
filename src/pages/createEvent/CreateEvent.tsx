@@ -7,6 +7,7 @@ import { useAppThunkDispatch } from '../../redux/store';
 import { toast, ToastContainer } from 'react-toastify';
 import { handleFileUpload } from '../../redux/actions/events';
 import { useAppSelector } from '../../redux/store';
+import imgbg from '../../assets/img/imgbg.png';
 
 type PayLoad = {
   status: boolean;
@@ -21,7 +22,7 @@ const CreateEvent = () => {
 
   const { uploadedUrl } = useAppSelector((state) => state.events);
   const { isLoading } = useAppSelector((state) => state.loader);
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState(imgbg);
 
   const [eventDetails, setEventDetails] = useState({
     title: '',
@@ -63,7 +64,7 @@ const CreateEvent = () => {
 
     if (!file.type.match('image/')) return toast.warn('File must be an image');
     // check if file is larger than 1mb
-    if (file.size > 1000000) return console.error('File is larger than 1mb');
+    if (file.size > 1000000) return toast.warn('File is larger than 1mb');
     const currentImage = URL.createObjectURL(e.target.files[0]);
     setPreviewImage(currentImage);
     setFile({
@@ -103,7 +104,6 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     console.log(eventDetails);
     await dispatch(createEvents(eventDetails))
       .then((res) => {
@@ -116,9 +116,12 @@ const CreateEvent = () => {
 
   return (
     <MainLayout>
-      <div className="w-full min-h-screen bg-gray-50 flex md:flex-row lg:flex-row flex-col sm:justify-center  pt-6 sm:pt-0 homebg ">
-        <ToastContainer />
-        <div className="w-full sm:max-w-md p-5">
+      <ToastContainer />
+      <div className="text-center py-4 bg-gray-50 ">
+        <h2 className="font-bold font-rubik text-2xl">Create Event</h2>
+      </div>
+      <div className="w-full min-h-screen bg-gray-50 grid grid-cols-1 md:grid-cols-2 sm:justify-center  pt-6 sm:pt-0 homebg ">
+        <div className="w-full sm:max-w-md px-5 m-auto mb-6">
           <form onSubmit={handleSubmit}>
             <InputField
               name="title"
@@ -195,9 +198,9 @@ const CreateEvent = () => {
             )}
           </form>
         </div>
-        <div className="w-full border-2 border-black">
-          <div>
-            <img src={previewImage} className="w-full h-full object-cover rounded-l-xl" />
+        <div className="w-full items-center p-10">
+          <div className="border-2 border-gray-100 rounded-xl overflow-hidden">
+            <img src={previewImage} className="w-full h-full object-cover " />
           </div>
         </div>
       </div>

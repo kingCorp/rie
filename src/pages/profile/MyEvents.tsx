@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import eve from '../../assets/img/eve1.png';
 import eve2 from '../../assets/img/eve2.png';
 import eve3 from '../../assets/img/eve3.png';
@@ -8,87 +8,117 @@ import { NavlinkDefault } from '../../components/shared/Common';
 import { useAppDispatch, useAppThunkDispatch } from '../../redux/store';
 import { paths } from '../../utils/constants';
 import { getEvents } from '../../redux/actions/events';
-const events = [
-  {
-    title: 'Freshers Night',
-    href: '#',
-    date: ' Wed 19 Nov 2022',
-    price: 20000,
-    img: eve4,
-  },
-  {
-    title: 'Cruiser Night',
-    href: '#',
-    date: ' Thur 1 Dec 2022',
-    price: 10000,
-    img: eve,
-  },
-  {
-    title: 'Awards',
-    href: '#',
-    date: ' Sun 12 July 2022',
-    price: 3000,
-    img: eve2,
-  },
-  {
-    title: 'Beach Show',
-    href: '#',
-    date: ' Sat 2 Aug 2022',
-    price: 5000,
-    img: eve3,
-  },
-  {
-    title: 'Freshers Night',
-    href: '#',
-    date: ' Wed 19 Nov 2022',
-    price: 20000,
-    img: eve4,
-  },
-  {
-    title: 'Cruiser Night',
-    href: '#',
-    date: ' Thur 1 Dec 2022',
-    price: 10000,
-    img: eve,
-  },
-  {
-    title: 'Awards',
-    href: '#',
-    date: ' Sun 12 July 2022',
-    price: 3000,
-    img: eve2,
-  },
-  {
-    title: 'Beach Show',
-    href: '#',
-    date: ' Sat 2 Aug 2022',
-    price: 5000,
-    img: eve3,
-  },
-  {
-    title: 'Cruiser Night',
-    href: '#',
-    date: ' Thur 1 Dec 2022',
-    price: 10000,
-    img: eve,
-  },
-  {
-    title: 'Awards',
-    href: '#',
-    date: ' Sun 12 July 2022',
-    price: 3000,
-    img: eve2,
-  },
-  {
-    title: 'Beach Show',
-    href: '#',
-    date: ' Sat 2 Aug 2022',
-    price: 5000,
-    img: eve3,
-  },
-];
+import { useAppSelector } from '../../redux/store';
+
+interface EventProps {
+  commission_percentage: number;
+  created_at: string;
+  description: string;
+  end_date: string;
+  end_time: string;
+  image: string;
+  is_cashed_out: boolean;
+  is_closed: boolean;
+  is_security_requested: boolean;
+  is_tag_requested: boolean;
+  number_of_tickets_sold: number;
+  organizer: string;
+  start_date: string;
+  start_time: string;
+  tickets: [];
+  title: string;
+  total_amount_sold: number;
+  updated_at: string;
+  venue: string;
+}
+// const events = [
+//   {
+//     title: 'Freshers Night',
+//     href: '#',
+//     date: ' Wed 19 Nov 2022',
+//     price: 20000,
+//     img: eve4,
+//   },
+//   {
+//     title: 'Cruiser Night',
+//     href: '#',
+//     date: ' Thur 1 Dec 2022',
+//     price: 10000,
+//     img: eve,
+//   },
+//   {
+//     title: 'Awards',
+//     href: '#',
+//     date: ' Sun 12 July 2022',
+//     price: 3000,
+//     img: eve2,
+//   },
+//   {
+//     title: 'Beach Show',
+//     href: '#',
+//     date: ' Sat 2 Aug 2022',
+//     price: 5000,
+//     img: eve3,
+//   },
+//   {
+//     title: 'Freshers Night',
+//     href: '#',
+//     date: ' Wed 19 Nov 2022',
+//     price: 20000,
+//     img: eve4,
+//   },
+//   {
+//     title: 'Cruiser Night',
+//     href: '#',
+//     date: ' Thur 1 Dec 2022',
+//     price: 10000,
+//     img: eve,
+//   },
+//   {
+//     title: 'Awards',
+//     href: '#',
+//     date: ' Sun 12 July 2022',
+//     price: 3000,
+//     img: eve2,
+//   },
+//   {
+//     title: 'Beach Show',
+//     href: '#',
+//     date: ' Sat 2 Aug 2022',
+//     price: 5000,
+//     img: eve3,
+//   },
+//   {
+//     title: 'Cruiser Night',
+//     href: '#',
+//     date: ' Thur 1 Dec 2022',
+//     price: 10000,
+//     img: eve,
+//   },
+//   {
+//     title: 'Awards',
+//     href: '#',
+//     date: ' Sun 12 July 2022',
+//     price: 3000,
+//     img: eve2,
+//   },
+//   {
+//     title: 'Beach Show',
+//     href: '#',
+//     date: ' Sat 2 Aug 2022',
+//     price: 5000,
+//     img: eve3,
+//   },
+// ];
 
 const MyEvent = () => {
+  const { events } = useAppSelector((state) => state.events);
+  const [eventsData, setEventsData] = useState([] as Array<EventProps>);
+
+  useEffect(() => {
+    setEventsData(events as Array<EventProps>);
+  }, [events]);
+
   const dispatch = useAppThunkDispatch();
 
   useEffect(() => {
@@ -107,15 +137,15 @@ const MyEvent = () => {
   return (
     <section className="bg-white p-1 lg:px-10 lg:py-10">
       <section className="mt-6 mb-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-        {(events || []).map((show, index) => {
+        {(eventsData || []).map((show, index) => {
           return (
             <CardEvent
               title={show.title}
-              img={show.img}
-              date={show.date}
-              price={show.price}
+              img={show.image}
+              date={show.start_date}
+              price={0}
               key={index}
-              href={show.href}
+              href={`/preview/${index}`}
             />
           );
         })}
