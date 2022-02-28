@@ -7,8 +7,10 @@ export default function MainLayout(props: {
   return (
     <div className="bg-white">
       <Navbar />
-      {props.children}
-      <Footer />
+      <div className="bg-gray-100">
+        {props.children}
+        <Footer />
+      </div>
     </div>
   );
 }

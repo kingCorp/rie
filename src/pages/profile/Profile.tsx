@@ -78,7 +78,7 @@ const Profile = () => {
       )}
       {active == 'timeline' && (
         <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
-          <MyEvent />
+          <BookedEvent />
         </div>
       )}
     </MainLayout>

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Api from '../../services/apis';
-import { setEvents, setUploadedUrl } from '../reducers/eventSlice';
+import { setEvents, setUploadedUrl, setMyEvents, setEvent } from '../reducers/eventSlice';
 import { setLoading } from '../reducers/loaderSlice';
 import { AppDispatch } from '../store';
 import { CLOUDINARY_URL } from '../../utils/constants';
@@ -15,19 +15,69 @@ interface Res {
   data: [];
 }
 
-export const getEvents = createAsyncThunk('getevents', async (userData: object, thunkAPI) => {
+export const getMyEvents = createAsyncThunk('getmyevents', async (userData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.getOrganizerEvents();
     const res = response.data as Res;
-    thunkAPI.dispatch(setEvents(res.data));
+    thunkAPI.dispatch(setMyEvents(res.data));
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
-    return response;
+    return {
+      status: true,
+      message: 'Events fetched successfully',
+    };
   } catch (error) {
     console.error(error);
     thunkAPI.dispatch(setLoading(false));
-    return error;
+    return {
+      status: false,
+      message: 'Error in fetching events',
+    };
+  }
+});
+
+export const getEvents = createAsyncThunk('getevents', async (userData: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    const response = await Api.events.events();
+    const res = response.data as Res;
+    thunkAPI.dispatch(setEvents(res.data));
+    thunkAPI.dispatch(setLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Events fetched successfully',
+    };
+  } catch (error) {
+    console.error(error);
+    thunkAPI.dispatch(setLoading(false));
+    return {
+      status: false,
+      message: 'Error in fetching events',
+    };
+  }
+});
+
+export const getEvent = createAsyncThunk('getevent', async (id: string, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    const response = await Api.events.event(id);
+    const res = response.data as Res;
+    thunkAPI.dispatch(setEvent(res.data));
+    thunkAPI.dispatch(setLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Event fetched successfully',
+    };
+  } catch (error) {
+    console.error(error);
+    thunkAPI.dispatch(setLoading(false));
+    return {
+      status: true,
+      message: 'Error in fetching event',
+    };
   }
 });
 
@@ -37,11 +87,17 @@ export const createEvents = createAsyncThunk('createEvent', async (eventData: ob
     const response = await Api.events.createEvent(eventData);
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
-    return response;
+    return {
+      status: true,
+      message: 'Event created successfully',
+    };
   } catch (error) {
     console.error(error);
     thunkAPI.dispatch(setLoading(false));
-    return error;
+    return {
+      status: false,
+      message: 'Error In creating event',
+    };
   }
 });
 

@@ -86,7 +86,7 @@ const events = [
 
 const BookedEvent = () => {
   return (
-    <section className="bg-white p-1 lg:px-10 lg:py-10">
+    <section className="bg-gray-100 p-1 lg:px-10 lg:py-10">
       <section className="mt-6 mb-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
         {(events || []).map((show, index) => {
           return (

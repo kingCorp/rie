@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import eve from '../../assets/img/eve1.png';
 import eve2 from '../../assets/img/eve2.png';
 import eve3 from '../../assets/img/eve3.png';
 import eve4 from '../../assets/img/eve4.png';
 import CardEvent from '../../components/CardEvent';
-import { NavlinkDefault } from '../../components/shared/Common';
-import { useAppDispatch, useAppThunkDispatch } from '../../redux/store';
-import { paths } from '../../utils/constants';
-import { getMyEvents } from '../../redux/actions/events';
-import { useAppSelector } from '../../redux/store';
+import { Footer } from '../../components/shared/Footer';
+import { Navbar } from '../../components/shared/Navbars';
+import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
+import { useState } from 'react';
 import moment from 'moment';
+import { getEvents } from '../../redux/actions/events';
 
 interface EventProps {
   commission_percentage: number;
@@ -31,9 +31,7 @@ interface EventProps {
   total_amount_sold: number;
   updated_at: string;
   venue: string;
-  _id: string;
 }
-
 // const events = [
 //   {
 //     title: 'Freshers Night',
@@ -114,19 +112,19 @@ interface EventProps {
 //   },
 // ];
 
-const MyEvent = () => {
-  const { myEvents } = useAppSelector((state) => state.events);
+const Events = () => {
   const [eventsData, setEventsData] = useState([] as Array<EventProps>);
 
+  const { events } = useAppSelector((state) => state.events);
   useEffect(() => {
-    setEventsData(myEvents as Array<EventProps>);
-  }, [myEvents]);
+    setEventsData(events);
+  }, [events]);
 
   const dispatch = useAppThunkDispatch();
 
   useEffect(() => {
     const anony = async () => {
-      return (await dispatch(getMyEvents({}))) as unknown;
+      return (await dispatch(getEvents({}))) as unknown;
     };
     anony()
       .then((ress) => {
@@ -136,28 +134,31 @@ const MyEvent = () => {
         console.error(err);
       });
   }, []);
-
   return (
-    <section className="bg-gray-100 p-1 lg:px-10 lg:py-10">
-      <section className="mt-6 mb-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-        {(eventsData || []).map((show, index) => {
-          return (
-            <CardEvent
-              title={show.title}
-              img={show.image}
-              date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-              price={0}
-              key={index}
-              href={`/event/${show._id}`}
-            />
-          );
-        })}
+    <div>
+      <Navbar />
+      <section className="bg-white p-1 lg:px-10 lg:py-10">
+        <h2 className="text-4xl font-extrabold py-10" id="#selling">
+          Events
+        </h2>
+        <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+          {(eventsData || []).map((show, index) => {
+            return (
+              <CardEvent
+                title={show.title}
+                img={show.image}
+                date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                price={0}
+                key={index}
+                href={`/preview/${index}`}
+              />
+            );
+          })}
+        </section>
       </section>
-      <div className="w-full flex justify-center pt-10">
-        <NavlinkDefault path={paths.CREATE_EVENT} name="Register an Event" />
-      </div>
-    </section>
+      <Footer />
+    </div>
   );
 };
 
-export default MyEvent;
+export default Events;
