@@ -4,7 +4,7 @@ import MainLayout from '../../components/MainLayout';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { useState, useEffect } from 'react';
 import { getEvent } from '../../redux/actions/events';
-import gaming from '../../assets/img/gaming.png';
+// import gaming from '../../assets/img/gaming.png';
 import penedit from '../../assets/img/penedit.svg';
 import canceledit from '../../assets/img/canceledit.svg';
 import { ButtonAction } from '../../components/shared/Common';

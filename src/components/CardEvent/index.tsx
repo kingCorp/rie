@@ -12,6 +12,7 @@ type Props = {
   booked?: boolean;
 };
 
+// eslint-disable-next-line
 export default function CardEvent({ img, title, date, price, href, booked }: Props) {
   return (
     <Link

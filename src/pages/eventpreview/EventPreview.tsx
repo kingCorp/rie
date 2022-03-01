@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import oge from '../../assets/img/oge.png';
+// import oge from '../../assets/img/oge.png';
 import { ButtonAction } from '../../components/shared/Common';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../redux/store';
@@ -32,6 +32,7 @@ const EventPreview = () => {
 
   useEffect(() => {
     setEventData(events[Number(id)] as EventProps);
+    // eslint-disable-next-line
   }, [events]);
   return (
     <div className="flex justify-center py-60 bg-black bg-opacity-80 font-rubik">

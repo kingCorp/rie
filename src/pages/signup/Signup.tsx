@@ -8,7 +8,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { ThunkAppDispatch, RootState } from '../../redux/store';
+import { RootState } from '../../redux/store';
 
 type PayLoad = {
   status: boolean;
@@ -46,6 +46,7 @@ const SignUp = () => {
     if (isAuthorized) {
       navigate('/profile');
     }
+    // eslint-disable-next-line
   }, [isAuthorized]);
 
   useEffect(() => {
@@ -69,6 +70,7 @@ const SignUp = () => {
       .catch((error) => {
         console.log(error);
       });
+    // eslint-disable-next-line
   }, [signedUp]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
