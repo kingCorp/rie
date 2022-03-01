@@ -5,7 +5,7 @@ import { ButtonAction, InputField, SelectField } from '../../components/shared/C
 import { paths } from '../../utils/constants';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signInMember, signInUser } from '../../redux/actions/auth';
+import { forgotPasswordMember } from '../../redux/actions/auth';
 import { useNavigate } from 'react-router-dom';
 import { ThunkAppDispatch, RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
@@ -20,16 +20,20 @@ type PayLoad = {
   message: string;
 };
 
-const Signin = () => {
+const ForgotPassword = () => {
   const dispatch: ThunkAppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { isAuthorized } = useSelector((state: RootState) => state.auth);
   const isLoading = useSelector(getIsLoading);
 
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/profile');
+    }
+  }, [isAuthorized]);
   const [loginDetails, setLoginDetails] = useState({
-    email: '',
-    password: '',
+    email: ''
   });
-
   const [selectValue, setSelectValue] = useState('user');
   const handleSelect = (e: SelectChangeEvent) => {
     setSelectValue(e.target.value as string);
@@ -45,12 +49,8 @@ const Signin = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await dispatch(signInMember(loginDetails, selectValue));
+    const res = await dispatch(forgotPasswordMember(loginDetails));
     console.log(res);
-    if (res) {
-      navigate(paths.PROFILE);
-      return;
-    }
   };
 
   return (
@@ -73,36 +73,8 @@ const Signin = () => {
             type="email"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
           />
-          <InputField
-            name="password"
-            label="Password"
-            type="password"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
-          />
-           <SelectField
-            label="Are you a show promoter?"
-            value={selectValue}
-            onChange={handleSelect}
-          />
-          <div className="mt-6 flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember_me"
-                type="checkbox"
-                className="border border-gray-300 text-red-600 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50"
-              />
-              <label htmlFor="remember_me" className="ml-2 block text-sm leading-5 text-gray-900">
-                {' '}
-                Remember me{' '}
-              </label>
-            </div>
-            <a href={paths.FORGOT_PASSWORD} className="text-sm">
-              {' '}
-              Forgot your password?{' '}
-            </a>
-          </div>
           <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <ButtonAction name="Sign in" type="submit" />
+            <ButtonAction name="Send link" type="submit" />
           </div>
           <div className="mt-6 text-left">
             <span>Dont have an account ? </span>
@@ -117,4 +89,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default ForgotPassword;

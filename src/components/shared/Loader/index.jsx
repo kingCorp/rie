@@ -1,3 +1,5 @@
+/* eslint-disable */
+import React from 'react';
 import { number, string } from 'prop-types';
 
 import { LoaderContainer, LoaderImage } from './components';
@@ -16,6 +18,6 @@ Loader.propTypes = {
 };
 
 Loader.defaultProps = {
-  size: 30,
+  size: 50,
   height: 'auto',
 };

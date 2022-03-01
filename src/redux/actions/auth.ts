@@ -1,10 +1,11 @@
-/* eslint/no-unsafe-member-access: 0 */ // --> OFF
+/* eslint-disable */
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
 import { setUser, setUserId, setRole } from '../reducers/authSlice';
 import { setLoading } from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 // export const signUpUser =
 //   (userData: object) => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
@@ -148,3 +149,105 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
     };
   }
 });
+
+export const signInMember =
+  (credentials: { email: string; password: string }, type: string) =>
+  async (dispatch: (arg0: any) => void) => {
+    dispatch(setLoading(true));
+    try {
+      const res = await Api.auth.signInEmail(credentials);
+      const { data } = res;
+      console.log(data);
+      Auth.setToken(data.token, data.token);
+      await dispatch(getProfileMember(type));
+      dispatch(setLoading(false));
+      toast(data.message);
+      return true;
+    } catch (error) {
+      dispatch(setLoading(false));
+      const err = error as AxiosError;
+      console.log(err?.response?.data?.message as never);
+      toast(err?.response?.data?.message);
+      return false;
+    }
+  };
+
+export const signUpMember =
+  (
+    credentials: { email: string; password: string; fullname: string; phone: string },
+    type: string,
+  ) =>
+  async (dispatch: (arg0: { payload: any; type: string }) => void) => {
+    dispatch(setLoading(true));
+    try {
+      if (type == 'user') {
+        const res = await Api.auth.signUpEmail(credentials);
+        const { data } = res.data;
+        console.log(data);
+      } else {
+        const res = await Api.auth.signUpOrganizerEmail(credentials);
+        const { data } = res.data;
+        console.log(data);
+      }
+
+      // await signInMember({ email: credentials.email, password: credentials.password });
+      dispatch(setLoading(false));
+      return true;
+    } catch (error) {
+      dispatch(setLoading(false));
+      const err = error as AxiosError;
+      console.log(err?.response?.data?.message as never);
+      toast(err?.response?.data?.message);
+      return false;
+    }
+  };
+
+export const forgotPasswordMember =
+  (credentials: { email: string }) =>
+  async (dispatch: (arg0: { payload: any; type: string }) => void) => {
+    dispatch(setLoading(true));
+    try {
+      const res = await Api.auth.forgotPassword(credentials);
+      const { data } = res.data;
+      toast('forgot password link has been sent to you email');
+      console.log(data);
+      dispatch(setLoading(false));
+      return true;
+    } catch (error) {
+      dispatch(setLoading(false));
+      const err = error as AxiosError;
+      console.log(err?.response?.data?.message as never);
+      toast(err?.response?.data?.message);
+      return false;
+    }
+  };
+
+export const getProfileMember =
+  (type: string) => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
+    dispatch(setLoading(true));
+    try {
+      if (type == 'user') {
+        const res = await Api.user.userDetails();
+        const { data } = res.data;
+        console.log('profile', data);
+        // dispatch(setUser(data));
+        // dispatch(setUserId(data._id));
+        // dispatch(setRole(data.type));
+      } else {
+        const res = await Api.user.organizerDetails();
+        const { data } = res.data;
+        console.log('profile', data);
+        // dispatch(setUser(data));
+        // dispatch(setUserId(data._id));
+        // dispatch(setRole(data.type));
+      }
+      dispatch(setLoading(false));
+      return true;
+    } catch (error) {
+      dispatch(setLoading(false));
+      const err = error as AxiosError;
+      console.log(err?.response?.data?.message as never);
+      toast(err?.response?.data?.message);
+      return false;
+    }
+  };

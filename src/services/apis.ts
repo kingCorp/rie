@@ -9,10 +9,12 @@ const Api = {
     changePassword: (data: object) => ApiHandler.post('/change_password', data),
     resendToken: (data: object) => ApiHandler.post('/send_token', data),
     refreshToken: (data: object) => ApiHandler.post('/user/refresh-token', data),
+    forgotPassword: (data: object) => ApiHandler.post('/forgot_password', data),
     logout: (data: object) => ApiHandler.post('/user/logout', data),
   },
   user: {
     userDetails: () => ApiHandler.get('/user/getInfo'),
+    organizerDetails: () => ApiHandler.get('/organizer/getInfo'),
   },
   events: {
     events: () => ApiHandler.get('/show/all'),
