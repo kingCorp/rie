@@ -55,8 +55,10 @@ const Signin = () => {
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
+          console.log('success',payload)
           toast.success(payload.message);
         } else {
+          console.log('error',payload)
           toast.error(payload.message);
         }
       })

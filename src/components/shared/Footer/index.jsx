@@ -54,7 +54,7 @@ export const Footer = () => {
             <div className="flex flex-col">
               <h3 className="mb-6 text-lg font-bold text-dark-500 uppercase">Help center</h3>
               <ul>
-                <li className="mb-4">
+                {/* <li className="mb-4">
                   <a
                     href="#"
                     target="_blank"
@@ -63,7 +63,7 @@ export const Footer = () => {
                   >
                     Discord Server
                   </a>
-                </li>
+                </li> */}
                 <li className="mb-4">
                   <a
                     href="#"
@@ -143,7 +143,7 @@ export const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <h3 className="mb-6 text-lg font-bold text-dark-500 uppercase">Download</h3>
               <ul>
                 <li className="mb-4">
@@ -187,7 +187,7 @@ export const Footer = () => {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 /* This example requires Tailwind CSS v2.0+ */
 import phoneIcon from '../../assets/img/phone.png';
-import eve from '../../assets/img/eve1.png';
-import eve2 from '../../assets/img/eve2.png';
-import eve3 from '../../assets/img/eve3.png';
-import eve4 from '../../assets/img/eve4.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import CardEvent from '../../components/CardEvent';
@@ -14,7 +10,9 @@ import { Link } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvents } from '../../redux/actions/events';
 import moment from 'moment';
-interface EventProps {
+import Auth from '../../middleware/storage';
+
+export interface EventProps {
   commission_percentage: number;
   created_at: string;
   description: string;
@@ -35,43 +33,13 @@ interface EventProps {
   updated_at: string;
   venue: string;
 }
-// const events = [
-//   {
-//     title: 'Freshers Night',
-//     href: '#',
-//     date: ' Wed 19 Nov 2022',
-//     price: 20000,
-//     img: eve4,
-//   },
-//   {
-//     title: 'Cruiser Night',
-//     href: '#',
-//     date: ' Thur 1 Dec 2022',
-//     price: 10000,
-//     img: eve,
-//   },
-//   {
-//     title: 'Awards',
-//     href: '#',
-//     date: ' Sun 12 July 2022',
-//     price: 3000,
-//     img: eve2,
-//   },
-//   {
-//     title: 'Beach Show',
-//     href: '#',
-//     date: ' Sat 2 Aug 2022',
-//     price: 5000,
-//     img: eve3,
-//   },
-// ];
 
 export default function Home() {
   const [eventsData, setEventsData] = useState([] as Array<EventProps>);
 
   const { events } = useAppSelector((state) => state.events);
   useEffect(() => {
-    setEventsData(events.slice(0, 4));
+    setEventsData(events.slice(0, 8));
   }, [events]);
 
   const dispatch = useAppThunkDispatch();
@@ -87,6 +55,7 @@ export default function Home() {
       .catch((err) => {
         console.error(err);
       });
+    // eslint-disable-next-line
   }, []);
   return (
     <MainLayout>
@@ -110,14 +79,16 @@ export default function Home() {
                     tickets
                   </p>
                 </div>
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <a
-                    href={paths.SIGNIN}
-                    className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
-                  >
-                    Sign in
-                  </a>
-                </div>
+                {!Auth.isAuthenticated() && (
+                  <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                    <a
+                      href={paths.SIGNIN}
+                      className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
+                    >
+                      Sign in
+                    </a>
+                  </div>
+                )}
               </div>
             </main>
           </div>

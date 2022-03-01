@@ -143,7 +143,8 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
     thunkAPI.dispatch(setLoading(false));
     return {
       status: false,
-      message: err.message,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: err.response?.data?.message as never,
     };
   }
 });
