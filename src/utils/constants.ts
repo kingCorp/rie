@@ -6,6 +6,7 @@ export const paths = {
   SIGNUP: '/signup',
   UPCOMING: '/upcoming',
   SELLING: '/selling',
+  EVENTS: '/events',
   EVENT_DETAIL: '/event/:id',
   CREATE_EVENT: '/create/event',
   ADD_TICKET: '/add/ticket',

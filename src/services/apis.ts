@@ -15,7 +15,8 @@ const Api = {
     userDetails: () => ApiHandler.get('/user/getInfo'),
   },
   events: {
-    events: () => ApiHandler.get('/events'),
+    events: () => ApiHandler.get('/show/all'),
+    event: (id: string) => ApiHandler.get(`/show/details/${id}`),
     getOrganizerEvents: () => ApiHandler.get('/organizer/shows'),
     createEvent: (data: object) => ApiHandler.post('/organizer/show/create', data),
   },
