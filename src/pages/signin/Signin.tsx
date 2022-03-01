@@ -46,7 +46,6 @@ const Signin = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('submits', selectValue);
     e.preventDefault();
     if (loginDetails.email === '' || loginDetails.password === '') {
       toast('Kindly fill all fields');
@@ -55,7 +54,13 @@ const Signin = () => {
     await dispatch(signInUser({ data: loginDetails, userType: selectValue }))
       .then((res) => {
         const payload = res.payload as PayLoad;
-        console.log(payload.message);
+        if (payload.status) {
+          console.log('success',payload)
+          toast.success(payload.message);
+        } else {
+          console.log('error',payload)
+          toast.error(payload.message);
+        }
       })
       .catch((error) => {
         console.log(error);

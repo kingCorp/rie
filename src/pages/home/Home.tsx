@@ -1,48 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 /* This example requires Tailwind CSS v2.0+ */
 import phoneIcon from '../../assets/img/phone.png';
-import eve from '../../assets/img/eve1.png';
-import eve2 from '../../assets/img/eve2.png';
-import eve3 from '../../assets/img/eve3.png';
-import eve4 from '../../assets/img/eve4.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import CardEvent from '../../components/CardEvent';
 import { paths } from '../../utils/constants';
 import MainLayout from '../../components/MainLayout';
+import { Link } from 'react-router-dom';
+import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
+import { getEvents } from '../../redux/actions/events';
+import moment from 'moment';
+import Auth from '../../middleware/storage';
 
-const events = [
-  {
-    title: 'Freshers Night',
-    href: '#',
-    date: ' Wed 19 Nov 2022',
-    price: 20000,
-    img: eve4,
-  },
-  {
-    title: 'Cruiser Night',
-    href: '#',
-    date: ' Thur 1 Dec 2022',
-    price: 10000,
-    img: eve,
-  },
-  {
-    title: 'Awards',
-    href: '#',
-    date: ' Sun 12 July 2022',
-    price: 3000,
-    img: eve2,
-  },
-  {
-    title: 'Beach Show',
-    href: '#',
-    date: ' Sat 2 Aug 2022',
-    price: 5000,
-    img: eve3,
-  },
-];
+export interface EventProps {
+  commission_percentage: number;
+  created_at: string;
+  description: string;
+  end_date: string | Date;
+  end_time: string;
+  image: string;
+  is_cashed_out: boolean;
+  is_closed: boolean;
+  is_security_requested: boolean;
+  is_tag_requested: boolean;
+  number_of_tickets_sold: number;
+  organizer: string;
+  start_date: string | Date;
+  start_time: string;
+  tickets: [];
+  title: string;
+  total_amount_sold: number;
+  updated_at: string;
+  venue: string;
+}
 
 export default function Home() {
+  const [eventsData, setEventsData] = useState([] as Array<EventProps>);
+
+  const { events } = useAppSelector((state) => state.events);
+  useEffect(() => {
+    setEventsData(events.slice(0, 8));
+  }, [events]);
+
+  const dispatch = useAppThunkDispatch();
+
+  useEffect(() => {
+    const anony = async () => {
+      return (await dispatch(getEvents({}))) as unknown;
+    };
+    anony()
+      .then((ress) => {
+        console.log(ress);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // eslint-disable-next-line
+  }, []);
   return (
     <MainLayout>
       <div className="relative bg-white overflow-hidden head">
@@ -65,14 +79,16 @@ export default function Home() {
                     tickets
                   </p>
                 </div>
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <a
-                    href={paths.SIGNIN}
-                    className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
-                  >
-                    Sign in
-                  </a>
-                </div>
+                {!Auth.isAuthenticated() && (
+                  <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                    <a
+                      href={paths.SIGNIN}
+                      className="flex w-40 justify-center py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
+                    >
+                      Sign in
+                    </a>
+                  </div>
+                )}
               </div>
             </main>
           </div>
@@ -87,7 +103,7 @@ export default function Home() {
       </div>
 
       {/* PAGE INFO WITH CARDS SELLING  */}
-      <section className="bg-gray-900 p-5 lg:px-20 lg:py-20">
+      {/* <section className="bg-gray-900 p-5 lg:px-20 lg:py-20">
         <h2 className="text-4xl font-extrabold text-white" id="#selling">
           Selling Hot!!!
         </h2>
@@ -113,10 +129,37 @@ export default function Home() {
             see more
           </a>
         </div>
+      </section> */}
+      <section className="bg-gray-900 p-5 lg:px-20 lg:py-20">
+        <h2 className="text-4xl font-extrabold text-white" id="#selling">
+          Events
+        </h2>
+        <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+          {(eventsData || []).map((show, index) => {
+            return (
+              <CardEvent
+                title={show.title}
+                img={show.image}
+                date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                price={0}
+                key={index}
+                href={`/preview/${index}`}
+              />
+            );
+          })}
+        </section>
+        <div className="w-full flex justify-center pt-10">
+          <Link
+            to={paths.EVENTS}
+            className="flex w-40 justify-center py-2  text-base font-medium border rounded-full text-white border-white hover:bg-red-700"
+          >
+            see more
+          </Link>
+        </div>
       </section>
 
       {/* PAGE INFO WITH CARDS UPCOMING  */}
-      <section className="bg-white p-5 lg:px-20 lg:py-20">
+      {/* <section className="bg-white p-5 lg:px-20 lg:py-20">
         <h2 className="text-4xl font-extrabold" id="#upcoming">
           Upcoming!!!
         </h2>
@@ -142,7 +185,7 @@ export default function Home() {
             see more
           </a>
         </div>
-      </section>
+      </section> */}
     </MainLayout>
   );
 }

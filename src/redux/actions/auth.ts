@@ -1,8 +1,6 @@
 /* eslint/no-unsafe-member-access: 0 */ // --> OFF
-// import { push } from 'connected-react-router';
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
-// import { paths } from '../../utils/constants';
 import { setUser, setUserId, setRole } from '../reducers/authSlice';
 import { setLoading } from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
@@ -145,7 +143,8 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
     thunkAPI.dispatch(setLoading(false));
     return {
       status: false,
-      message: err.message,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: err.response?.data?.message as never,
     };
   }
 });

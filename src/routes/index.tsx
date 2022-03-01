@@ -18,6 +18,7 @@ import CreateEvent from '../pages/createEvent/CreateEvent';
 import CreateTicket from '../pages/createTicket/CreateTicket';
 import EventPreview from '../pages/eventpreview/EventPreview';
 import ProtectedRoutes from './ProtectedRoutes';
+import Events from '../pages/events/events';
 
 const AppRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const AppRoutes = () => {
           <Route path={paths.SIGNIN} element={<Signin />} />
           <Route path={paths.SIGNUP} element={<SignUp />} />
           <Route path={paths.SELLING} element={<Selling />} />
+          <Route path={paths.EVENTS} element={<Events />} />
           <Route path={paths.UPCOMING} element={<Upcoming />} />
           <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
 

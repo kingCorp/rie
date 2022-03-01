@@ -5,7 +5,7 @@ import BookedEvent from './BookedEvents';
 import MyEvent from './MyEvents';
 import Tickets from './Tickets';
 import { useLocation } from 'react-router-dom';
-// import { useAppSelector } from '../../redux/store';
+//import { useAppSelector } from '../../redux/store';
 import Auth from '../../middleware/storage';
 
 interface LocationState {
@@ -16,7 +16,7 @@ const Profile = () => {
   const location = useLocation();
   const { from } = (location.state as LocationState) || { from: 'ticket' };
 
-  // const { auth } = useAppSelector((state) => state);
+  //const { auth } = useAppSelector((state) => state);
 
   const [active, setActive] = useState('ticket');
 
@@ -78,7 +78,7 @@ const Profile = () => {
       )}
       {active == 'timeline' && (
         <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
-          <MyEvent />
+          <BookedEvent />
         </div>
       )}
     </MainLayout>
