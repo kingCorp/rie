@@ -72,38 +72,8 @@ const EventDetails = () => {
       .catch((err) => {
         console.error(err);
       });
+    // eslint-disable-next-line
   }, []);
-
-  // const tickets = [
-  //   {
-  //     title: 'fortnite',
-  //     price: 5000,
-  //     total_amount_purchased: 18,
-  //     capacity: 22,
-  //     endDate: '2022-01-15',
-  //   },
-  //   {
-  //     title: 'fortnite',
-  //     price: 5000,
-  //     total_amount_purchased: 18,
-  //     capacity: 22,
-  //     endDate: '2022-01-15',
-  //   },
-  //   {
-  //     title: 'fortnite',
-  //     price: 5000,
-  //     total_amount_purchased: 18,
-  //     capacity: 22,
-  //     endDate: '2022-01-15',
-  //   },
-  //   {
-  //     title: 'fortnite',
-  //     price: 5000,
-  //     total_amount_purchased: 18,
-  //     capacity: 22,
-  //     endDate: '2022-01-15',
-  //   },
-  // ];
 
   return (
     <div>
