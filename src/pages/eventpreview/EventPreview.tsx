@@ -1,7 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+<<<<<<< HEAD
 import oge from '../../assets/img/oge.png';
 import { ButtonAction, Loader } from '../../components/shared/Common';
+=======
+// import oge from '../../assets/img/oge.png';
+import { ButtonAction } from '../../components/shared/Common';
+>>>>>>> f458308f532aa2e0f204d2f8b57ad54ab186999e
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvent } from '../../redux/actions/events';
@@ -33,6 +38,7 @@ const EventPreview = () => {
   const [eventData, setEventData] = useState({} as EventProps);
 
   useEffect(() => {
+<<<<<<< HEAD
     setEventData(event as EventProps);
   }, [event]);
 
@@ -52,6 +58,11 @@ const EventPreview = () => {
     // eslint-disable-next-line
   }, []);
 
+=======
+    setEventData(events[Number(id)] as EventProps);
+    // eslint-disable-next-line
+  }, [events]);
+>>>>>>> f458308f532aa2e0f204d2f8b57ad54ab186999e
   return (
     <>
       <div className="flex justify-center py-60 bg-black bg-opacity-80 font-rubik">

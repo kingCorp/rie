@@ -4,13 +4,10 @@ import MainLayout from '../../components/MainLayout';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { useState, useEffect } from 'react';
 import { getEvent, getTickets } from '../../redux/actions/events';
-import gaming from '../../assets/img/gaming.png';
 import penedit from '../../assets/img/penedit.svg';
-import canceledit from '../../assets/img/canceledit.svg';
 import { ButtonAction, Loader } from '../../components/shared/Common';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { paths } from '../../utils/constants';
 
 interface EventProps {
   commission_percentage: number;
