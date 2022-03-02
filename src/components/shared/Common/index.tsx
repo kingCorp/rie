@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { TailSpin } from 'react-loader-spinner';
 
 type NavLinkDarkProps = { path: string; name: string };
 
@@ -11,6 +12,7 @@ type ButtonActionProps = {
   onClick?: React.MouseEventHandler;
   name: string;
   disabled?: boolean;
+  loading?: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
 };
 
@@ -20,7 +22,9 @@ type InputFieldProps = {
   type: string;
   name: string;
   label: string;
+  value?: string | number | readonly string[] | undefined;
   placeholder?: string;
+  checked?: boolean;
   onChange?: React.ChangeEventHandler;
 };
 
@@ -58,7 +62,7 @@ export const NavlinkDefault = ({ path, name }: NavLinkDarkProps) => {
   );
 };
 
-export const ButtonAction = ({ onClick, name, type, disabled }: ButtonActionProps) => {
+export const ButtonAction = ({ onClick, name, type, disabled, loading }: ButtonActionProps) => {
   return (
     <button
       onClick={onClick}
@@ -68,7 +72,7 @@ export const ButtonAction = ({ onClick, name, type, disabled }: ButtonActionProp
         disabled ? 'bg-gray-400 text-gray-300' : 'bg-red-600 hover:bg-gray-700'
       }`}
     >
-      {name}
+      {loading ? <TailSpin color="red" height={30} width={30} /> : name}
     </button>
   );
 };
@@ -87,7 +91,14 @@ export const TabButtonAction = ({ onClick, name, active = false }: TabButtonActi
   );
 };
 
-export const InputField = ({ type, name, label, placeholder, onChange }: InputFieldProps) => {
+export const InputField = ({
+  type,
+  name,
+  label,
+  placeholder,
+  value,
+  onChange,
+}: InputFieldProps) => {
   return (
     <div className="mb-4">
       <label className="block mb-1" htmlFor={name}>
@@ -99,6 +110,7 @@ export const InputField = ({ type, name, label, placeholder, onChange }: InputFi
         id={name}
         type={type}
         name={name}
+        value={value}
         placeholder={placeholder}
         className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
       />
@@ -139,7 +151,14 @@ export const AlertNote = ({ title, message, severity }: AlertProps) => {
   );
 };
 
-export const CheckField = ({ type, name, label, placeholder, onChange }: InputFieldProps) => {
+export const CheckField = ({
+  type,
+  name,
+  label,
+  placeholder,
+  checked,
+  onChange,
+}: InputFieldProps) => {
   return (
     <div className="mb-4">
       <label className="block mb-1" htmlFor={name}>
@@ -151,8 +170,17 @@ export const CheckField = ({ type, name, label, placeholder, onChange }: InputFi
         type={type}
         name={name}
         placeholder={placeholder}
+        checked={checked}
         className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block"
       />
+    </div>
+  );
+};
+
+export const Loader = () => {
+  return (
+    <div className="flex items-center justify-center p-14">
+      <TailSpin color="red" height={80} width={80} />
     </div>
   );
 };

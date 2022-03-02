@@ -2,24 +2,33 @@ import React, { useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField } from '../../components/shared/Common';
 import { paths } from '../../utils/constants';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
-import { createTicket } from '../../redux/actions/events';
+import { createTicket, editTicket } from '../../redux/actions/events';
 import { toast, ToastContainer } from 'react-toastify';
 
 type PayLoad = {
   status: boolean;
   message: string;
 };
+interface LocationState {
+  ticket: {
+    title: string;
+    price: number;
+    capacity: number;
+  };
+}
 
-const CreateTicket = () => {
-  const { showId } = useParams();
+const EditTicket = () => {
+  const location = useLocation();
+  const { ticket } = (location.state as LocationState) || { ticket: {} };
+  const { id } = useParams();
   const dispatch = useAppThunkDispatch();
   const { isLoading } = useAppSelector((state) => state.loader);
   const [ticketData, setTicketData] = useState({
-    title: '',
-    price: 0,
-    capacity: 0,
+    title: ticket.title,
+    price: ticket.price,
+    capacity: ticket.capacity,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,12 +49,7 @@ const CreateTicket = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const ticketDetails = {
-      show_id: showId,
-      tickets: [ticketData],
-    };
-    console.log(ticketDetails);
-    await dispatch(createTicket(ticketDetails))
+    await dispatch(editTicket({ id: id as string, data: ticketData }))
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
@@ -65,7 +69,7 @@ const CreateTicket = () => {
     <MainLayout>
       <ToastContainer />
       <div className="text-center py-4 bg-gray-50 ">
-        <h2 className="font-bold font-rubik text-2xl">Create Ticket</h2>
+        <h2 className="font-bold font-rubik text-2xl">Edit Ticket</h2>
       </div>
       <div className="w-full min-h-screen bg-gray-50 flex flex-col items-center pt-6 sm:pt-0 homebg">
         <div className="w-full sm:max-w-md p-5 mx-auto">
@@ -74,25 +78,28 @@ const CreateTicket = () => {
               name="title"
               label="Title"
               type="text"
+              value={ticketData.title}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
             <InputField
               name="price"
               label="Price"
               type="number"
+              value={ticketData.price}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeNumber(e)}
             />
             <InputField
               name="capacity"
               label="Ticket Limit"
               type="number"
+              value={ticketData.capacity}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeNumber(e)}
             />
             <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
               {isLoading ? (
-                <ButtonAction name="Add Ticket" type="submit" disabled loading />
+                <ButtonAction name="Save Changes" type="submit" disabled loading />
               ) : (
-                <ButtonAction name="Add Ticket" type="submit" />
+                <ButtonAction name="Save Changes" type="submit" />
               )}
             </div>
           </form>
@@ -102,4 +109,4 @@ const CreateTicket = () => {
   );
 };
 
-export default CreateTicket;
+export default EditTicket;
