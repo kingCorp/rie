@@ -70,6 +70,7 @@ const EventDetails = () => {
       .catch((err) => {
         console.error(err);
       });
+    // eslint-disable-next-line
   }, [eventData]);
 
   const dispatch = useAppThunkDispatch();

@@ -73,6 +73,7 @@ const SignUp = () => {
           console.log(error);
         });
     }
+    // eslint-disable-next-line
   }, [signedUp]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -170,6 +170,7 @@ const EditEvent = () => {
       .catch((err) => {
         console.error(err);
       });
+    // eslint-disable-next-line
   }, []);
 
   return (

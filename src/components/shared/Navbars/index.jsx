@@ -11,12 +11,10 @@ import './index.css';
 import { Link } from 'react-router-dom';
 import Auth from '../../../middleware/storage';
 
-
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -47,7 +45,7 @@ export const Navbar = () => {
             />
             <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white"></span>
           </Link>
-          
+
           <div className="flex md:order-2">
             {!Auth.isAuthenticated() ? (
               <div>
@@ -92,14 +90,29 @@ export const Navbar = () => {
                     },
                   }}
                 >
-                  <div className='user-modal cursor-pointer'>
-                  
-
-                  <Link to={paths.PROFILE} state={{from: "ticket"}}><div className='pop-list pop-list-top'>My Tickets</div></Link>  
-                  {Auth?.getRole() === "organizer"  && <Link to={paths.PROFILE} state={{from: "myevent"}}><div className='pop-list'>My Events</div></Link>} 
-                  <Link to={paths.PROFILE} state={{from: "booked"}}><div className='pop-list '>Booked Events</div></Link>  
-                  <Link to={paths.PROFILE} state={{from: "timeline"}}><div className='pop-list'>Timeline</div></Link>  
-                    <div className='pop-list pop-list-bottom' onClick={(e)=>{Logout(e)}}>Sign Out</div>
+                  <div className="user-modal cursor-pointer">
+                    <Link to={paths.PROFILE} state={{ from: 'ticket' }}>
+                      <div className="pop-list pop-list-top">My Tickets</div>
+                    </Link>
+                    {Auth?.getRole() === 'organizer' && (
+                      <Link to={paths.PROFILE} state={{ from: 'myevent' }}>
+                        <div className="pop-list">My Events</div>
+                      </Link>
+                    )}
+                    <Link to={paths.PROFILE} state={{ from: 'booked' }}>
+                      <div className="pop-list ">Booked Events</div>
+                    </Link>
+                    <Link to={paths.PROFILE} state={{ from: 'timeline' }}>
+                      <div className="pop-list">Timeline</div>
+                    </Link>
+                    <div
+                      className="pop-list pop-list-bottom"
+                      onClick={(e) => {
+                        Logout(e);
+                      }}
+                    >
+                      Sign Out
+                    </div>
                   </div>
                 </Popover>
               </div>
@@ -160,7 +173,7 @@ export const Navbar = () => {
                   Selling Hot
                 </Link>
               </li> */}
-                            <li>
+              <li>
                 <Link
                   to={paths.EVENTS}
                   className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
