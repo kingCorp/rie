@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField, CheckField } from '../../components/shared/Common';
-// import { paths } from '../../utils/constants';
-import { createEvents } from '../../redux/actions/events';
+import { createEvent } from '../../redux/actions/events';
 import { useAppThunkDispatch } from '../../redux/store';
 import { toast, ToastContainer } from 'react-toastify';
 import { handleFileUpload } from '../../redux/actions/events';
@@ -107,7 +106,7 @@ const CreateEvent = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(eventDetails);
-    await dispatch(createEvents(eventDetails))
+    await dispatch(createEvent(eventDetails))
       .then((res) => {
         console.log(res);
       })

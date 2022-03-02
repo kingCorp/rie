@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField } from '../../components/shared/Common';
-import { paths } from '../../utils/constants';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
-import { createTicket, editTicket } from '../../redux/actions/events';
+import { editTicket } from '../../redux/actions/events';
 import { toast, ToastContainer } from 'react-toastify';
 
 type PayLoad = {

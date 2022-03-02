@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField } from '../../components/shared/Common';
-import { paths } from '../../utils/constants';
 import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { createTicket } from '../../redux/actions/events';

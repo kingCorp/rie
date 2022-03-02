@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField, CheckField } from '../../components/shared/Common';
 // import { paths } from '../../utils/constants';
-import { createEvents, editEvent, getEvent } from '../../redux/actions/events';
+import { editEvent, getEvent } from '../../redux/actions/events';
 import { useAppThunkDispatch } from '../../redux/store';
 import { toast, ToastContainer } from 'react-toastify';
 import { handleFileUpload } from '../../redux/actions/events';

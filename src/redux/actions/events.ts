@@ -124,7 +124,7 @@ export const getEvent = createAsyncThunk('getevent', async (id: string, thunkAPI
   }
 });
 
-export const createEvents = createAsyncThunk('createEvent', async (eventData: object, thunkAPI) => {
+export const createEvent = createAsyncThunk('createEvent', async (eventData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.createEvent(eventData);
