@@ -135,22 +135,30 @@ const EventDetails = () => {
                                 {ticket.title}
                               </span>
                             </div>
-                            <div className=" text-center px-5">
+                            <div className=" text-center px-4">
                               <span className=" text-xs text-gray-500">Price</span>
                               <p>N{ticket.price}</p>
                             </div>
 
-                            <div className="text-center px-5">
+                            <div className="text-center px-4">
                               <span className=" text-xs text-gray-500">Sold</span>
                               <p>{ticket.total_amount_purchased}</p>
                             </div>
-                            <div className=" text-center px-5">
+                            <div className=" text-center px-4">
                               <span className=" text-xs text-gray-500">Ticket Limit</span>
                               <p>{ticket.capacity}</p>
                             </div>
-                            <div className=" text-center px-5">
+                            <div className=" text-center px-4">
                               <span className=" text-xs text-gray-500">Sale Ends</span>
                               <p>{moment(eventData.end_date as Date).format('MMMM Do YYYY')}</p>
+                            </div>
+                            <div className=" text-center px-4">
+                              <span className=" text-xs text-gray-500">Event Time</span>
+                              <p>
+                                {moment(
+                                  moment(eventData.start_time, [moment.ISO_8601, 'HH:mm']),
+                                ).format('LT')}
+                              </p>
                             </div>
                             <Link
                               to={`/ticket/edit/${ticket._id}`}
@@ -162,7 +170,7 @@ const EventDetails = () => {
                                 },
                               }}
                             >
-                              <div className="cursor-pointer px-5 ml-auto">
+                              <div className="cursor-pointer px-4 ">
                                 <img src={penedit} alt="pendit" className="w-5" />
                               </div>
                             </Link>
