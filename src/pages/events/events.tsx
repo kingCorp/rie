@@ -6,6 +6,7 @@ import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { useState } from 'react';
 import moment from 'moment';
 import { getEvents } from '../../redux/actions/events';
+import { Loader } from '../../components/shared/Common';
 
 interface EventProps {
   commission_percentage: number;
@@ -27,12 +28,14 @@ interface EventProps {
   total_amount_sold: number;
   updated_at: string;
   venue: string;
+  _id: string;
 }
 
 const Events = () => {
   const [eventsData, setEventsData] = useState([] as Array<EventProps>);
 
   const { events } = useAppSelector((state) => state.events);
+  const { isLoading } = useAppSelector((state) => state.loader);
   useEffect(() => {
     setEventsData(events);
   }, [events]);
@@ -60,20 +63,24 @@ const Events = () => {
         <h2 className="text-4xl font-extrabold py-10" id="#selling">
           Events
         </h2>
-        <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-          {(eventsData || []).map((show, index) => {
-            return (
-              <CardEvent
-                title={show.title}
-                img={show.image}
-                date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-                price={0}
-                key={index}
-                href={`/preview/${index}`}
-              />
-            );
-          })}
-        </section>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+            {(eventsData || []).map((show, index) => {
+              return (
+                <CardEvent
+                  title={show.title}
+                  img={show.image}
+                  date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                  price={0}
+                  key={index}
+                  href={`/preview/${show._id}`}
+                />
+              );
+            })}
+          </section>
+        )}
       </section>
       <Footer />
     </div>

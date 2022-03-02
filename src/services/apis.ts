@@ -19,6 +19,11 @@ const Api = {
     event: (id: string) => ApiHandler.get(`/show/details/${id}`),
     getOrganizerEvents: () => ApiHandler.get('/organizer/shows'),
     createEvent: (data: object) => ApiHandler.post('/organizer/show/create', data),
+    createTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/create', data),
+    getTickets: (showId: string) => ApiHandler.get(`/organizer/show/tickets/${showId}`),
+    editEvent: (showId: string, data: object) =>
+      ApiHandler.put(`/organizer/show/edit/${showId}`, data),
+    editTicket: (id: string, data: object) => ApiHandler.put(`/organizer/ticket/edit/${id}`, data),
   },
 };
 
