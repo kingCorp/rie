@@ -1,14 +1,14 @@
 import React from 'react';
 
-type Props = {
-  title?: string;
-  date?: string;
-  price?: number;
-  href?: string;
-  booked?: boolean;
-};
+// type Props = {
+//   title?: string;
+//   date?: string;
+//   price?: number;
+//   href?: string;
+//   booked?: boolean;
+// };
 
-export default function TicketEvent({ title, date, price, href, booked }: Props) {
+export default function TicketEvent() {
   return (
     <div className="p-4 w-full mb-2 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
       <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-x-8 gap-y-8">

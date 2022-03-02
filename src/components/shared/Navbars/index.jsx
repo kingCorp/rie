@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { clearState } from '../../../redux/reducers/authSlice';
 import Popover from '@mui/material/Popover';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import './index.css'
+import './index.css';
 import { Link } from 'react-router-dom';
 import Auth from '../../../middleware/storage';
 
@@ -49,20 +49,20 @@ export const Navbar = () => {
           </Link>
           
           <div className="flex md:order-2">
-            {!Auth.isAuthenticated()? (
+            {!Auth.isAuthenticated() ? (
               <div>
-                <a
-                  href={paths.SIGNUP}
+                <Link
+                  to={paths.SIGNUP}
                   className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700"
                 >
-                  Get started
-                </a>
-                <a
-                  href={paths.SIGNIN}
+                  Sign Up
+                </Link>
+                <Link
+                  to={paths.SIGNIN}
                   className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700"
                 >
                   Sign in
-                </a>
+                </Link>
               </div>
             ) : (
               <div>
@@ -72,11 +72,10 @@ export const Navbar = () => {
                     handleClick(e);
                   }}
                 >
-                  <AccountCircleOutlinedIcon fontSize='large'/>
+                  <AccountCircleOutlinedIcon fontSize="large" />
                 </div>
 
                 <Popover
-                
                   id={id}
                   open={open}
                   anchorEl={anchorEl}
@@ -87,9 +86,11 @@ export const Navbar = () => {
                     vertical: 'bottom',
                     horizontal: 'left',
                   }}
-                  sx={{'& .MuiPopover-paper': {
-                    borderRadius: '16px',
-                  },}}
+                  sx={{
+                    '& .MuiPopover-paper': {
+                      borderRadius: '16px',
+                    },
+                  }}
                 >
                   <div className='user-modal cursor-pointer'>
                   

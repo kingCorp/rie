@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CardEvent from '../../components/CardEvent';
-import { NavlinkDefault } from '../../components/shared/Common';
+import { Loader, NavlinkDefault } from '../../components/shared/Common';
 import { useAppThunkDispatch } from '../../redux/store';
 import { paths } from '../../utils/constants';
 import { getMyEvents } from '../../redux/actions/events';
@@ -32,6 +32,7 @@ interface EventProps {
 
 const MyEvent = () => {
   const { myEvents } = useAppSelector((state) => state.events);
+  const { isLoading } = useAppSelector((state) => state.loader);
   const [eventsData, setEventsData] = useState([] as Array<EventProps>);
 
   useEffect(() => {
@@ -56,20 +57,25 @@ const MyEvent = () => {
 
   return (
     <section className="bg-gray-100 p-1 lg:px-10 lg:py-10">
-      <section className="mt-6 mb-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-        {(eventsData || []).map((show, index) => {
-          return (
-            <CardEvent
-              title={show.title}
-              img={show.image}
-              date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-              price={0}
-              key={index}
-              href={`/event/${show._id}`}
-            />
-          );
-        })}
-      </section>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <section className="mt-6 mb-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+          {(eventsData || []).map((show, index) => {
+            return (
+              <CardEvent
+                title={show.title}
+                img={show.image}
+                date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                price={0}
+                key={index}
+                href={`/event/${show._id}`}
+              />
+            );
+          })}
+        </section>
+      )}
+
       <div className="w-full flex justify-center pt-10">
         <NavlinkDefault path={paths.CREATE_EVENT} name="Register an Event" />
       </div>

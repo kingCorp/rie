@@ -22,6 +22,7 @@ const Signin = () => {
   const dispatch: ThunkAppDispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthorized } = useSelector((state: RootState) => state.auth);
+  const { isLoading } = useSelector((state: RootState) => state.loader);
 
   useEffect(() => {
     if (isAuthorized) {
@@ -55,10 +56,10 @@ const Signin = () => {
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
-          console.log('success',payload)
+          console.log('success', payload);
           toast.success(payload.message);
         } else {
-          console.log('error',payload)
+          console.log('error', payload);
           toast.error(payload.message);
         }
       })
@@ -116,7 +117,11 @@ const Signin = () => {
             </a>
           </div>
           <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <ButtonAction name="Sign in" type="submit" />
+            {isLoading ? (
+              <ButtonAction name="Sign in" type="submit" disabled loading />
+            ) : (
+              <ButtonAction name="Sign in" type="submit" />
+            )}
           </div>
           <div className="mt-6 text-left">
             <span>Dont have an account ? </span>

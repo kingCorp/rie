@@ -1,8 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Api from '../../services/apis';
-import { setEvents, setUploadedUrl, setMyEvents, setEvent } from '../reducers/eventSlice';
+import {
+  setEvents,
+  setUploadedUrl,
+  setMyEvents,
+  setEvent,
+  setTickets,
+  setTicketsLoading,
+} from '../reducers/eventSlice';
 import { setLoading } from '../reducers/loaderSlice';
-import { AppDispatch } from '../store';
+// import { AppDispatch } from '../store';
 import { CLOUDINARY_URL } from '../../utils/constants';
 
 // export const getEvents = () => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
@@ -14,13 +21,27 @@ interface Response {
 interface Res {
   data: [];
 }
+interface EditEvent {
+  showId: string;
+  data: object;
+}
 
+interface EditTicket {
+  id: string;
+  data: object;
+}
+
+interface TicketsRes {
+  data: {
+    tickets: object;
+  };
+}
 export const getMyEvents = createAsyncThunk('getmyevents', async (userData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.getOrganizerEvents();
     const res = response.data as Res;
-    thunkAPI.dispatch(setMyEvents(res.data));
+    thunkAPI.dispatch(setMyEvents(res.data.reverse()));
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
     return {
@@ -42,7 +63,7 @@ export const getEvents = createAsyncThunk('getevents', async (userData: object, 
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.events();
     const res = response.data as Res;
-    thunkAPI.dispatch(setEvents(res.data));
+    thunkAPI.dispatch(setEvents(res.data.reverse()));
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
     return {
@@ -55,6 +76,28 @@ export const getEvents = createAsyncThunk('getevents', async (userData: object, 
     return {
       status: false,
       message: 'Error in fetching events',
+    };
+  }
+});
+
+export const getTickets = createAsyncThunk('gettickets', async (showId: string, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setTicketsLoading(true));
+    const response = await Api.events.getTickets(showId);
+    const res = response.data as TicketsRes;
+    thunkAPI.dispatch(setTickets(res.data.tickets));
+    thunkAPI.dispatch(setTicketsLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Tickets fetched successfully',
+    };
+  } catch (error) {
+    console.error(error);
+    thunkAPI.dispatch(setTicketsLoading(false));
+    return {
+      status: false,
+      message: 'Error in fetching Tickets',
     };
   }
 });
@@ -81,7 +124,7 @@ export const getEvent = createAsyncThunk('getevent', async (id: string, thunkAPI
   }
 });
 
-export const createEvents = createAsyncThunk('createEvent', async (eventData: object, thunkAPI) => {
+export const createEvent = createAsyncThunk('createEvent', async (eventData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
     const response = await Api.events.createEvent(eventData);
@@ -100,6 +143,49 @@ export const createEvents = createAsyncThunk('createEvent', async (eventData: ob
     };
   }
 });
+
+export const editEvent = createAsyncThunk('editEvent', async (eventData: EditEvent, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    const response = await Api.events.editEvent(eventData.showId, eventData.data);
+    thunkAPI.dispatch(setLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Event edited successfully',
+    };
+  } catch (error) {
+    console.error(error);
+    thunkAPI.dispatch(setLoading(false));
+    return {
+      status: false,
+      message: 'Error in Editing Event',
+    };
+  }
+});
+
+export const editTicket = createAsyncThunk(
+  'editticket',
+  async (eventData: EditTicket, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const response = await Api.events.editTicket(eventData.id, eventData.data);
+      thunkAPI.dispatch(setLoading(false));
+      console.log(response);
+      return {
+        status: true,
+        message: 'Ticket edited successfully',
+      };
+    } catch (error) {
+      console.error(error);
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        message: 'Error in Editing Ticket',
+      };
+    }
+  },
+);
 
 export const handleFileUpload = createAsyncThunk('uploadFile', async (file: File, thunkAPI) => {
   if (!file) return console.error('No file selected');
@@ -128,3 +214,26 @@ export const handleFileUpload = createAsyncThunk('uploadFile', async (file: File
     };
   }
 });
+
+export const createTicket = createAsyncThunk(
+  'createticket',
+  async (ticketData: object, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const response = await Api.events.createTicket(ticketData);
+      thunkAPI.dispatch(setLoading(false));
+      console.log(response);
+      return {
+        status: true,
+        message: 'Ticket created successfully',
+      };
+    } catch (error) {
+      console.error(error);
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        message: 'Error In creating Ticket',
+      };
+    }
+  },
+);

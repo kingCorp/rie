@@ -5,7 +5,6 @@ import BookedEvent from './BookedEvents';
 import MyEvent from './MyEvents';
 import Tickets from './Tickets';
 import { useLocation } from 'react-router-dom';
-//import { useAppSelector } from '../../redux/store';
 import Auth from '../../middleware/storage';
 
 interface LocationState {

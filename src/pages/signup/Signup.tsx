@@ -8,7 +8,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { ThunkAppDispatch, RootState } from '../../redux/store';
+import { RootState } from '../../redux/store';
 
 type PayLoad = {
   status: boolean;
@@ -16,6 +16,7 @@ type PayLoad = {
 };
 
 const SignUp = () => {
+  const { isLoading } = useSelector((state: RootState) => state.loader);
   const dispatch = useAppThunkDispatch();
   const navigate = useNavigate();
   const [signedUp, setSignedUp] = useState(false);
@@ -46,29 +47,32 @@ const SignUp = () => {
     if (isAuthorized) {
       navigate('/profile');
     }
+    // eslint-disable-next-line
   }, [isAuthorized]);
 
   useEffect(() => {
-    const anony = async () => {
-      return await dispatch(
-        signInUser({
-          data: { email: signUpDetails.email, password: signUpDetails.password },
-          userType: selectValue,
-        }),
-      );
-    };
-    anony()
-      .then((res) => {
-        const payload = res.payload as PayLoad;
-        if (payload.status) {
-          toast.success(payload.message);
-        } else {
-          toast.error(payload.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (signedUp) {
+      const anony = async () => {
+        return await dispatch(
+          signInUser({
+            data: { email: signUpDetails.email, password: signUpDetails.password },
+            userType: selectValue,
+          }),
+        );
+      };
+      anony()
+        .then((res) => {
+          const payload = res.payload as PayLoad;
+          if (payload.status) {
+            toast.success(payload.message);
+          } else {
+            toast.error(payload.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [signedUp]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -138,7 +142,11 @@ const SignUp = () => {
               onChange={handleSelect}
             />
             <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-              <ButtonAction name="Sign up" type="submit" />
+              {isLoading ? (
+                <ButtonAction name="Sign up" type="submit" disabled loading />
+              ) : (
+                <ButtonAction name="Sign up" type="submit" />
+              )}
             </div>
             <div className="mt-6 text-center">
               <a href={paths.SIGNIN} className="underline font-bold">

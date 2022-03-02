@@ -6,9 +6,6 @@
   background-position: top top;
   background-size: cover;
   margin: 0;
-
-  background-image: url(https://mysuperevent.com/wp-content/uploads/2016/08/LiveEvents01.jpg)
-    no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -22,7 +19,6 @@
   right: 0;
   bottom: 0;
   text-align: center;
-  /* background: rgb(49, 49, 177); */
   background: linear-gradient(
     0deg,
     rgba(49, 49, 177, 1) 0%,
@@ -37,9 +33,9 @@
 .col-4 {
   width: 25%;
   float: left;
-} */
+}
 
- .title {
+.title {
   font-size: 38px;
   text-transform: uppercase;
   line-height: 1;

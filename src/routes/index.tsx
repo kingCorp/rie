@@ -19,6 +19,8 @@ import CreateTicket from '../pages/createTicket/CreateTicket';
 import EventPreview from '../pages/eventpreview/EventPreview';
 import ProtectedRoutes from './ProtectedRoutes';
 import Events from '../pages/events/events';
+import EditEvent from '../pages/editEvent/EditEvent';
+import EditTicket from '../pages/editTicket/EditTicket';
 
 const AppRoutes = () => {
   return (
@@ -32,9 +34,7 @@ const AppRoutes = () => {
           <Route path={paths.SELLING} element={<Selling />} />
           <Route path={paths.EVENTS} element={<Events />} />
           <Route path={paths.UPCOMING} element={<Upcoming />} />
-          <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
 
-          <Route path={paths.ADD_TICKET} element={<CreateTicket />} />
           <Route path={paths.PREVIEW_EVENT} element={<EventPreview />} />
           <Route
             path={paths.ABOUT}
@@ -44,6 +44,10 @@ const AppRoutes = () => {
           <Route element={<ProtectedRoutes />}>
             <Route path={paths.PROFILE} element={<Profile />} />
             <Route path={paths.CREATE_EVENT} element={<CreateEvent />} />
+            <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
+            <Route path={paths.ADD_TICKET} element={<CreateTicket />} />
+            <Route path={paths.EVENT_EDIT} element={<EditEvent />} />
+            <Route path={paths.TICKET_EDIT} element={<EditTicket />} />
           </Route>
 
           <Route path={paths.ERROR} element={<ErrorPage />} />

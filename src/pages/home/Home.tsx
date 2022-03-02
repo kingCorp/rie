@@ -11,6 +11,7 @@ import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvents } from '../../redux/actions/events';
 import moment from 'moment';
 import Auth from '../../middleware/storage';
+import { Loader } from '../../components/shared/Common';
 
 export interface EventProps {
   commission_percentage: number;
@@ -32,12 +33,14 @@ export interface EventProps {
   total_amount_sold: number;
   updated_at: string;
   venue: string;
+  _id: string;
 }
 
 export default function Home() {
   const [eventsData, setEventsData] = useState([] as Array<EventProps>);
 
   const { events } = useAppSelector((state) => state.events);
+  const { isLoading } = useAppSelector((state) => state.loader);
   useEffect(() => {
     setEventsData(events.slice(0, 8));
   }, [events]);
@@ -134,20 +137,26 @@ export default function Home() {
         <h2 className="text-4xl font-extrabold text-white" id="#selling">
           Events
         </h2>
-        <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-          {(eventsData || []).map((show, index) => {
-            return (
-              <CardEvent
-                title={show.title}
-                img={show.image}
-                date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-                price={0}
-                key={index}
-                href={`/preview/${index}`}
-              />
-            );
-          })}
-        </section>
+
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+            {(eventsData || []).map((show, index) => {
+              return (
+                <CardEvent
+                  title={show.title}
+                  img={show.image}
+                  date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                  price={0}
+                  key={index}
+                  href={`/preview/${show._id}`}
+                />
+              );
+            })}
+          </section>
+        )}
+
         <div className="w-full flex justify-center pt-10">
           <Link
             to={paths.EVENTS}
