@@ -95,8 +95,9 @@ export const Navbar = () => {
                   <div className='user-modal cursor-pointer'>
                   
 
-                  <Link to={paths.PROFILE} state={{from: "ticket"}}><div className='pop-list pop-list-top'>My Tickets</div></Link>  
-                  {Auth?.getRole() === "organizer"  && <Link to={paths.PROFILE} state={{from: "myevent"}}><div className='pop-list'>My Events</div></Link>} 
+                   
+                  {Auth?.getRole() === "organizer"  && <Link to={paths.PROFILE} state={{from: "myevent"}}><div className='pop-list  pop-list-top'>My Events</div></Link>} 
+                  <Link to={paths.PROFILE} state={{from: "ticket"}}><div className={`pop-list ${Auth?.getRole() === "user"? 'pop-list-top': "" }`}>My Tickets</div></Link>
                   <Link to={paths.PROFILE} state={{from: "booked"}}><div className='pop-list '>Booked Events</div></Link>  
                   <Link to={paths.PROFILE} state={{from: "timeline"}}><div className='pop-list'>Timeline</div></Link>  
                     <div className='pop-list pop-list-bottom' onClick={(e)=>{Logout(e)}}>Sign Out</div>

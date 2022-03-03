@@ -25,6 +25,9 @@ const Api = {
       ApiHandler.put(`/organizer/show/edit/${showId}`, data),
     editTicket: (id: string, data: object) => ApiHandler.put(`/organizer/ticket/edit/${id}`, data),
   },
+  places: {
+    searchPlaces: (key: string, input: string) => ApiHandler.getplaces(`key=${key}&input=${input}`),
+  },
 };
 
 export default Api;

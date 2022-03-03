@@ -45,7 +45,7 @@ const AppRoutes = () => {
             <Route path={paths.PROFILE} element={<Profile />} />
             <Route path={paths.CREATE_EVENT} element={<CreateEvent />} />
             <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
-            <Route path={paths.ADD_TICKET} element={<CreateTicket />} />
+            {/* <Route path={paths.ADD_TICKET} element={<CreateTicket />} /> */}
             <Route path={paths.EVENT_EDIT} element={<EditEvent />} />
             <Route path={paths.TICKET_EDIT} element={<EditTicket />} />
           </Route>

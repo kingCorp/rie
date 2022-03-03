@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField, CheckField } from '../../components/shared/Common';
 import { createEvent } from '../../redux/actions/events';
@@ -7,12 +7,14 @@ import { toast, ToastContainer } from 'react-toastify';
 import { handleFileUpload } from '../../redux/actions/events';
 import { useAppSelector } from '../../redux/store';
 import imgbg from '../../assets/img/imgbg.png';
+import SearchLocationInput from '../../components/shared/Common/SearchLocationInput';
 
 type PayLoad = {
   status: boolean;
   message: string;
 };
 const CreateEvent = () => {
+  let fileRef: HTMLInputElement | null;
   const dispatch = useAppThunkDispatch();
   const [file, setFile] = useState({
     state: false,
@@ -114,7 +116,11 @@ const CreateEvent = () => {
         console.error(err);
       });
   };
-
+  const clickImage = () => {
+    console.log('clicked');
+    // document.getElementById('#image')?.click();
+    fileRef?.click();
+  };
   return (
     <MainLayout>
       <ToastContainer />
@@ -142,6 +148,7 @@ const CreateEvent = () => {
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
+            <SearchLocationInput />
             <InputField
               name="start_date"
               label="Start Date"
@@ -183,12 +190,19 @@ const CreateEvent = () => {
               }
             />
 
-            <InputField
-              name="image"
-              label="Event Art"
-              type="file"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImage(e)}
-            />
+            <div className="mb-4">
+              <label className="block mb-1" htmlFor={'image'}>
+                Event Art
+              </label>
+              <input
+                required
+                name="image"
+                type={'file'}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImage(e)}
+                ref={(input) => (fileRef = input)}
+                className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
+              />
+            </div>
 
             {/* <input type="" /> */}
             <div className="mt-6 text-center"></div>
@@ -199,7 +213,12 @@ const CreateEvent = () => {
             )}
           </form>
         </div>
-        <div className="w-full items-center p-10">
+        <div
+          className="w-full items-center p-10 cursor-pointer"
+          onClick={() => {
+            clickImage();
+          }}
+        >
           <div className="border-2 border-gray-100 rounded-xl overflow-hidden">
             <img src={previewImage} className="w-full h-full object-cover " />
           </div>

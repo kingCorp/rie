@@ -34,6 +34,7 @@
     "react-google-places-autocomplete": "^3.3.4",
     "react-loader-spinner": "^6.0.0-0",
     "react-paystack": "^3.0.5",
+    "react-places-autocomplete": "^7.3.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
@@ -72,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-places-autocomplete": "^7.2.9",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "autoprefixer": "^10.4.2",

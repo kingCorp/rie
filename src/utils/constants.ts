@@ -21,3 +21,4 @@ const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
 export const BASE_URL = ' https://rie-ticket.herokuapp.com/api/v1';
 export const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${cloudName as string}/upload`;
 export const GOOOGLE_AUTOCOMPLETE_API_KEY = process.env.REACT_APP_GOOOGLE_AUTOCOMPLETE_API_KEY;
+export const GOOGLEAPIS = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';

@@ -1,37 +1,47 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import Api from '../../../services/apis';
+import { GOOOGLE_AUTOCOMPLETE_API_KEY } from '../../../utils/constants';
 
+interface PlacesResponse {
+  predictions: [];
+  status: string;
+}
 export default function SearchLocationInput() {
-  const [query, setQuery] = useState('');
-  const autoCompleteRef = useRef(null);
+  const [address, setAddress] = useState('');
+
+  const autocompletePlaces = async (input: string) => {
+    try {
+      const result = await Api.places.searchPlaces(GOOOGLE_AUTOCOMPLETE_API_KEY as string, input);
+      const data = result.json();
+      return console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress(e.target.value);
+    await autocompletePlaces(e.target.value)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
-    <div className="search-location-input">
+    <div>
       <input
-        ref={autoCompleteRef}
-        onChange={(event) => setQuery(event.target.value)}
-        placeholder="Enter a City"
-        value={query}
+        type="text"
+        value={address}
+        onChange={(e) => {
+          handleChange(e)
+            .then((res) => {})
+            .catch(() => {});
+        }}
       />
     </div>
   );
 }
-
-const GOOGLEAPIS = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
-const APIKEY = '';
-
-export const autocompletePlaces = async (input: string) => {
-  // let requestUrl = GOOGLEAPIS + 'input=' + input + '&key=' + APIKEY + '&components=' + REGION;
-  let requestUrl = GOOGLEAPIS + '&key=' + APIKEY + '&input=' + input;
-  console.log(requestUrl);
-  try {
-    const result = await axios({
-      method: 'get',
-      url: requestUrl,
-      timeout: 60 * 2 * 1000,
-    });
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
-};
