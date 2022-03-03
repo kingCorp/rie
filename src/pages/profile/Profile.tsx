@@ -13,11 +13,13 @@ interface LocationState {
 
 const Profile = () => {
   const location = useLocation();
-  const { from } = (location.state as LocationState) || { from: 'ticket' };
+  const { from } = (location.state as LocationState) || {
+    from: Auth?.getRole() === 'organizer' ? 'myevent' : 'ticket',
+  };
 
   //const { auth } = useAppSelector((state) => state);
 
-  const [active, setActive] = useState('ticket');
+  const [active, setActive] = useState(Auth?.getRole() === 'organizer' ? 'myevent' : 'ticket');
 
   const makeActive = (tab: string) => {
     setActive(tab);
@@ -71,7 +73,7 @@ const Profile = () => {
         </div>
       )}
       {active == 'ticket' && (
-        <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
+        <div className="">
           <Tickets />
         </div>
       )}

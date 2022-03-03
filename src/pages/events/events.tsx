@@ -7,6 +7,7 @@ import { useState } from 'react';
 import moment from 'moment';
 import { getEvents } from '../../redux/actions/events';
 import { Loader } from '../../components/shared/Common';
+import MainLayout from '../../components/MainLayout';
 
 interface EventProps {
   commission_percentage: number;
@@ -58,31 +59,31 @@ const Events = () => {
 
   return (
     <div>
-      <Navbar />
-      <section className="bg-white p-1 lg:px-10 lg:py-10">
-        <h2 className="text-4xl font-extrabold py-10" id="#selling">
-          Events
-        </h2>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-            {(eventsData || []).map((show, index) => {
-              return (
-                <CardEvent
-                  title={show.title}
-                  img={show.image}
-                  date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-                  price={0}
-                  key={index}
-                  href={`/preview/${show._id}`}
-                />
-              );
-            })}
-          </section>
-        )}
-      </section>
-      <Footer />
+      <MainLayout>
+        <section className="bg-white p-1 lg:px-10 lg:py-10">
+          <h2 className="text-4xl font-extrabold py-10" id="#selling">
+            Events
+          </h2>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+              {(eventsData || []).map((show, index) => {
+                return (
+                  <CardEvent
+                    title={show.title}
+                    img={show.image}
+                    date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                    price={0}
+                    key={index}
+                    href={`/preview/${show._id}`}
+                  />
+                );
+              })}
+            </section>
+          )}
+        </section>
+      </MainLayout>
     </div>
   );
 };

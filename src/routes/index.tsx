@@ -21,6 +21,10 @@ import ProtectedRoutes from './ProtectedRoutes';
 import Events from '../pages/events/events';
 import EditEvent from '../pages/editEvent/EditEvent';
 import EditTicket from '../pages/editTicket/EditTicket';
+import SigninAdmin from '../pages/admin/signinadmin/SigninAdmin';
+import Dashboard from '../pages/admin/dashboard/Dashboard';
+import AdminUsers from '../pages/admin/users/Users';
+import AdminEvents from '../pages/admin/events/Events';
 
 const AppRoutes = () => {
   return (
@@ -34,6 +38,10 @@ const AppRoutes = () => {
           <Route path={paths.SELLING} element={<Selling />} />
           <Route path={paths.EVENTS} element={<Events />} />
           <Route path={paths.UPCOMING} element={<Upcoming />} />
+          <Route path={paths.ADMIN} element={<SigninAdmin />} />
+          <Route path={paths.DASHBOARD} element={<Dashboard />} />
+          <Route path={paths.ADMIN_EVENTS} element={<AdminEvents />} />
+          <Route path={paths.ADMIN_USERS} element={<AdminUsers />} />
 
           <Route path={paths.PREVIEW_EVENT} element={<EventPreview />} />
           <Route
@@ -45,7 +53,7 @@ const AppRoutes = () => {
             <Route path={paths.PROFILE} element={<Profile />} />
             <Route path={paths.CREATE_EVENT} element={<CreateEvent />} />
             <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
-            <Route path={paths.ADD_TICKET} element={<CreateTicket />} />
+            {/* <Route path={paths.ADD_TICKET} element={<CreateTicket />} /> */}
             <Route path={paths.EVENT_EDIT} element={<EditEvent />} />
             <Route path={paths.TICKET_EDIT} element={<EditTicket />} />
           </Route>
