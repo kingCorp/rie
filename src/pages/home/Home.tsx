@@ -12,6 +12,7 @@ import { getEvents } from '../../redux/actions/events';
 import moment from 'moment';
 import Auth from '../../middleware/storage';
 import { Loader } from '../../components/shared/Common';
+import Featured from '../../components/shared/Feature';
 
 export interface EventProps {
   commission_percentage: number;
@@ -195,6 +196,7 @@ export default function Home() {
           </a>
         </div>
       </section> */}
+      <Featured />
     </MainLayout>
   );
 }

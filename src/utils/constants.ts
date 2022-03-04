@@ -18,6 +18,7 @@ export const paths = {
   ADD_TICKET: '/add/ticket/:showId',
   PREVIEW_EVENT: '/preview/:id',
   PROFILE: '/profile',
+  FORGOT_PASSWORD: '/forgot-password',
   ERROR: '*',
 };
 const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;

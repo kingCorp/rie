@@ -1,7 +1,5 @@
-import React, { useRef, useState } from 'react';
-import MainLayout from '../../components/MainLayout';
+import React, { useState } from 'react';
 import { ButtonAction, InputField } from '../../components/shared/Common';
-import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { createTicket } from '../../redux/actions/events';
 import { toast, ToastContainer } from 'react-toastify';

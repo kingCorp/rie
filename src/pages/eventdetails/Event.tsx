@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import MainLayout from '../../components/MainLayout';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { useState, useEffect } from 'react';
 import { getEvent, getTickets } from '../../redux/actions/events';
@@ -80,6 +79,7 @@ const Event = () => {
       .catch((err) => {
         console.error(err);
       });
+    // eslint-disable-next-line
   }, [eventData]);
 
   const dispatch = useAppThunkDispatch();
