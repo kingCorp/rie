@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { paths } from '../utils/constants';
 
 //pages
 import ErrorPage from '../pages/error/ErrorPage';
 import Home from '../pages/home/Home';
 import About from '../pages/about/About';
-import Auth from '../middleware/storage';
 import Signin from '../pages/signin/Signin';
 import SignUp from '../pages/signup/Signup';
 import Selling from '../pages/selling/Selling';
@@ -15,7 +14,6 @@ import EventDetails from '../pages/eventdetails/EventDetails';
 import ComingSoon from '../pages/comingsoon/ComingSoon';
 import Profile from '../pages/profile/Profile';
 import CreateEvent from '../pages/createEvent/CreateEvent';
-import CreateTicket from '../pages/createTicket/CreateTicket';
 import EventPreview from '../pages/eventpreview/EventPreview';
 import ProtectedRoutes from './ProtectedRoutes';
 import Events from '../pages/events/events';
@@ -33,6 +31,7 @@ const AppRoutes = () => {
         <Routes>
           <Route path={paths.COMING} element={<ComingSoon />} />
           <Route path={paths.HOME} element={<Home />} />
+          <Route path={paths.ABOUT} element={<About />} />
           <Route path={paths.SIGNIN} element={<Signin />} />
           <Route path={paths.SIGNUP} element={<SignUp />} />
           <Route path={paths.SELLING} element={<Selling />} />
@@ -42,12 +41,7 @@ const AppRoutes = () => {
           <Route path={paths.DASHBOARD} element={<Dashboard />} />
           <Route path={paths.ADMIN_EVENTS} element={<AdminEvents />} />
           <Route path={paths.ADMIN_USERS} element={<AdminUsers />} />
-
           <Route path={paths.PREVIEW_EVENT} element={<EventPreview />} />
-          <Route
-            path={paths.ABOUT}
-            element={!Auth.isAuthenticated() ? <About /> : <Navigate to={paths.ERROR} />}
-          />
 
           <Route element={<ProtectedRoutes />}>
             <Route path={paths.PROFILE} element={<Profile />} />
