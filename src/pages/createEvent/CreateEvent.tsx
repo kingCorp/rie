@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField, CheckField } from '../../components/shared/Common';
 import { createEvent } from '../../redux/actions/events';

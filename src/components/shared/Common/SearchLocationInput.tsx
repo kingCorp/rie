@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Api from '../../../services/apis';
 import { GOOOGLE_AUTOCOMPLETE_API_KEY } from '../../../utils/constants';
 
-interface PlacesResponse {
-  predictions: [];
-  status: string;
-}
+// interface PlacesResponse {
+//   predictions: [];
+//   status: string;
+// }
 export default function SearchLocationInput() {
   const [address, setAddress] = useState('');
 
@@ -38,7 +37,7 @@ export default function SearchLocationInput() {
         value={address}
         onChange={(e) => {
           handleChange(e)
-            .then((res) => {})
+            .then(() => {})
             .catch(() => {});
         }}
       />

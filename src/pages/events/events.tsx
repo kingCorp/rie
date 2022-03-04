@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import CardEvent from '../../components/CardEvent';
-import { Footer } from '../../components/shared/Footer';
-import { Navbar } from '../../components/shared/Navbars';
+// import { Footer } from '../../components/shared/Footer';
+// import { Navbar } from '../../components/shared/Navbars';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { useState } from 'react';
 import moment from 'moment';
