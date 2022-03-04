@@ -111,7 +111,7 @@ const Signin = () => {
                 Remember me{' '}
               </label>
             </div>
-            <a href="#" className="text-sm">
+            <a href={paths.FORGOT_PASSWORD} className="text-sm">
               {' '}
               Forgot your password?{' '}
             </a>

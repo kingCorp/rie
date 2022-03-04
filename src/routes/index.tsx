@@ -23,6 +23,7 @@ import SigninAdmin from '../pages/admin/signinadmin/SigninAdmin';
 import Dashboard from '../pages/admin/dashboard/Dashboard';
 import AdminUsers from '../pages/admin/users/Users';
 import AdminEvents from '../pages/admin/events/Events';
+import ForgotPassword from '../pages/forgotpassword/ForgotPassword';
 
 const AppRoutes = () => {
   return (
@@ -42,6 +43,7 @@ const AppRoutes = () => {
           <Route path={paths.ADMIN_EVENTS} element={<AdminEvents />} />
           <Route path={paths.ADMIN_USERS} element={<AdminUsers />} />
           <Route path={paths.PREVIEW_EVENT} element={<EventPreview />} />
+          <Route path={paths.FORGOT_PASSWORD} element={<ForgotPassword />} />
 
           <Route element={<ProtectedRoutes />}>
             <Route path={paths.PROFILE} element={<Profile />} />
