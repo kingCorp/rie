@@ -9,6 +9,7 @@ import { ButtonAction, Loader } from '../../components/shared/Common';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import CreateTicket from '../createTicket/CreateTicket';
+import EditTicket from '../editTicket/EditTicket';
 
 interface EventProps {
   commission_percentage: number;
@@ -56,6 +57,10 @@ const Event = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [openEdit, setOpenEdit] = useState(false);
+  const handleOpenEdit = () => setOpenEdit(true);
+  const handleCloseEdit = () => setOpenEdit(false);
+
   useEffect(() => {
     setEventData(event as EventProps);
   }, [event]);
@@ -96,11 +101,12 @@ const Event = () => {
   return (
     <div>
       <CreateTicket handleClose={handleClose} showId={eventData._id} open={open} />
+
       {isLoading ? (
         <Loader />
       ) : (
         <div className="bg-gray-100">
-          <div className="lg:grid  lg:grid-cols-12 gap-x-10 px-20  pt-10">
+          <div className="lg:grid  lg:grid-cols-12 gap-x-10 px-10 md:px-20  pt-10">
             <div className=" lg:col-span-8 w-full font-rubik py-5">
               <div className="px-3 flex flex-col md:flex-row md:items-center">
                 <h2 className="font-bold text-2xl mr-8">{eventData.title}</h2>
@@ -112,6 +118,7 @@ const Event = () => {
                 </span>
                 <span className="">{eventData.venue}</span>
               </div>
+
               <div className="mt-4">
                 <div className="relative">
                   <div
@@ -167,20 +174,20 @@ const Event = () => {
                               ).format('LT')}
                             </p>
                           </div>
-                          <Link
-                            to={`/ticket/edit/${ticket._id}`}
-                            state={{
-                              ticket: {
-                                title: ticket.title,
-                                price: ticket.price,
-                                capacity: ticket.capacity,
-                              },
+                          <EditTicket
+                            handleClose={handleCloseEdit}
+                            open={openEdit}
+                            ticket={ticket}
+                          />
+
+                          <div
+                            className="cursor-pointer px-4 "
+                            onClick={() => {
+                              handleOpenEdit();
                             }}
                           >
-                            <div className="cursor-pointer px-4 ">
-                              <img src={penedit} alt="pendit" className="w-5" />
-                            </div>
-                          </Link>
+                            <img src={penedit} alt="pendit" className="w-5" />
+                          </div>
                         </div>
                       );
                     })

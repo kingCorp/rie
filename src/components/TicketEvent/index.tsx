@@ -12,7 +12,7 @@ import './index.css';
 export default function TicketEvent() {
   return (
     <div className="w-full">
-      <div className="rounded-2xl h-40 w-1/2 m-auto mb-10 relative uppercase overflow-hidden  font-rubik pl-8 py-4 back-img text-white bg-gradient-to-r from-red-600 to-gray-600">
+      <div className="rounded-2xl h-40 w-5/6 md:w-3/4 lg:w-3/5 m-auto mb-10 relative uppercase overflow-hidden  font-rubik pl-8 py-4 back-img text-white bg-gradient-to-r from-red-600 to-gray-600">
         <div className="h-4 w-8 bg-gray-100 absolute top-0 right-1/4 rounded-b-full"></div>
         <div className="h-4 w-8 bg-gray-100 absolute bottom-0 right-1/4 rounded-t-full"></div>
 
@@ -35,7 +35,7 @@ export default function TicketEvent() {
         </div>
         <div className="design-box h-full absolute right-0 top-0">
           <div className="relative w-full h-full">
-            <div className=" absolute right-0 top-0 text-center rotate-box pt-3 mr-2">
+            <div className=" absolute hidden md:block right-0 top-0 text-center rotate-box pt-3 mr-2">
               {' '}
               <div>
                 <p className="font-bold text-lg">talk WIth Oge</p>
