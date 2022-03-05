@@ -21,8 +21,8 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
   const { isLoading } = useAppSelector((state) => state.loader);
   const [ticketData, setTicketData] = useState({
     title: '',
-    price: 0,
-    capacity: 0,
+    price: '',
+    capacity: '',
   });
   // const [open, setOpen] = useState(false);
 
@@ -59,8 +59,8 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
 
           setTicketData({
             title: '',
-            price: 0,
-            capacity: 0,
+            price: '',
+            capacity: '',
           });
         } else {
           console.log('error', payload);

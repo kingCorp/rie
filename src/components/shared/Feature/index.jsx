@@ -8,10 +8,10 @@ const Featured = () => {
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             Why Choose Us
           </p>
-          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          {/* <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
             Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum
             cupiditate veritatis in accusamus quisquam.
-          </p>
+          </p> */}
         </div>
 
         <div className="mt-10">
@@ -36,12 +36,11 @@ const Featured = () => {
                   </svg>
                 </div>
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
-                  Competitive exchange rates
+                  Total control event
                 </p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit
-                perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+                You will have total control over your event from start to finish
               </dd>
             </div>
 
@@ -67,8 +66,7 @@ const Featured = () => {
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900">No hidden fees</p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit
-                perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+                Transparency is all we are above and there are no hidden charges
               </dd>
             </div>
 
@@ -96,8 +94,7 @@ const Featured = () => {
                 </p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit
-                perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+                Immediately after your event you will can request for a transfer.
               </dd>
             </div>
 
@@ -120,13 +117,10 @@ const Featured = () => {
                     />
                   </svg>
                 </div>
-                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
-                  Mobile notifications
-                </p>
+                <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Notifications</p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit
-                perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.
+                Instant notifications at all time.
               </dd>
             </div>
           </dl>
