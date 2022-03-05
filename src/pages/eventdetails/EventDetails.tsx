@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import MainLayout from '../../components/MainLayout';
 import { TabButtonAction } from '../../components/shared/Common';
 import Event from './Event';
