@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppSelector, useAppThunkDispatch } from '../../../redux/store';
-import { getUsers } from '../../../redux/actions/admin';
+import { getOrganizers } from '../../../redux/actions/admin';
 import { Loader } from '../../../components/shared/Common';
 
 interface User {
@@ -21,18 +21,18 @@ interface User {
   updated_at: string;
 }
 
-const AdminUsers = () => {
+const AdminOrganizers = () => {
   const dispatch = useAppThunkDispatch();
-  const { users } = useAppSelector((state) => state.admin);
+  const { organizers } = useAppSelector((state) => state.admin);
   const { isLoading } = useAppSelector((state) => state.loader);
 
   const [userRows, setUserRows] = useState([] as Array<User>);
   useEffect(() => {
-    setUserRows(users);
-  }, [users]);
+    setUserRows(organizers);
+  }, [organizers]);
   useEffect(() => {
     const anony = async () => {
-      return (await dispatch(getUsers({}))) as unknown;
+      return (await dispatch(getOrganizers({}))) as unknown;
     };
     anony()
       .then((ress) => {
@@ -89,4 +89,4 @@ const AdminUsers = () => {
   );
 };
 
-export default AdminUsers;
+export default AdminOrganizers;

@@ -219,8 +219,8 @@ const CreateEvent = () => {
             clickImage();
           }}
         >
-          <div className="border-2 border-gray-100 rounded-xl overflow-hidden">
-            <img src={previewImage} className="w-full h-full object-cover " />
+          <div className="border-2 border-gray-100 max-h-full min-h-full rounded-xl overflow-hidden">
+            <img src={previewImage} className="w-full max-h-full min-h-full object-cover " />
           </div>
         </div>
       </div>

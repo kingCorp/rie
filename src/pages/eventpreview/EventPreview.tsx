@@ -169,9 +169,9 @@ const EventPreview = () => {
                   </div>
                 </div>
               </div>
-              <div className="lg:col-span-4 w-full p-5">
-                <div className="rounded-xl overflow-hidden">
-                  <img src={eventData.image} alt="gaming" className="w-full object-cover " />
+              <div className="lg:col-span-4 w-full h-96 p-5">
+                <div className="rounded-xl h-full overflow-hidden">
+                  <img src={eventData.image} alt="gaming" className="w-full h-full object-cover " />
                 </div>
               </div>
             </div>

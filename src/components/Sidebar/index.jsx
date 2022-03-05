@@ -1,9 +1,20 @@
+/* eslint-disable */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import rt from '../../assets/img/rieicon.png';
+import { clearState } from '../../redux/reducers/adminSlice';
 import { paths } from '../../utils/constants';
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const Logout = async (e) => {
+    console.log('logout');
+    await dispatch(clearState());
+    localStorage.clear();
+    navigate(paths.ADMIN);
+  };
   return (
     <aside className="w-80 h-screen" aria-label="Sidebar">
       <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-900">
@@ -13,9 +24,9 @@ const Sidebar = () => {
         </Link>
         <ul className="space-y-2">
           <li>
-            <a
-              href={paths.DASHBOARD}
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            <Link
+              to={paths.DASHBOARD}
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <svg
                 className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -27,12 +38,12 @@ const Sidebar = () => {
                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
               </svg>
               <span className="ml-3">Dashboard</span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href={paths.ADMIN_EVENTS}
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            <Link
+              to={paths.ADMIN_EVENTS}
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -46,7 +57,7 @@ const Sidebar = () => {
               {/* <span className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
                 Pro
               </span> */}
-            </a>
+            </Link>
           </li>
           {/* <li>
             <a
@@ -69,9 +80,9 @@ const Sidebar = () => {
             </a>
           </li> */}
           <li>
-            <a
-              href={paths.ADMIN_USERS}
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            <Link
+              to={paths.ADMIN_USERS}
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-700"
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -86,6 +97,51 @@ const Sidebar = () => {
                 ></path>
               </svg>
               <span className="flex-1 ml-3 whitespace-nowrap">Users</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={paths.ADMIN_ORGANIZERS}
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-700"
+            >
+              <svg
+                className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="flex-1 ml-3 whitespace-nowrap">Organizers</span>
+            </Link>
+          </li>
+
+          <li>
+            <a
+              onClick={() => {
+                Logout();
+              }}
+              className="flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              <span className="flex-1 ml-3 whitespace-nowrap">Log Out</span>
             </a>
           </li>
           {/* <li>

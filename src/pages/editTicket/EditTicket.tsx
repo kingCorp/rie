@@ -91,7 +91,7 @@ const EditTicket = ({ handleClose, open, ticket }: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="w-1/3 m-auto rounded-xl overflow-hidden mt-40">
+        <div className="w-4/5 md:w-1/3 m-auto rounded-xl overflow-hidden mt-40">
           <div className="text-center py-4 bg-gray-50 ">
             <h2 className="font-bold font-rubik text-2xl">Edit Ticket</h2>
           </div>

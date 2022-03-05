@@ -267,8 +267,8 @@ const EditEvent = () => {
           </form>
         </div>
         <div className="w-full items-center p-10">
-          <div className="border-2 border-gray-100 rounded-xl overflow-hidden">
-            <img src={previewImage} className="w-full h-full object-cover " />
+          <div className="border-2 border-gray-100 max-h-full min-h-full rounded-xl overflow-hidden">
+            <img src={previewImage} className="w-full max-h-full min-h-full h-full object-cover " />
           </div>
         </div>
       </div>

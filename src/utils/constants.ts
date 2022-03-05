@@ -5,6 +5,7 @@ export const paths = {
   ADMIN: '/admin',
   ADMIN_EVENTS: '/admin/events',
   ADMIN_USERS: '/admin/users',
+  ADMIN_ORGANIZERS: '/admin/organizers',
   DASHBOARD: '/dashboard',
   SIGNIN: '/signin',
   SIGNUP: '/signup',

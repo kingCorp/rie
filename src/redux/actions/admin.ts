@@ -1,7 +1,7 @@
 /* eslint/no-unsafe-member-access: 0 */ // --> OFF
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
-import { setAdmin, setIsAuthorized } from '../reducers/adminSlice';
+import { setAdmin, setOrganizers, setUsers } from '../reducers/adminSlice';
 import { setLoading } from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
@@ -52,3 +52,54 @@ export const signInAdmin = createAsyncThunk('admin/signin', async (userData: obj
     };
   }
 });
+
+interface Res {
+  data: [];
+}
+
+export const getUsers = createAsyncThunk('admin/getusers', async (userData: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    const response = await Api.admin.users();
+    const res = response.data as Res;
+    thunkAPI.dispatch(setUsers(res.data.reverse()));
+    thunkAPI.dispatch(setLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Events fetched successfully',
+    };
+  } catch (error) {
+    console.error(error);
+    thunkAPI.dispatch(setLoading(false));
+    return {
+      status: false,
+      message: 'Error in fetching events',
+    };
+  }
+});
+
+export const getOrganizers = createAsyncThunk(
+  'admin/getorganizers',
+  async (userData: object, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const response = await Api.admin.organizers();
+      const res = response.data as Res;
+      thunkAPI.dispatch(setOrganizers(res.data.reverse()));
+      thunkAPI.dispatch(setLoading(false));
+      console.log(response);
+      return {
+        status: true,
+        message: 'Events fetched successfully',
+      };
+    } catch (error) {
+      console.error(error);
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        message: 'Error in fetching events',
+      };
+    }
+  },
+);
