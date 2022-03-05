@@ -1,6 +1,7 @@
+/* eslint-disable */
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ButtonAction, Loader } from '../../components/shared/Common';
+import { useParams } from 'react-router-dom';
+import { Loader } from '../../components/shared/Common';
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvent, getTickets } from '../../redux/actions/events';
@@ -169,9 +170,9 @@ const EventPreview = () => {
                   </div>
                 </div>
               </div>
-              <div className="lg:col-span-4 w-full p-5">
-                <div className="rounded-xl overflow-hidden">
-                  <img src={eventData.image} alt="gaming" className="w-full object-cover " />
+              <div className="lg:col-span-4 w-full h-96 p-5">
+                <div className="rounded-xl h-full overflow-hidden">
+                  <img src={eventData.image} alt="gaming" className="w-full h-full object-cover " />
                 </div>
               </div>
             </div>

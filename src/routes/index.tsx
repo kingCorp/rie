@@ -22,6 +22,7 @@ import SigninAdmin from '../pages/admin/signinadmin/SigninAdmin';
 import Dashboard from '../pages/admin/dashboard/Dashboard';
 import AdminUsers from '../pages/admin/users/Users';
 import AdminEvents from '../pages/admin/events/Events';
+import AdminOrganizers from '../pages/admin/organizers/Organizers';
 
 const AppRoutes = () => {
   return (
@@ -46,7 +47,7 @@ const AppRoutes = () => {
             <Route path={paths.PROFILE} element={<Profile />} />
             <Route path={paths.CREATE_EVENT} element={<CreateEvent />} />
             <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
-            {/* <Route path={paths.ADD_TICKET} element={<CreateTicket />} /> */}
+
             <Route path={paths.EVENT_EDIT} element={<EditEvent />} />
             {/* <Route path={paths.TICKET_EDIT} element={<EditTicket />} /> */}
           </Route>
@@ -55,6 +56,7 @@ const AppRoutes = () => {
             <Route path={paths.DASHBOARD} element={<Dashboard />} />
             <Route path={paths.ADMIN_EVENTS} element={<AdminEvents />} />
             <Route path={paths.ADMIN_USERS} element={<AdminUsers />} />
+            <Route path={paths.ADMIN_ORGANIZERS} element={<AdminOrganizers />} />
           </Route>
 
           <Route path={paths.ERROR} element={<ErrorPage />} />

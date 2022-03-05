@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import MainLayout from '../../components/MainLayout';
+// import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField } from '../../components/shared/Common';
-import { useLocation, useParams } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { editTicket } from '../../redux/actions/events';
 import { toast, ToastContainer } from 'react-toastify';
@@ -11,13 +11,13 @@ type PayLoad = {
   status: boolean;
   message: string;
 };
-interface LocationState {
-  ticket: {
-    title: string;
-    price: number;
-    capacity: number;
-  };
-}
+// interface LocationState {
+//   ticket: {
+//     title: string;
+//     price: number;
+//     capacity: number;
+//   };
+// }
 interface Ticket {
   price: number;
   total_amount_purchased: number;
@@ -37,7 +37,7 @@ type Props = {
 };
 
 const EditTicket = ({ handleClose, open, ticket }: Props) => {
-  const location = useLocation();
+  // const location = useLocation();
   // const { ticket } = (location.state as LocationState) || { ticket: {} };
   const id = ticket._id;
   const dispatch = useAppThunkDispatch();
@@ -91,7 +91,7 @@ const EditTicket = ({ handleClose, open, ticket }: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="w-1/3 m-auto rounded-xl overflow-hidden mt-40">
+        <div className="w-4/5 md:w-1/3 m-auto rounded-xl overflow-hidden mt-40">
           <div className="text-center py-4 bg-gray-50 ">
             <h2 className="font-bold font-rubik text-2xl">Edit Ticket</h2>
           </div>

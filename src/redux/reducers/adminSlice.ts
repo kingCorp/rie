@@ -1,13 +1,14 @@
+/* eslint-disable */
 import { createSlice } from '@reduxjs/toolkit';
 import { signInAdmin } from '../actions/admin';
 
-type InitialState = {
-  admin: object;
-  isAuthorized: boolean;
-  users: [];
-  organizers: [];
-  showTickets: [];
-};
+// type InitialState = {
+//   admin: object;
+//   isAuthorized: boolean;
+//   users: [];
+//   organizers: [];
+//   showTickets: [];
+// };
 
 const initialState = {
   admin: {},

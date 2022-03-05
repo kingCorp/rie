@@ -1,6 +1,5 @@
 import React from 'react';
 import MainLayout from '../../components/MainLayout';
-import Featured from '../../components/shared/Feature';
 const About = () => {
   return (
     <MainLayout>
@@ -49,7 +48,6 @@ const About = () => {
           </li>
         </ul>
       </div>
-      <Featured />
     </MainLayout>
   );
 };

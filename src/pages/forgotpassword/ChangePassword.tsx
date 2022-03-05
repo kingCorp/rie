@@ -79,7 +79,7 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="w-1/3 bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg m-auto rounded-xl overflow-hidden mt-44">
+        <div className="w-4/5 md:w-1/3 bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg m-auto rounded-xl overflow-hidden mt-44">
           <div className="w-full sm:max-w-md p-5 mx-auto">
             <div className="flex justify-center py-10">
               <a href={paths.HOME}>

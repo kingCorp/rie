@@ -21,8 +21,8 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
   const { isLoading } = useAppSelector((state) => state.loader);
   const [ticketData, setTicketData] = useState({
     title: '',
-    price: 0,
-    capacity: 0,
+    price: '',
+    capacity: '',
   });
   // const [open, setOpen] = useState(false);
 
@@ -59,8 +59,8 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
 
           setTicketData({
             title: '',
-            price: 0,
-            capacity: 0,
+            price: '',
+            capacity: '',
           });
         } else {
           console.log('error', payload);
@@ -81,7 +81,7 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="w-1/3 m-auto rounded-xl overflow-hidden mt-40">
+        <div className="w-4/5 md:w-1/3 m-auto rounded-xl overflow-hidden mt-40">
           <div className="text-center py-4 bg-gray-50 ">
             <h2 className="font-bold font-rubik text-2xl">Create Ticket</h2>
           </div>

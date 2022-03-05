@@ -204,9 +204,13 @@ const Event = () => {
                 Add Ticket
               </div>
             </div>
-            <div className="lg:col-span-4 w-full p-5">
-              <div className="rounded-xl overflow-hidden">
-                <img src={eventData.image} alt="gaming" className="w-full object-cover " />
+            <div className="lg:col-span-4 w-full p-5 h-96">
+              <div className="rounded-xl max-h-full min-h-full overflow-hidden">
+                <img
+                  src={eventData.image}
+                  alt="gaming"
+                  className="w-full max-h-full min-h-full object-cover "
+                />
               </div>
             </div>
           </div>
