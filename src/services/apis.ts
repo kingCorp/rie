@@ -10,6 +10,10 @@ const Api = {
     resendToken: (data: object) => ApiHandler.post('/send_token', data),
     refreshToken: (data: object) => ApiHandler.post('/user/refresh-token', data),
     logout: (data: object) => ApiHandler.post('/user/logout', data),
+    sendResetTokenUser: (data: object) => ApiHandler.post('/user/send_token', data),
+    sendResetTokenOrganizer: (data: object) => ApiHandler.post('/organizer/send_token', data),
+    changePasswordUser: (data: object) => ApiHandler.post('/user/change_password', data),
+    changePasswordOrganizer: (data: object) => ApiHandler.post('/organizer/change_password', data),
   },
   user: {
     userDetails: () => ApiHandler.get('/user/getInfo'),
@@ -27,6 +31,16 @@ const Api = {
   },
   places: {
     searchPlaces: (key: string, input: string) => ApiHandler.getplaces(`key=${key}&input=${input}`),
+  },
+  admin: {
+    signIn: (data: object) => ApiHandler.post('/admin/login', data),
+    details: () => ApiHandler.get('/admin/details'),
+    users: () => ApiHandler.get('/admin/user/all'),
+    organizers: () => ApiHandler.get('/admin/organizer/all'),
+    showTickets: (showID: string) => ApiHandler.get(`/admin/show/tickets/${showID}`),
+    setCommission: (data: object) => ApiHandler.post('/admin/show/setCommission', data),
+    closeShow: (data: object) => ApiHandler.post('/admin/show/close', data),
+    showDelete: (showId: string) => ApiHandler.delete(`/admin/show/delete/${showId}`),
   },
 };
 
