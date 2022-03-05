@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { TailSpin } from 'react-loader-spinner';
+import eye from '../../../assets/img/eye.svg';
+import eyeOff from '../../../assets/img/eye-off.svg';
 
 type NavLinkDarkProps = { path: string; name: string };
 
@@ -25,6 +27,7 @@ type InputFieldProps = {
   value?: string | number | readonly string[] | undefined;
   placeholder?: string;
   checked?: boolean;
+  id?: string;
   onChange?: React.ChangeEventHandler;
 };
 
@@ -72,7 +75,7 @@ export const ButtonAction = ({ onClick, name, type, disabled, loading }: ButtonA
         disabled ? 'bg-gray-400 text-gray-300' : 'bg-red-600 hover:bg-gray-700'
       }`}
     >
-      {loading ? <TailSpin color="red" height={30} width={30} /> : name}
+      {loading ? <TailSpin color="red" height={20} width={20} /> : name}
     </button>
   );
 };
@@ -97,23 +100,42 @@ export const InputField = ({
   label,
   placeholder,
   value,
+  id,
   onChange,
 }: InputFieldProps) => {
+  const [typeState, setTypeState] = useState(type);
+  const handleType = () => {
+    if (typeState == 'password') {
+      setTypeState('text');
+    } else {
+      setTypeState('password');
+    }
+  };
   return (
-    <div className="mb-4">
+    <div className="mb-4 relative">
       <label className="block mb-1" htmlFor={name}>
         {label}
       </label>
       <input
         required
         onChange={onChange}
-        id={name}
-        type={type}
+        id={id ? id : name}
+        type={typeState}
         name={name}
         value={value}
         placeholder={placeholder}
         className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
       />
+      {type == 'password' && (
+        <div
+          className="absolute right-5 top-9 cursor-pointer"
+          onClick={() => {
+            handleType();
+          }}
+        >
+          <img className="w-6 " src={typeState == 'password' ? eye : eyeOff} alt="" />
+        </div>
+      )}
     </div>
   );
 };

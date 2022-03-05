@@ -103,6 +103,86 @@ type SignInRes = {
   token: string;
 };
 
+export const sendResetToken = createAsyncThunk(
+  'users/reset_token',
+  async (userData: AuthData, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+
+      if (userData.userType === 'user') {
+        const response = await Api.auth.sendResetTokenUser(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      } else {
+        const response = await Api.auth.sendResetTokenOrganizer(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: "Select if you're a show promoter, because this email doesn't exist",
+      };
+    }
+  },
+);
+
+export const changePassword = createAsyncThunk(
+  'users/change_password',
+  async (userData: AuthData, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+
+      if (userData.userType === 'user') {
+        const response = await Api.auth.changePasswordUser(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      } else {
+        const response = await Api.auth.changePasswordOrganizer(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: "Select if you're a show promoter, because this email doesn't exist",
+      };
+    }
+  },
+);
+
 export const signInUser = createAsyncThunk('users/signin', async (userData: AuthData, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));

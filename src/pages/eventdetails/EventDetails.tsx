@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MainLayout from '../../components/MainLayout';
+import Back from '../../components/shared/Back/Back';
 import { TabButtonAction } from '../../components/shared/Common';
 import Event from './Event';
 import EventSubscribers from './EventSubscribers';
@@ -14,6 +15,7 @@ const EventDetails = () => {
   return (
     <div>
       <MainLayout>
+        <Back />
         <ul className="pt-14 flex divide-x divide-gray-200 shadow sm:flex dark:divide-gray-700">
           <li className="w-full flex justify-center">
             <TabButtonAction

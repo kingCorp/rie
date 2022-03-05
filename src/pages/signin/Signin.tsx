@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 // import { AlertNote } from '../../components/shared/Common';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { ToastContainer, toast } from 'react-toastify';
+import ForgotPassword from '../forgotpassword/ForgotPassword';
 
 type PayLoad = {
   status: boolean;
@@ -23,6 +24,10 @@ const Signin = () => {
   const navigate = useNavigate();
   const { isAuthorized } = useSelector((state: RootState) => state.auth);
   const { isLoading } = useSelector((state: RootState) => state.loader);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (isAuthorized) {
@@ -71,6 +76,7 @@ const Signin = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
       <ToastContainer />
+      <ForgotPassword handleClose={handleClose} open={open} userType={selectValue} />
       <div className="w-full sm:max-w-md p-5 mx-auto">
         <div className="flex justify-center py-10">
           <a href={paths.HOME}>
@@ -111,7 +117,13 @@ const Signin = () => {
                 Remember me{' '}
               </label>
             </div>
-            <a href={paths.FORGOT_PASSWORD} className="text-sm">
+
+            <a
+              className="text-sm cursor-pointer"
+              onClick={(e) => {
+                handleOpen();
+              }}
+            >
               {' '}
               Forgot your password?{' '}
             </a>

@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 // import { AlertNote } from '../../components/shared/Common';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { signInAdmin } from '../../../redux/actions/admin';
 
 type PayLoad = {
   status: boolean;
@@ -21,22 +23,18 @@ type PayLoad = {
 const SigninAdmin = () => {
   const dispatch: ThunkAppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthorized } = useSelector((state: RootState) => state.auth);
+  const { isAuthorized } = useSelector((state: RootState) => state.admin);
   const { isLoading } = useSelector((state: RootState) => state.loader);
 
   useEffect(() => {
     if (isAuthorized) {
-      navigate('/profile');
+      navigate('/dashboard');
     }
   }, [isAuthorized]);
   const [loginDetails, setLoginDetails] = useState({
     email: '',
     password: '',
   });
-  const [selectValue, setSelectValue] = useState('user');
-  const handleSelect = (e: SelectChangeEvent) => {
-    setSelectValue(e.target.value as string);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,7 +50,7 @@ const SigninAdmin = () => {
       toast('Kindly fill all fields');
       return;
     }
-    await dispatch(signInUser({ data: loginDetails, userType: selectValue }))
+    await dispatch(signInAdmin(loginDetails))
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
@@ -71,15 +69,16 @@ const SigninAdmin = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
       <ToastContainer />
-      <div className="w-full sm:max-w-md p-5 mx-auto"> 
+      <div className="text-3xl font-rubik font-bold">Admin Sign In</div>
+      <div className="w-full sm:max-w-md p-5 mx-auto">
         <div className="flex justify-center py-10">
-          <a href={paths.HOME}>
+          <Link to={paths.HOME}>
             <img
               src={rt}
               alt="logo"
               className="h-10 object-cover sm:h-12 md:h-16 lg:w-100 lg:h-100"
             />
-          </a>
+          </Link>
         </div>
         <form onSubmit={handleSubmit}>
           <InputField
@@ -94,11 +93,7 @@ const SigninAdmin = () => {
             type="password"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
           />
-          {/* <SelectField
-            label="Are you a show promoter?"
-            value={selectValue}
-            onChange={handleSelect}
-          /> */}
+
           <div className="mt-6 flex items-center justify-between">
             <div className="flex items-center">
               <input
@@ -111,10 +106,6 @@ const SigninAdmin = () => {
                 Remember me{' '}
               </label>
             </div>
-            {/* <a href="#" className="text-sm">
-              {' '}
-              Forgot your password?{' '}
-            </a> */}
           </div>
           <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
             {isLoading ? (
@@ -123,12 +114,6 @@ const SigninAdmin = () => {
               <ButtonAction name="Sign in" type="submit" />
             )}
           </div>
-          {/* <div className="mt-6 text-left">
-            <span>Dont have an account ? </span>
-            <a href={paths.SIGNUP} className="underline font-bold">
-              Sign up
-            </a>
-          </div> */}
         </form>
       </div>
     </div>
