@@ -1,6 +1,7 @@
+/* eslint-disable */
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ButtonAction, Loader } from '../../components/shared/Common';
+import { useParams } from 'react-router-dom';
+import { Loader } from '../../components/shared/Common';
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvent, getTickets } from '../../redux/actions/events';

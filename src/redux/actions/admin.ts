@@ -1,7 +1,7 @@
 /* eslint/no-unsafe-member-access: 0 */ // --> OFF
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
-import { setAdmin, setIsAuthorized } from '../reducers/adminSlice';
+import { setAdmin } from '../reducers/adminSlice';
 import { setLoading } from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
