@@ -51,7 +51,7 @@ const AppRoutes = () => {
             <Route path={paths.EVENT_DETAIL} element={<EventDetails />} />
             {/* <Route path={paths.ADD_TICKET} element={<CreateTicket />} /> */}
             <Route path={paths.EVENT_EDIT} element={<EditEvent />} />
-            <Route path={paths.TICKET_EDIT} element={<EditTicket />} />
+            {/* <Route path={paths.TICKET_EDIT} element={<EditTicket />} /> */}
           </Route>
 
           <Route path={paths.ERROR} element={<ErrorPage />} />
