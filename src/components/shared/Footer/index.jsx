@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { paths } from '../../../utils/constants';
 export const Footer = () => {
   const year = new Date();
   return (
@@ -10,14 +12,9 @@ export const Footer = () => {
               <h3 className="mb-6 text-lg font-bold text-dark-500 uppercase">Rieticket</h3>
               <ul>
                 <li className="mb-4">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-dark-300 hover:underline"
-                  >
+                  <Link to={paths.ABOUT} className="text-dark-300 hover:underline">
                     About
-                  </a>
+                  </Link>
                 </li>
                 <li className="mb-4">
                   <a

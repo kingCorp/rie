@@ -7,7 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { handleFileUpload } from '../../redux/actions/events';
 import { useAppSelector } from '../../redux/store';
 import imgbg from '../../assets/img/imgbg.png';
-import SearchLocationInput from '../../components/shared/Common/SearchLocationInput';
+// import SearchLocationInput from '../../components/shared/Common/SearchLocationInput';
 
 type PayLoad = {
   status: boolean;
@@ -148,7 +148,7 @@ const CreateEvent = () => {
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
-            <SearchLocationInput />
+            {/* <SearchLocationInput /> */}
             <InputField
               name="start_date"
               label="Start Date"
