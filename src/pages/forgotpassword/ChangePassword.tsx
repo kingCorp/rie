@@ -13,9 +13,7 @@ import { getIsLoading } from '../../redux/reducers/loaderSlice';
 import { ButtonAction, InputField } from '../../components/shared/Common';
 import { ToastContainer, toast } from 'react-toastify';
 import { Modal } from '@mui/material';
-import { sendResetToken } from '../../redux/actions/auth';
-import { Link } from 'react-router-dom';
-import ChangePassword from './ChangePassword';
+import { changePassword } from '../../redux/actions/auth';
 
 type PayLoad = {
   status: boolean;
@@ -28,15 +26,11 @@ type Props = {
   userType: string;
 };
 
-const ForgotPassword = ({ handleClose, open, userType }: Props) => {
+const ChangePassword = ({ handleClose, open, userType }: Props) => {
   const dispatch: ThunkAppDispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthorized } = useSelector((state: RootState) => state.auth);
   const isLoading = useSelector(getIsLoading);
-
-  const [openChange, setOpenChange] = useState(false);
-  const handleChangeOpen = () => setOpenChange(true);
-  const handleChangeClose = () => setOpenChange(false);
 
   useEffect(() => {
     if (isAuthorized) {
@@ -46,6 +40,8 @@ const ForgotPassword = ({ handleClose, open, userType }: Props) => {
 
   const [loginDetails, setLoginDetails] = useState({
     email: '',
+    password: '',
+    token: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +54,7 @@ const ForgotPassword = ({ handleClose, open, userType }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await dispatch(sendResetToken({ data: loginDetails, userType: userType }))
+    await dispatch(changePassword({ data: loginDetails, userType: userType }))
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
@@ -77,12 +73,11 @@ const ForgotPassword = ({ handleClose, open, userType }: Props) => {
   return (
     <>
       <ToastContainer />
-      <ChangePassword handleClose={handleChangeClose} open={openChange} userType={userType} />
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
         <div className="w-1/3 bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg m-auto rounded-xl overflow-hidden mt-44">
           <div className="w-full sm:max-w-md p-5 mx-auto">
@@ -97,28 +92,39 @@ const ForgotPassword = ({ handleClose, open, userType }: Props) => {
             </div>
             <form onSubmit={handleSubmit}>
               <InputField
+                id="change-email"
                 name="email"
                 label="Email-Address"
                 type="email"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
               />
+              <InputField
+                id="change-password"
+                name="password"
+                label="New Password"
+                type="password"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+              />
+              <InputField
+                id="change-token"
+                name="token"
+                label="Token"
+                type="text"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+              />
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 {isLoading ? (
-                  <ButtonAction name="Send Token" type="submit" disabled loading />
+                  <ButtonAction name="Change Password" type="submit" disabled loading />
                 ) : (
-                  <ButtonAction name="Send Token" type="submit" />
+                  <ButtonAction name="Change Password" type="submit" />
                 )}
-              </div>
-              <div className="mt-6 text-left cursor-pointer " onClick={handleChangeOpen}>
-                <span>Received the Token ? </span>
-                <a className="underline font-bold">Change Password</a>
               </div>
 
               <div className="mt-6 text-left">
                 <span>Dont have an account ? </span>
-                <Link to={paths.SIGNUP} className="underline font-bold">
+                <a href={paths.SIGNUP} className="underline font-bold">
                   Sign up
-                </Link>
+                </a>
               </div>
             </form>
           </div>
@@ -128,4 +134,4 @@ const ForgotPassword = ({ handleClose, open, userType }: Props) => {
   );
 };
 
-export default ForgotPassword;
+export default ChangePassword;
