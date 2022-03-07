@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavbarAdmin } from '../../components/admin/NavbarAdmin';
+// import { NavbarAdmin } from '../../components/admin/NavbarAdmin';
 import Sidebar from '../Sidebar';
 
 const AdminLayout = ({ children }) => {
