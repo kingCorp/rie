@@ -20,6 +20,7 @@ export const paths = {
   PREVIEW_EVENT: '/preview/:id',
   PROFILE: '/profile',
   FORGOT_PASSWORD: '/forgot-password',
+  TOC: '/toc',
   ERROR: '*',
 };
 const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;

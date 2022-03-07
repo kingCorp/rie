@@ -23,6 +23,7 @@ import Dashboard from '../pages/admin/dashboard/Dashboard';
 import AdminUsers from '../pages/admin/users/Users';
 import AdminEvents from '../pages/admin/events/Events';
 import AdminOrganizers from '../pages/admin/organizers/Organizers';
+import Toc from '../pages/toc/Toc';
 
 const AppRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
           <Route path={paths.COMING} element={<ComingSoon />} />
           <Route path={paths.HOME} element={<Home />} />
           <Route path={paths.ABOUT} element={<About />} />
+          <Route path={paths.TOC} element={<Toc />} />
           <Route path={paths.SIGNIN} element={<Signin />} />
           <Route path={paths.SIGNUP} element={<SignUp />} />
           <Route path={paths.SELLING} element={<Selling />} />

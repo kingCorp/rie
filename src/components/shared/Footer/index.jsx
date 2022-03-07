@@ -129,14 +129,9 @@ export const Footer = () => {
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-dark-300 hover:underline"
-                  >
+                  <Link to={paths.TOC} className="text-dark-300 hover:underline">
                     Terms &amp; Conditions
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
