@@ -237,3 +237,25 @@ export const createTicket = createAsyncThunk(
     }
   },
 );
+
+export const submitTicketPayment = createAsyncThunk(
+  'user/pay/ticket',
+  async (data: object, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const response = await Api.events.payTicket(data);
+      thunkAPI.dispatch(setLoading(false));
+      console.log(response);
+      return {
+        status: true,
+        message: 'Payment verified',
+      };
+    } catch (err) {
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        message: 'Payment verification failed',
+      };
+    }
+  },
+);

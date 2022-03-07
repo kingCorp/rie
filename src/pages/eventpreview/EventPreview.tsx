@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ButtonAction, InputField, Loader } from '../../components/shared/Common';
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
-import { getEvent, getTickets } from '../../redux/actions/events';
+import { getEvent, getTickets, submitTicketPayment } from '../../redux/actions/events';
 import cartimg from '../../assets/img/cart.svg';
 import moment from 'moment';
 import MainLayout from '../../components/MainLayout';
@@ -12,6 +12,13 @@ import Back from '../../components/shared/Back/Back';
 import Paystack from '../../components/Paystack/Paystack';
 import Auth from '../../middleware/storage';
 import { Modal } from '@mui/material';
+import { v4 } from 'uuid';
+import { toast, ToastContainer } from 'react-toastify';
+
+type PayLoad = {
+  status: boolean;
+  message: string;
+};
 
 interface EventProps {
   commission_percentage: number;
@@ -33,6 +40,7 @@ interface EventProps {
   total_amount_sold: number;
   updated_at: string;
   venue: string;
+  _id: string;
 }
 interface Ticket {
   price: number;
@@ -48,10 +56,16 @@ interface Ticket {
 }
 
 interface CartItem {
+  id: string;
+  index: string;
   title: string;
   price: number;
   quantity: number;
   total: number;
+}
+interface PaymentTicketData {
+  _id: string;
+  quantity: number;
 }
 const EventPreview = () => {
   const { id } = useParams();
@@ -60,17 +74,6 @@ const EventPreview = () => {
   const [eventData, setEventData] = useState({} as EventProps);
   const [ticketsList, setTicketsList] = useState([] as Array<Ticket>);
   const user = Auth.getUser();
-
-  const [purchase, setPurchase] = useState({
-    show_id: '',
-    payment_reference: '',
-    tickets: [
-      {
-        _id: '6217588266cc0e0023114198',
-        quantity: 4,
-      },
-    ],
-  });
 
   // Cart
   const [open, setOpen] = useState(false);
@@ -81,14 +84,28 @@ const EventPreview = () => {
   const [cartItem, setCartItem] = useState({} as CartItem);
   const [cart, setCart] = useState([] as Array<CartItem>);
 
-  const handleCartItem = (e: React.ChangeEvent<HTMLInputElement>, title: string, price: number) => {
+  const [reference, setReference] = useState('');
+
+  const handleCartItem = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    title: string,
+    price: number,
+    id: string,
+  ) => {
     const quantity = Number(e.target.value);
+    const index = v4();
     setCartItem({
+      id,
+      index,
       title,
       price,
       quantity: quantity,
       total: price * quantity,
     });
+  };
+
+  const deleteCartItem = (index: string) => {
+    setCart(cart.filter((item) => item.index !== index));
   };
 
   const handleCartSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -104,6 +121,36 @@ const EventPreview = () => {
     });
     setCartTotal(total);
   }, [cart]);
+
+  useEffect(() => {
+    if (reference !== '') {
+      const verifyPayment = async (reference: string) => {
+        const cartTicketList = [] as Array<PaymentTicketData>;
+        cart.forEach((item) => {
+          cartTicketList.push({
+            _id: item.id,
+            quantity: item.quantity,
+          });
+        });
+        const paymentDetails = {
+          show_id: eventData._id,
+          payment_reference: reference,
+          tickets: cartTicketList,
+        };
+        return await dispatch(submitTicketPayment(paymentDetails));
+      };
+      verifyPayment(reference).then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          console.log('success', payload);
+          toast.success(payload.message);
+        } else {
+          console.log('error', payload);
+          toast.error(payload.message);
+        }
+      });
+    }
+  }, [reference]);
 
   useEffect(() => {
     setTicketsList(tickets);
@@ -145,6 +192,7 @@ const EventPreview = () => {
   return (
     <>
       <MainLayout>
+        <ToastContainer />
         <Back />
         {isLoading ? (
           <Loader />
@@ -241,7 +289,7 @@ const EventPreview = () => {
                                     type="number"
                                     value={cartItem.quantity}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                      handleCartItem(e, ticket.title, ticket.price);
+                                      handleCartItem(e, ticket.title, ticket.price, ticket._id);
                                     }}
                                   />
                                   <ButtonAction type="submit" name="Add to cart" />
@@ -262,40 +310,66 @@ const EventPreview = () => {
               </div>
             </div>
 
-            <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
-              <p>Cart</p>
+            <div className="bg-white w-11/12 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4 mb-7">
+              <p className="font-bold text-xl">Cart</p>
               {(cart || []).map((cartitem, key) => {
                 return (
-                  <div className="flex justify-around" key={key}>
-                    <p>{cartitem.title}</p>
-                    <p>{cartitem.price}</p>
+                  <div
+                    className="flex bg-gray-100 p-3 rounded-xl shadow-lg justify-evenly relative"
+                    key={key}
+                  >
+                    <p className="font-bold uppercase">{cartitem.title}</p>
+                    <p>₦{cartitem.price}</p>
                     <p>{cartitem.quantity}</p>
-                    <p>{cartitem.total}</p>
+                    <p>₦{cartitem.total}</p>
+                    <div
+                      className="absolute top-0 right-0 cursor-pointer"
+                      onClick={() => {
+                        deleteCartItem(cartitem.index);
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 );
               })}
-              <p>Total: N{cartTotal}</p>
-            </div>
-            {Auth.isAuthenticated() ? (
-              cart.length === 0 ? (
-                <Paystack
-                  email={user.email}
-                  name={user.fullname}
-                  phone={user.phone}
-                  amount={cartTotal}
-                  disabled
-                />
+              <p className="font-bold">Total: ₦{cartTotal}</p>
+              {Auth.isAuthenticated() ? (
+                cart.length === 0 ? (
+                  <Paystack
+                    email={user.email}
+                    name={user.fullname}
+                    phone={user.phone}
+                    amount={cartTotal}
+                    setReference={setReference}
+                    disabled
+                  />
+                ) : (
+                  <Paystack
+                    email={user.email}
+                    name={user.fullname}
+                    phone={user.phone}
+                    amount={cartTotal}
+                    setReference={setReference}
+                  />
+                )
               ) : (
-                <Paystack
-                  email={user.email}
-                  name={user.fullname}
-                  phone={user.phone}
-                  amount={cartTotal}
-                />
-              )
-            ) : (
-              'You have to be signed in to make payment'
-            )}
+                'You have to be signed in to make payment'
+              )}
+            </div>
           </div>
         )}
       </MainLayout>
