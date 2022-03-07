@@ -4,7 +4,7 @@ const About = () => {
   return (
     <MainLayout>
       <div className="lg:m-8 sm:m-1">
-        <p className="text-3xl font-bold text-center"> ABOUT RIETICKET</p>
+        <p className="text-3xl font-bold text-center"> ABOUT</p>
         <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           RIE Ticket is an online ticketing platform with the sole aim of providing ticketing
           services to our clients on different range of events that can ensure maximum satisfaction
@@ -21,14 +21,14 @@ const About = () => {
         <ul className="mt-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           <li>
             <p className="mt-2">
-              Total control over your event - Transparency in ticket management
+              Total control over your event - Transparency in ticket management.
             </p>
           </li>
           <li>
-            <p className="mt-2">Removes the stress of handling large amount of tickets </p>{' '}
+            <p className="mt-2">Removes the stress of handling large amount of tickets.</p>{' '}
           </li>
           <li>
-            <p className="mt-2">Saves cost on the printing and distribution of tickets</p>{' '}
+            <p className="mt-2">Saves cost on the printing and distribution of tickets.</p>{' '}
           </li>
           <li>
             <p className="mt-2">
