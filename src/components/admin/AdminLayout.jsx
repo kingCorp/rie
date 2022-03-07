@@ -4,10 +4,10 @@ import Sidebar from '../Sidebar';
 
 const AdminLayout = ({ children }) => {
   return (
-    <div className="flex">
+    <div className="md:flex">
       <Sidebar />
       <div>
-        <NavbarAdmin />
+        {/* <NavbarAdmin /> */}
         <div className="ml-2">{children}</div>
       </div>
     </div>

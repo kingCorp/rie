@@ -199,6 +199,7 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
       thunkAPI.dispatch(setRole('user'));
       Auth.setToken(data.token, data.token);
       Auth.setRole('user');
+      Auth.setUser(data.data);
       return {
         status: true as boolean,
         message: data.message,
@@ -213,6 +214,7 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
       thunkAPI.dispatch(setUserId(data.data._id));
       thunkAPI.dispatch(setRole('organizer'));
       Auth.setRole('organizer');
+      Auth.setUser(data.data);
       Auth.setToken(data.token, data.token);
       return {
         status: true as boolean,

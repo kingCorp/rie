@@ -1,14 +1,18 @@
 /* eslint-disable */
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Loader } from '../../components/shared/Common';
+import { ButtonAction, InputField, Loader } from '../../components/shared/Common';
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvent, getTickets } from '../../redux/actions/events';
-import cart from '../../assets/img/cart.svg';
+import cartimg from '../../assets/img/cart.svg';
 import moment from 'moment';
 import MainLayout from '../../components/MainLayout';
 import Back from '../../components/shared/Back/Back';
+import Paystack from '../../components/Paystack/Paystack';
+import Auth from '../../middleware/storage';
+import { Modal } from '@mui/material';
+
 interface EventProps {
   commission_percentage: number;
   created_at: string;
@@ -42,12 +46,64 @@ interface Ticket {
   created_at: string;
   updated_at: string;
 }
+
+interface CartItem {
+  title: string;
+  price: number;
+  quantity: number;
+  total: number;
+}
 const EventPreview = () => {
   const { id } = useParams();
   const { event, tickets, ticketsLoading } = useAppSelector((state) => state.events);
   const { isLoading } = useAppSelector((state) => state.loader);
   const [eventData, setEventData] = useState({} as EventProps);
   const [ticketsList, setTicketsList] = useState([] as Array<Ticket>);
+  const user = Auth.getUser();
+
+  const [purchase, setPurchase] = useState({
+    show_id: '',
+    payment_reference: '',
+    tickets: [
+      {
+        _id: '6217588266cc0e0023114198',
+        quantity: 4,
+      },
+    ],
+  });
+
+  // Cart
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [cartTotal, setCartTotal] = useState(0);
+  const [cartItem, setCartItem] = useState({} as CartItem);
+  const [cart, setCart] = useState([] as Array<CartItem>);
+
+  const handleCartItem = (e: React.ChangeEvent<HTMLInputElement>, title: string, price: number) => {
+    const quantity = Number(e.target.value);
+    setCartItem({
+      title,
+      price,
+      quantity: quantity,
+      total: price * quantity,
+    });
+  };
+
+  const handleCartSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setCart((cart) => [...cart, cartItem]);
+    handleClose();
+  };
+
+  useEffect(() => {
+    var total = 0;
+    cart.forEach((item) => {
+      total += item.total;
+    });
+    setCartTotal(total);
+  }, [cart]);
 
   useEffect(() => {
     setTicketsList(tickets);
@@ -160,9 +216,38 @@ const EventPreview = () => {
                               </p>
                             </div>
 
-                            <div className="cursor-pointer px-4 " onClick={() => {}}>
-                              <img src={cart} alt="pendit" className="w-5" />
+                            <div
+                              className="cursor-pointer px-4 "
+                              onClick={() => {
+                                handleOpen();
+                              }}
+                            >
+                              <img src={cartimg} alt="pendit" className="w-5" />
                             </div>
+
+                            <Modal
+                              open={open}
+                              onClose={handleClose}
+                              aria-labelledby="modal-modal-title"
+                              aria-describedby="modal-modal-description"
+                            >
+                              <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
+                                <p className="uppercase font-bold text-xl"> {ticket.title}</p>
+                                <p className="uppercase font-bold text-lg"> N{ticket.price}</p>
+                                <form onSubmit={handleCartSubmit}>
+                                  <InputField
+                                    name="quantity"
+                                    label="Quantity"
+                                    type="number"
+                                    value={cartItem.quantity}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                      handleCartItem(e, ticket.title, ticket.price);
+                                    }}
+                                  />
+                                  <ButtonAction type="submit" name="Add to cart" />
+                                </form>
+                              </div>
+                            </Modal>
                           </div>
                         );
                       })
@@ -176,6 +261,41 @@ const EventPreview = () => {
                 </div>
               </div>
             </div>
+
+            <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
+              <p>Cart</p>
+              {(cart || []).map((cartitem, key) => {
+                return (
+                  <div className="flex justify-around" key={key}>
+                    <p>{cartitem.title}</p>
+                    <p>{cartitem.price}</p>
+                    <p>{cartitem.quantity}</p>
+                    <p>{cartitem.total}</p>
+                  </div>
+                );
+              })}
+              <p>Total: N{cartTotal}</p>
+            </div>
+            {Auth.isAuthenticated() ? (
+              cart.length === 0 ? (
+                <Paystack
+                  email={user.email}
+                  name={user.fullname}
+                  phone={user.phone}
+                  amount={cartTotal}
+                  disabled
+                />
+              ) : (
+                <Paystack
+                  email={user.email}
+                  name={user.fullname}
+                  phone={user.phone}
+                  amount={cartTotal}
+                />
+              )
+            ) : (
+              'You have to be signed in to make payment'
+            )}
           </div>
         )}
       </MainLayout>

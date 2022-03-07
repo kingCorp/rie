@@ -1,14 +1,16 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import rt from '../../assets/img/rieicon.png';
 import { clearState } from '../../redux/reducers/adminSlice';
 import { paths } from '../../utils/constants';
-
+import menu from '../../assets/img/menu.svg';
 const Sidebar = () => {
+  const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const Logout = async (e) => {
     console.log('logout');
     await dispatch(clearState());
@@ -16,13 +18,22 @@ const Sidebar = () => {
     navigate(paths.ADMIN);
   };
   return (
-    <aside className="w-80 h-screen" aria-label="Sidebar">
+    <aside className="md:w-80 md:h-screen" aria-label="Sidebar">
       <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-900">
         <Link to={paths.DASHBOARD} className="flex pl-2.5 mb-5">
           <img src={rt} alt="logo" className="object-center sm:h-12 md:h-16 lg:w-30 lg:h-15" />
           <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white"></span>
         </Link>
-        <ul className="space-y-2">
+        <div
+          className="flex justify-center py-2 cursor-pointer hover:bg-white md:hidden"
+          onClick={() => {
+            setToggle(!toggle);
+          }}
+        >
+          <img src={menu} alt={'burger'} className="w-6" />
+        </div>
+
+        <ul className={`${toggle ? ' ' : 'hidden'} md:block space-y-3`}>
           <li>
             <Link
               to={paths.DASHBOARD}
