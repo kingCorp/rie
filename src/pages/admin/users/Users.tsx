@@ -45,46 +45,53 @@ const AdminUsers = () => {
   }, []);
   return (
     <AdminLayout>
-      <p className="text-2xl font-bold">Users</p>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Full name</TableCell>
-                <TableCell align="right">Email</TableCell>
-                <TableCell align="right">Phone</TableCell>
-                <TableCell align="right">Action</TableCell>
-                <TableCell align="right">Joined</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {userRows.map((row) => (
-                <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row">
-                    {row.fullname}
-                  </TableCell>
-                  <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">{row.phone}</TableCell>
-                  <TableCell align="right">
-                    <button
-                      type="button"
-                      className="w-40 py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
+      <div className="">
+        <p className="text-2xl font-bold">Users</p>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="">
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650, maxWidth: 100 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Full name</TableCell>
+                    <TableCell align="right">Email</TableCell>
+                    <TableCell align="right">Phone</TableCell>
+                    <TableCell align="right">Action</TableCell>
+                    <TableCell align="right">Joined</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {userRows.map((row) => (
+                    <TableRow
+                      key={row._id}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      Action
-                    </button>
-                  </TableCell>
-                  <TableCell align="right">
-                    {moment(row.created_at).format('MMMM Do YYYY')}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                      <TableCell component="th" scope="row">
+                        {row.fullname}
+                      </TableCell>
+                      <TableCell align="right">{row.email}</TableCell>
+                      <TableCell align="right">{row.phone}</TableCell>
+                      <TableCell align="right">
+                        <button
+                          type="button"
+                          className="w-40 py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
+                        >
+                          Action
+                        </button>
+                      </TableCell>
+                      <TableCell align="right">
+                        {moment(row.created_at).format('MMMM Do YYYY')}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        )}
+      </div>
     </AdminLayout>
   );
 };
