@@ -158,6 +158,26 @@ export const createEvent = createAsyncThunk('createEvent', async (eventData: obj
   }
 });
 
+export const goLiveEvent = createAsyncThunk('goLiveEvent', async (eventData: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    const response = await Api.events.goLiveEvent(eventData);
+    thunkAPI.dispatch(setLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Event is live successfully',
+    };
+  } catch (error) {
+    console.error(error);
+    thunkAPI.dispatch(setLoading(false));
+    return {
+      status: false,
+      message: 'Error In going live event',
+    };
+  }
+});
+
 export const editEvent = createAsyncThunk('editEvent', async (eventData: EditEvent, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
@@ -235,6 +255,29 @@ export const createTicket = createAsyncThunk(
     try {
       thunkAPI.dispatch(setLoading(true));
       const response = await Api.events.createTicket(ticketData);
+      thunkAPI.dispatch(setLoading(false));
+      console.log(response);
+      return {
+        status: true,
+        message: 'Ticket created successfully',
+      };
+    } catch (error) {
+      console.error(error);
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        message: 'Error In creating Ticket',
+      };
+    }
+  },
+);
+
+export const createOneTicket = createAsyncThunk(
+  'createoneticket',
+  async (ticketData: object, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const response = await Api.events.createOneTicket(ticketData);
       thunkAPI.dispatch(setLoading(false));
       console.log(response);
       return {

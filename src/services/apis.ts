@@ -24,11 +24,13 @@ const Api = {
     getOrganizerEvents: () => ApiHandler.get('/organizer/shows'),
     createEvent: (data: object) => ApiHandler.post('/organizer/show/create', data),
     createTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/create', data),
+    createOneTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/addOne', data),
     getTickets: (showId: string) => ApiHandler.get(`/organizer/show/tickets/${showId}`),
     editEvent: (showId: string, data: object) =>
       ApiHandler.put(`/organizer/show/edit/${showId}`, data),
     editTicket: (id: string, data: object) => ApiHandler.put(`/organizer/ticket/edit/${id}`, data),
     payTicket: (data: object) => ApiHandler.post('/user/tickets/pay', data),
+    goLiveEvent: (data: object) => ApiHandler.post('/organizer/show/go_live', data),
   },
   places: {
     searchPlaces: (key: string, input: string) => ApiHandler.getplaces(`key=${key}&input=${input}`),

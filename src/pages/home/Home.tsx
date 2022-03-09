@@ -23,6 +23,7 @@ export interface EventProps {
   image: string;
   is_cashed_out: boolean;
   is_closed: boolean;
+  is_live: boolean;
   is_security_requested: boolean;
   is_tag_requested: boolean;
   number_of_tickets_sold: number;
@@ -43,7 +44,7 @@ export default function Home() {
   const { events } = useAppSelector((state) => state.events);
   const { isLoading } = useAppSelector((state) => state.loader);
   useEffect(() => {
-    setEventsData(events.slice(0, 8));
+    setEventsData(events);
   }, [events]);
 
   const dispatch = useAppThunkDispatch();
@@ -61,6 +62,9 @@ export default function Home() {
       });
     // eslint-disable-next-line
   }, []);
+
+  const isEventEmpty = eventsData.filter((event) => event.is_live === true);
+  console.log(isEventEmpty, eventsData);
   return (
     <MainLayout>
       <div className="relative bg-white overflow-hidden head">
@@ -143,29 +147,37 @@ export default function Home() {
           <Loader />
         ) : (
           <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-            {(eventsData || []).map((show, index) => {
-              return (
-                <CardEvent
-                  title={show.title}
-                  img={show.image}
-                  date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-                  price={0}
-                  key={index}
-                  href={`/preview/${show._id}`}
-                />
-              );
-            })}
+            {(eventsData || [])
+              .filter((event) => event.is_live === true)
+              .slice(0, 8)
+              .map((show, index) => {
+                return (
+                  <CardEvent
+                    title={show.title}
+                    img={show.image}
+                    date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                    price={0}
+                    key={index}
+                    href={`/preview/${show._id}`}
+                  />
+                );
+              })}
           </section>
         )}
+        {!isLoading && isEventEmpty.length < 1 && (
+          <h1 className="text-white text-center">No live event</h1>
+        )}
 
-        <div className="w-full flex justify-center pt-10">
-          <Link
-            to={paths.EVENTS}
-            className="flex w-40 justify-center py-2  text-base font-medium border rounded-full text-white border-white hover:bg-red-700"
-          >
-            see more
-          </Link>
-        </div>
+        {!isLoading && isEventEmpty.length > 0 && (
+          <div className="w-full flex justify-center pt-10">
+            <Link
+              to={paths.EVENTS}
+              className="flex w-40 justify-center py-2  text-base font-medium border rounded-full text-white border-white hover:bg-red-700"
+            >
+              see more
+            </Link>
+          </div>
+        )}
       </section>
 
       {/* PAGE INFO WITH CARDS UPCOMING  */}
