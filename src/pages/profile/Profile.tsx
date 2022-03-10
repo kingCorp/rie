@@ -40,13 +40,16 @@ const Profile = () => {
             />
           </li>
         )}
-        <li className="w-full flex justify-center">
-          <TabButtonAction
-            onClick={() => makeActive('ticket')}
-            name="My Tickets"
-            active={active === 'ticket' ? true : false}
-          />
-        </li>
+        {Auth?.getRole() === 'user' && (
+          <li className="w-full flex justify-center">
+            <TabButtonAction
+              onClick={() => makeActive('ticket')}
+              name="My Tickets"
+              active={active === 'ticket' ? true : false}
+            />
+          </li>
+        )}
+
         <li className="w-full flex justify-center">
           <TabButtonAction
             onClick={() => makeActive('booked')}
@@ -72,7 +75,7 @@ const Profile = () => {
           <BookedEvent />
         </div>
       )}
-      {active == 'ticket' && (
+      {active == 'ticket' && Auth?.getRole() === 'user' && (
         <div className="">
           <Tickets />
         </div>

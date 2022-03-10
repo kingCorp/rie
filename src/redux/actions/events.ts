@@ -7,6 +7,7 @@ import {
   setEvent,
   setTickets,
   setTicketsLoading,
+  setUserTickets,
 } from '../reducers/eventSlice';
 import { setLoading } from '../reducers/loaderSlice';
 // import { AppDispatch } from '../store';
@@ -317,3 +318,29 @@ export const submitTicketPayment = createAsyncThunk(
     }
   },
 );
+
+interface UserTicketsResponse {
+  data: {
+    data: { codes: [] };
+  };
+}
+
+export const getUserTickets = createAsyncThunk('user/tickets', async (data: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    const response: UserTicketsResponse = await Api.events.getUserTickets();
+    thunkAPI.dispatch(setLoading(false));
+    const userTickets = response?.data?.data?.codes;
+    console.log(response);
+    thunkAPI.dispatch(setUserTickets(userTickets));
+    return {
+      status: true,
+      nessage: 'Tickets gotten successfully',
+    };
+  } catch (err) {
+    return {
+      status: false,
+      nessage: 'Error in getting tickets',
+    };
+  }
+});
