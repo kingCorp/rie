@@ -9,6 +9,7 @@ const initialState = {
   pastEvents: [],
   uploadedUrl: '',
   tickets: [],
+  userTickets: [],
   ticketsLoading: false,
 };
 
@@ -37,6 +38,9 @@ export const eventSlice = createSlice({
     setTicketsLoading: (state, action) => {
       state.ticketsLoading = action.payload as boolean;
     },
+    setUserTickets: (state, action) => {
+      state.userTickets = action.payload as [];
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   setUploadedUrl,
   setTickets,
   setTicketsLoading,
+  setUserTickets,
 } = eventSlice.actions;
 
 // reducer

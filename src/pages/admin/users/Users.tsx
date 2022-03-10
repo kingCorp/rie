@@ -35,7 +35,7 @@ const AdminUsers = () => {
       return (await dispatch(getUsers({}))) as unknown;
     };
     anony()
-      .then((ress) => {})
+      .then(() => {})
       .catch((err) => {
         console.error(err);
       });
@@ -44,7 +44,7 @@ const AdminUsers = () => {
   return (
     <AdminLayout>
       <div className="">
-        <p className="text-2xl font-bold">Organizers</p>
+        <p className="text-2xl font-bold">Users</p>
         {isLoading ? (
           <Loader />
         ) : (

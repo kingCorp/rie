@@ -31,6 +31,7 @@ const Api = {
     editTicket: (id: string, data: object) => ApiHandler.put(`/organizer/ticket/edit/${id}`, data),
     payTicket: (data: object) => ApiHandler.post('/user/tickets/pay', data),
     goLiveEvent: (data: object) => ApiHandler.post('/organizer/show/go_live', data),
+    getUserTickets: () => ApiHandler.get('/user/tickets'),
   },
   places: {
     searchPlaces: (key: string, input: string) => ApiHandler.getplaces(`key=${key}&input=${input}`),
