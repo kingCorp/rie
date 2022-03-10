@@ -54,10 +54,9 @@ const AdminUsers = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Full name</TableCell>
-                    <TableCell align="right">Email</TableCell>
-                    <TableCell align="right">Phone</TableCell>
-                    <TableCell align="right">Action</TableCell>
-                    <TableCell align="right">Joined</TableCell>
+                    <TableCell align="left">Email</TableCell>
+                    <TableCell align="left">Phone</TableCell>
+                    <TableCell align="left">Joined</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -69,17 +68,9 @@ const AdminUsers = () => {
                       <TableCell component="th" scope="row">
                         {row.fullname}
                       </TableCell>
-                      <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{row.phone}</TableCell>
-                      <TableCell align="right">
-                        <button
-                          type="button"
-                          className="w-40 py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700"
-                        >
-                          Action
-                        </button>
-                      </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="left">{row.email}</TableCell>
+                      <TableCell align="left">{row.phone}</TableCell>
+                      <TableCell align="left">
                         {moment(row.created_at).format('MMMM Do YYYY')}
                       </TableCell>
                     </TableRow>
