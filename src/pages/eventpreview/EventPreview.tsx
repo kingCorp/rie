@@ -14,6 +14,7 @@ import Auth from '../../middleware/storage';
 import { Modal } from '@mui/material';
 import { v4 } from 'uuid';
 import { toast } from 'react-toastify';
+import { signUpUser } from '../../redux/actions/auth';
 
 type PayLoad = {
   status: boolean;
@@ -76,15 +77,17 @@ const EventPreview = () => {
   const user = Auth.getUser();
 
   // Cart
-  const [open, setOpen] = useState({ status: false, id: '' });
-  const handleOpen = (id: string) => setOpen({ status: true, id: id });
-  const handleClose = () => setOpen({ status: false, id: '' });
+  const [open, setOpen] = useState({ status: false, id: '', title: '', price: 0 });
+  const handleOpen = (id: string, title: string, price: number) =>
+    setOpen({ status: true, id, title, price });
+  const handleClose = () => setOpen({ ...open, status: false });
 
   const [cartTotal, setCartTotal] = useState(0);
   const [cartItem, setCartItem] = useState({} as CartItem);
   const [cart, setCart] = useState([] as Array<CartItem>);
 
   const [reference, setReference] = useState('');
+  const [openForm, setOpenForm] = useState(false);
 
   const handleCartItem = (title: string, price: number, id: string) => {
     const index = v4();
@@ -175,6 +178,44 @@ const EventPreview = () => {
     // eslint-disable-next-line
   }, []);
 
+  const [signUpDetails, setSignUpDetails] = useState({
+    fullname: 'New User',
+    email: '',
+    password: 'default',
+    phone: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSignUpDetails({
+      ...signUpDetails,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('submits');
+    e.preventDefault();
+    if (signUpDetails.email === '' || signUpDetails.password === '') {
+      toast('Kindly fill all fields');
+      return;
+    }
+
+    await dispatch(signUpUser({ data: signUpDetails, userType: 'yes' }))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          toast.success(payload.message);
+          setTicketsList(eventData.tickets);
+        } else {
+          toast.error(payload.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <MainLayout>
@@ -252,45 +293,44 @@ const EventPreview = () => {
                             <div
                               className="cursor-pointer px-4 "
                               onClick={() => {
-                                handleOpen(ticket._id);
+                                handleOpen(ticket._id, ticket.title, ticket.price);
                                 handleCartItem(ticket.title, ticket.price, ticket._id);
                               }}
                             >
                               <img src={cartimg} alt="pendit" className="w-5" />
                             </div>
-
-                            <Modal
-                              open={open.id === ticket._id ? open.status : false}
-                              onClose={handleClose}
-                              aria-labelledby="modal-modal-title"
-                              aria-describedby="modal-modal-description"
-                            >
-                              <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
-                                <p className="uppercase font-bold text-xl"> {ticket.title}</p>
-                                <p className="uppercase font-bold text-lg"> N{ticket.price}</p>
-                                <form onSubmit={handleCartSubmit}>
-                                  <InputField
-                                    name="quantity"
-                                    label="Quantity"
-                                    type="number"
-                                    //value={cartItem.quantity}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                      setCartItem({
-                                        ...cartItem,
-                                        quantity: Number(e.target.value),
-                                        total: cartItem.price * Number(e.target.value),
-                                      });
-                                    }}
-                                  />
-                                  <ButtonAction type="submit" name="Add to cart" />
-                                </form>
-                              </div>
-                            </Modal>
                           </div>
                         );
                       })
                     )}
                   </div>
+                  <Modal
+                    open={open.status}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
+                      <p className="uppercase font-bold text-xl"> {open.title}</p>
+                      <p className="uppercase font-bold text-lg"> N{open.price}</p>
+                      <form onSubmit={handleCartSubmit}>
+                        <InputField
+                          name="quantity"
+                          label="Quantity"
+                          type="number"
+                          // value={cartItem.quantity}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            setCartItem({
+                              ...cartItem,
+                              quantity: Number(e.target.value),
+                              total: cartItem.price * Number(e.target.value),
+                            });
+                          }}
+                        />
+                        <ButtonAction type="submit" name="Add to cart" />
+                      </form>
+                    </div>
+                  </Modal>
                 </div>
               </div>
               <div className="lg:col-span-4 w-full h-96 p-5">
@@ -361,9 +401,40 @@ const EventPreview = () => {
                   'Only a user can make payment'
                 )
               ) : (
-                'You have to be signed in to make payment'
+                <div className="flex align-center bg-red">
+                  <ButtonAction name="Sign up" onClick={() => setOpenForm(true)} />
+                </div>
               )}
             </div>
+
+            <Modal
+              open={openForm}
+              onClose={() => setOpenForm(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
+                <p className="uppercase font-bold text-xl">
+                  We need this info help purchase your ticket
+                </p>
+                <form onSubmit={handleSubmit}>
+                  <InputField
+                    name="email"
+                    label="Email-Address"
+                    type="email"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                  />
+
+                  <InputField
+                    name="phone"
+                    label="Phone"
+                    type="text"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                  />
+                  <ButtonAction type="submit" name="Sign up" />
+                </form>
+              </div>
+            </Modal>
           </div>
         )}
       </MainLayout>
