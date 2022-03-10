@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { getIsLoading } from '../../redux/reducers/loaderSlice';
 import { ButtonAction, InputField } from '../../components/shared/Common';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Modal } from '@mui/material';
 import { changePassword } from '../../redux/actions/auth';
 
@@ -72,7 +72,6 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
 
   return (
     <>
-      <ToastContainer />
       <Modal
         open={open}
         onClose={handleClose}

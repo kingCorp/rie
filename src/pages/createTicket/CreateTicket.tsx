@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ButtonAction, InputField } from '../../components/shared/Common';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { createOneTicket, getEvent } from '../../redux/actions/events';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Modal from '@mui/material/Modal';
 
 type PayLoad = {
@@ -74,7 +74,6 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
 
   return (
     <>
-      <ToastContainer />
       <Modal
         open={open}
         onClose={handleClose}

@@ -13,21 +13,14 @@ export default function SearchLocationInput() {
     try {
       const result = await Api.places.searchPlaces(GOOOGLE_AUTOCOMPLETE_API_KEY as string, input);
       const data = result.json();
-      return console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(e.target.value);
     await autocompletePlaces(e.target.value)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   return (

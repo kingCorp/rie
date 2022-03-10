@@ -161,7 +161,8 @@ export const createEvent = createAsyncThunk('createEvent', async (eventData: obj
 export const goLiveEvent = createAsyncThunk('goLiveEvent', async (eventData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
-    const response = await Api.events.goLiveEvent(eventData);
+    //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const response: AxiosRes = await Api.events.goLiveEvent(eventData);
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
     return {

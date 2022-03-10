@@ -29,11 +29,6 @@ const Signin = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      navigate('/profile');
-    }
-  }, [isAuthorized]);
   const [loginDetails, setLoginDetails] = useState({
     email: '',
     password: '',
@@ -61,11 +56,10 @@ const Signin = () => {
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
-          console.log('success', payload);
           toast.success(payload.message);
         } else {
-          console.log('error', payload);
           toast.error(payload.message);
+          navigate('/profile');
         }
       })
       .catch((error) => {

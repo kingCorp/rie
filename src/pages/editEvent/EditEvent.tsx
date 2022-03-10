@@ -4,7 +4,7 @@ import { ButtonAction, InputField, CheckField } from '../../components/shared/Co
 // import { paths } from '../../utils/constants';
 import { editEvent, getEvent } from '../../redux/actions/events';
 import { useAppThunkDispatch } from '../../redux/store';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { handleFileUpload } from '../../redux/actions/events';
 import { useAppSelector } from '../../redux/store';
 import imgbg from '../../assets/img/imgbg.png';
@@ -175,7 +175,6 @@ const EditEvent = () => {
 
   return (
     <MainLayout>
-      <ToastContainer />
       <div className="text-center py-4 bg-gray-50 ">
         <h2 className="font-bold font-rubik text-2xl">Edit Event</h2>
       </div>

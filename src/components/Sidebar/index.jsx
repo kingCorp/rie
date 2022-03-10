@@ -12,7 +12,6 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const Logout = async (e) => {
-    console.log('logout');
     await dispatch(clearState());
     localStorage.clear();
     navigate(paths.ADMIN);

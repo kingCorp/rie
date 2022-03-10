@@ -8,7 +8,6 @@ import { handleFileUpload } from '../../redux/actions/events';
 import { useAppSelector } from '../../redux/store';
 import imgbg from '../../assets/img/imgbg.png';
 import { useNavigate } from 'react-router-dom';
-// import SearchLocationInput from '../../components/shared/Common/SearchLocationInput';
 
 type PayLoad = {
   status: boolean;
@@ -79,13 +78,11 @@ const CreateEvent = () => {
 
   useEffect(() => {
     if (file.state) {
-      console.log('file changed');
       const anony = async () => {
         return await dispatch(handleFileUpload(file.fileData));
       };
       anony()
         .then((res) => {
-          console.log(res, 'upload res');
           const payload = res.payload as PayLoad;
           if (payload.status) {
             return toast.success(payload.message);
@@ -94,7 +91,7 @@ const CreateEvent = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
     // eslint-disable-next-line
@@ -152,7 +149,6 @@ const CreateEvent = () => {
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
-            {/* <SearchLocationInput /> */}
             <InputField
               name="start_date"
               label="Start Date"

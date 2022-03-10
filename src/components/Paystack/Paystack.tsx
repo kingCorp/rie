@@ -40,7 +40,6 @@ export default function Paystack({
     publicKey,
     text: 'Buy Tickets',
     onSuccess: () => {
-      console.log('success');
       setReference(componentProps.reference);
     },
     onClose: () => alert('Bruh Chill'),

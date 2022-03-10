@@ -179,7 +179,7 @@ const Event = () => {
                       return (
                         <div
                           key={index}
-                          className="bg-white shadow-lg p-3 rounded-2xl mt-3 md:flex  items-center"
+                          className="bg-white shadow-lg p-3 rounded-2xl mt-3 md:flex justify-around items-center"
                         >
                           <div>
                             <span className="font-bold uppercase mr-6 inline ">{ticket.title}</span>

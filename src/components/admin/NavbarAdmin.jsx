@@ -28,7 +28,6 @@ export const NavbarAdmin = () => {
   const id = open ? 'simple-popover' : undefined;
 
   const Logout = async (e) => {
-    console.log('logout');
     await dispatch(clearState());
     localStorage.clear();
     navigate(paths.ADMIN);
