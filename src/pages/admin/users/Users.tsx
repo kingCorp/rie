@@ -35,7 +35,7 @@ const AdminUsers = () => {
       return (await dispatch(getUsers({}))) as unknown;
     };
     anony()
-      .then((ress) => {})
+      .then(() => {})
       .catch((err) => {
         console.error(err);
       });

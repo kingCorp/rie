@@ -273,7 +273,7 @@ const EventPreview = () => {
                                     name="quantity"
                                     label="Quantity"
                                     type="number"
-                                    value={cartItem.quantity}
+                                    //value={cartItem.quantity}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                       setCartItem({
                                         ...cartItem,

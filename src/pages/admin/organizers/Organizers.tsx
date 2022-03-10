@@ -35,8 +35,8 @@ const AdminOrganizers = () => {
       return (await dispatch(getOrganizers({}))) as unknown;
     };
     anony()
-      .then((ress) => {})
-      .catch((err) => {});
+      .then(() => {})
+      .catch(() => {});
     // eslint-disable-next-line
   }, []);
   return (
