@@ -2,7 +2,7 @@ import React from 'react';
 import { PaystackButton } from 'react-paystack';
 import { v4 } from 'uuid';
 import { PAYSTACK_PUBLIC_KEY } from '../../utils/constants';
-import { ButtonAction } from '../shared/Common';
+// import { ButtonAction } from '../shared/Common';
 
 type PaystackMetaData = {
   name: string;
@@ -40,7 +40,6 @@ export default function Paystack({
     publicKey,
     text: 'Buy Tickets',
     onSuccess: () => {
-      console.log('success');
       setReference(componentProps.reference);
     },
     onClose: () => alert('Bruh Chill'),

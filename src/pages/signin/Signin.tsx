@@ -11,7 +11,7 @@ import { ThunkAppDispatch, RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 // import { AlertNote } from '../../components/shared/Common';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import ForgotPassword from '../forgotpassword/ForgotPassword';
 
 type PayLoad = {
@@ -29,11 +29,6 @@ const Signin = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      navigate('/profile');
-    }
-  }, [isAuthorized]);
   const [loginDetails, setLoginDetails] = useState({
     email: '',
     password: '',
@@ -61,11 +56,10 @@ const Signin = () => {
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
-          console.log('success', payload);
           toast.success(payload.message);
         } else {
-          console.log('error', payload);
           toast.error(payload.message);
+          navigate('/profile');
         }
       })
       .catch((error) => {
@@ -75,7 +69,6 @@ const Signin = () => {
 
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
-      <ToastContainer />
       <ForgotPassword handleClose={handleClose} open={open} userType={selectValue} />
       <div className="w-full sm:max-w-md p-5 mx-auto">
         <div className="flex justify-center py-10">

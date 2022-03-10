@@ -35,9 +35,7 @@ const AdminUsers = () => {
       return (await dispatch(getUsers({}))) as unknown;
     };
     anony()
-      .then((ress) => {
-        console.log(ress);
-      })
+      .then((ress) => {})
       .catch((err) => {
         console.error(err);
       });
@@ -46,13 +44,13 @@ const AdminUsers = () => {
   return (
     <AdminLayout>
       <div className="">
-        <p className="text-2xl font-bold">Users</p>
+        <p className="text-2xl font-bold">Organizers</p>
         {isLoading ? (
           <Loader />
         ) : (
           <div className="">
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650, maxWidth: 100 }} aria-label="simple table">
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     <TableCell>Full name</TableCell>

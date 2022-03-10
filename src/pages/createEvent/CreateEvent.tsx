@@ -3,18 +3,20 @@ import MainLayout from '../../components/MainLayout';
 import { ButtonAction, InputField, CheckField } from '../../components/shared/Common';
 import { createEvent } from '../../redux/actions/events';
 import { useAppThunkDispatch } from '../../redux/store';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { handleFileUpload } from '../../redux/actions/events';
 import { useAppSelector } from '../../redux/store';
 import imgbg from '../../assets/img/imgbg.png';
-// import SearchLocationInput from '../../components/shared/Common/SearchLocationInput';
+import { useNavigate } from 'react-router-dom';
 
 type PayLoad = {
   status: boolean;
   message: string;
+  id?: string;
 };
 const CreateEvent = () => {
   let fileRef: HTMLInputElement | null;
+  const navigate = useNavigate();
   const dispatch = useAppThunkDispatch();
   const [file, setFile] = useState({
     state: false,
@@ -76,13 +78,11 @@ const CreateEvent = () => {
 
   useEffect(() => {
     if (file.state) {
-      console.log('file changed');
       const anony = async () => {
         return await dispatch(handleFileUpload(file.fileData));
       };
       anony()
         .then((res) => {
-          console.log(res, 'upload res');
           const payload = res.payload as PayLoad;
           if (payload.status) {
             return toast.success(payload.message);
@@ -91,7 +91,7 @@ const CreateEvent = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
     // eslint-disable-next-line
@@ -110,7 +110,9 @@ const CreateEvent = () => {
     console.log(eventDetails);
     await dispatch(createEvent(eventDetails))
       .then((res) => {
-        console.log(res);
+        const payload = res.payload as PayLoad;
+        payload.status ? toast.success(payload.message) : toast.error(payload.message);
+        payload.status ? navigate(`/event/${payload.id as string}`) : '';
       })
       .catch((err) => {
         console.error(err);
@@ -123,7 +125,6 @@ const CreateEvent = () => {
   };
   return (
     <MainLayout>
-      <ToastContainer />
       <div className="text-center py-4 bg-gray-50 ">
         <h2 className="font-bold font-rubik text-2xl">Create Event</h2>
       </div>
@@ -148,7 +149,6 @@ const CreateEvent = () => {
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
-            {/* <SearchLocationInput /> */}
             <InputField
               name="start_date"
               label="Start Date"

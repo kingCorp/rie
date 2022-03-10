@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { useState, useEffect } from 'react';
-import { getEvent, getTickets } from '../../redux/actions/events';
+import { getEvent, getTickets, goLiveEvent } from '../../redux/actions/events';
 import penedit from '../../assets/img/penedit.svg';
 import { ButtonAction, Loader } from '../../components/shared/Common';
 import moment from 'moment';
@@ -19,6 +19,7 @@ interface EventProps {
   image: string;
   is_cashed_out: boolean;
   is_closed: boolean;
+  is_live: boolean;
   is_security_requested: boolean;
   is_tag_requested: boolean;
   number_of_tickets_sold: number;
@@ -98,6 +99,16 @@ const Event = () => {
     // eslint-disable-next-line
   }, []);
 
+  const goLive = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked);
+    const data = {
+      show_id: eventData._id,
+      is_live: e.target.checked,
+    };
+    await dispatch(goLiveEvent(data));
+    await dispatch(getEvent(id as string));
+  };
+
   return (
     <div>
       <CreateTicket handleClose={handleClose} showId={eventData._id} open={open} />
@@ -135,6 +146,30 @@ const Event = () => {
                   </Link>
                 </div>
 
+                <h3 className="mt-4 font-bold px-3">Go Live {eventData.is_live}</h3>
+                <label
+                  htmlFor="toggle-example-checked"
+                  className="flex relative items-center mb-4 cursor-pointer"
+                >
+                  {eventData.is_live && (
+                    <input
+                      type="checkbox"
+                      id="toggle-example-checked"
+                      className="sr-only text-xs"
+                      checked
+                    />
+                  )}
+                  {!eventData.is_live && (
+                    <input
+                      type="checkbox"
+                      id="toggle-example-checked"
+                      className="sr-only text-xs"
+                      onChange={(e) => goLive(e)}
+                    />
+                  )}
+                  <div className="w-11 h-6 bg-gray-200 rounded-full text-xs border border-gray-200 toggle-bg dark:bg-gray-700 dark:border-gray-600"></div>
+                </label>
+
                 <h3 className="mt-4 font-bold px-3">Tickets</h3>
                 <div>
                   {ticketsLoading ? (
@@ -144,7 +179,7 @@ const Event = () => {
                       return (
                         <div
                           key={index}
-                          className="bg-white shadow-lg p-3 rounded-2xl mt-3 md:flex  items-center"
+                          className="bg-white shadow-lg p-3 rounded-2xl mt-3 md:flex justify-around items-center"
                         >
                           <div>
                             <span className="font-bold uppercase mr-6 inline ">{ticket.title}</span>

@@ -13,7 +13,7 @@ import Paystack from '../../components/Paystack/Paystack';
 import Auth from '../../middleware/storage';
 import { Modal } from '@mui/material';
 import { v4 } from 'uuid';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 type PayLoad = {
   status: boolean;
@@ -35,7 +35,7 @@ interface EventProps {
   organizer: string;
   start_date: string;
   start_time: string;
-  tickets: [];
+  tickets: Array<Ticket>;
   title: string;
   total_amount_sold: number;
   updated_at: string;
@@ -69,16 +69,16 @@ interface PaymentTicketData {
 }
 const EventPreview = () => {
   const { id } = useParams();
-  const { event, tickets, ticketsLoading } = useAppSelector((state) => state.events);
+  const { event, ticketsLoading } = useAppSelector((state) => state.events);
   const { isLoading } = useAppSelector((state) => state.loader);
   const [eventData, setEventData] = useState({} as EventProps);
   const [ticketsList, setTicketsList] = useState([] as Array<Ticket>);
   const user = Auth.getUser();
 
   // Cart
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState({ status: false, id: '' });
+  const handleOpen = (id: string) => setOpen({ status: true, id: id });
+  const handleClose = () => setOpen({ status: false, id: '' });
 
   const [cartTotal, setCartTotal] = useState(0);
   const [cartItem, setCartItem] = useState({} as CartItem);
@@ -86,21 +86,15 @@ const EventPreview = () => {
 
   const [reference, setReference] = useState('');
 
-  const handleCartItem = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    title: string,
-    price: number,
-    id: string,
-  ) => {
-    const quantity = Number(e.target.value);
+  const handleCartItem = (title: string, price: number, id: string) => {
     const index = v4();
     setCartItem({
       id,
       index,
       title,
       price,
-      quantity: quantity,
-      total: price * quantity,
+      quantity: 0,
+      total: 0,
     });
   };
 
@@ -110,8 +104,12 @@ const EventPreview = () => {
 
   const handleCartSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setCart((cart) => [...cart, cartItem]);
-    handleClose();
+    if (cartItem.quantity > 0) {
+      setCart((cart) => [...cart, cartItem]);
+      handleClose();
+    } else {
+      toast.warn('Quantity cannot be 0');
+    }
   };
 
   useEffect(() => {
@@ -137,6 +135,7 @@ const EventPreview = () => {
           payment_reference: reference,
           tickets: cartTicketList,
         };
+        console.log(paymentDetails);
         return await dispatch(submitTicketPayment(paymentDetails));
       };
       verifyPayment(reference).then((res) => {
@@ -153,20 +152,7 @@ const EventPreview = () => {
   }, [reference]);
 
   useEffect(() => {
-    setTicketsList(tickets);
-  }, [tickets]);
-
-  useEffect(() => {
-    const anony = async () => {
-      return (await dispatch(getTickets(id as string))) as unknown;
-    };
-    anony()
-      .then((ress) => {
-        console.log(ress);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    setTicketsList(eventData.tickets);
   }, [eventData]);
 
   useEffect(() => {
@@ -192,7 +178,6 @@ const EventPreview = () => {
   return (
     <>
       <MainLayout>
-        <ToastContainer />
         <Back />
         {isLoading ? (
           <Loader />
@@ -231,7 +216,7 @@ const EventPreview = () => {
                         return (
                           <div
                             key={index}
-                            className="bg-white shadow-lg p-3 rounded-2xl mt-3 md:flex  items-center"
+                            className="bg-white shadow-lg p-3 rounded-2xl mt-3 md:flex justify-around items-center"
                           >
                             <div>
                               <span className="font-bold uppercase mr-6 inline ">
@@ -267,14 +252,15 @@ const EventPreview = () => {
                             <div
                               className="cursor-pointer px-4 "
                               onClick={() => {
-                                handleOpen();
+                                handleOpen(ticket._id);
+                                handleCartItem(ticket.title, ticket.price, ticket._id);
                               }}
                             >
                               <img src={cartimg} alt="pendit" className="w-5" />
                             </div>
 
                             <Modal
-                              open={open}
+                              open={open.id === ticket._id ? open.status : false}
                               onClose={handleClose}
                               aria-labelledby="modal-modal-title"
                               aria-describedby="modal-modal-description"
@@ -289,7 +275,11 @@ const EventPreview = () => {
                                     type="number"
                                     value={cartItem.quantity}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                      handleCartItem(e, ticket.title, ticket.price, ticket._id);
+                                      setCartItem({
+                                        ...cartItem,
+                                        quantity: Number(e.target.value),
+                                        total: cartItem.price * Number(e.target.value),
+                                      });
                                     }}
                                   />
                                   <ButtonAction type="submit" name="Add to cart" />
@@ -348,23 +338,27 @@ const EventPreview = () => {
               })}
               <p className="font-bold">Total: ₦{cartTotal}</p>
               {Auth.isAuthenticated() ? (
-                cart.length === 0 ? (
-                  <Paystack
-                    email={user.email}
-                    name={user.fullname}
-                    phone={user.phone}
-                    amount={cartTotal}
-                    setReference={setReference}
-                    disabled
-                  />
+                Auth.getRole() == 'user' ? (
+                  cart.length === 0 ? (
+                    <Paystack
+                      email={user.email}
+                      name={user.fullname}
+                      phone={user.phone}
+                      amount={cartTotal}
+                      setReference={setReference}
+                      disabled
+                    />
+                  ) : (
+                    <Paystack
+                      email={user.email}
+                      name={user.fullname}
+                      phone={user.phone}
+                      amount={cartTotal}
+                      setReference={setReference}
+                    />
+                  )
                 ) : (
-                  <Paystack
-                    email={user.email}
-                    name={user.fullname}
-                    phone={user.phone}
-                    amount={cartTotal}
-                    setReference={setReference}
-                  />
+                  'Only a user can make payment'
                 )
               ) : (
                 'You have to be signed in to make payment'

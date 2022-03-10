@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ButtonAction, InputField } from '../../components/shared/Common';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
-import { createTicket } from '../../redux/actions/events';
-import { toast, ToastContainer } from 'react-toastify';
+import { createOneTicket, getEvent } from '../../redux/actions/events';
+import { toast } from 'react-toastify';
 import Modal from '@mui/material/Modal';
 
 type PayLoad = {
@@ -46,35 +46,34 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const ticketDetails = {
-      show_id: showId,
-      tickets: [ticketData],
-    };
-    console.log(ticketDetails);
-    await dispatch(createTicket(ticketDetails))
-      .then((res) => {
-        const payload = res.payload as PayLoad;
-        if (payload.status) {
-          toast.success(payload.message);
+    try {
+      const ticketDetails = {
+        show_id: showId,
+        ticket: ticketData,
+      };
+      console.log(ticketDetails);
+      const res = await dispatch(createOneTicket(ticketDetails));
+      const payload = res.payload as PayLoad;
+      if (payload.status) {
+        toast.success(payload.message);
 
-          setTicketData({
-            title: '',
-            price: '',
-            capacity: '',
-          });
-        } else {
-          console.log('error', payload);
-          toast.error(payload.message);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+        setTicketData({
+          title: '',
+          price: '',
+          capacity: '',
+        });
+      } else {
+        console.log('error', payload);
+        toast.error(payload.message);
+      }
+      await dispatch(getEvent(showId));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
-      <ToastContainer />
       <Modal
         open={open}
         onClose={handleClose}

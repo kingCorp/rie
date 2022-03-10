@@ -11,7 +11,6 @@ import './index.css';
 import { Link } from 'react-router-dom';
 import Auth from '../../middleware/storage';
 
-
 export const NavbarAdmin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ export const NavbarAdmin = () => {
   const id = open ? 'simple-popover' : undefined;
 
   const Logout = async (e) => {
-    console.log('logout');
     await dispatch(clearState());
     localStorage.clear();
     navigate(paths.ADMIN);

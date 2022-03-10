@@ -18,6 +18,7 @@ interface EventProps {
   image: string;
   is_cashed_out: boolean;
   is_closed: boolean;
+  is_live: boolean;
   is_security_requested: boolean;
   is_tag_requested: boolean;
   number_of_tickets_sold: number;
@@ -57,6 +58,8 @@ const Events = () => {
     // eslint-disable-next-line
   }, []);
 
+  const isEventEmpty = eventsData.filter((event) => event.is_live === true);
+
   return (
     <div>
       <MainLayout>
@@ -68,20 +71,23 @@ const Events = () => {
             <Loader />
           ) : (
             <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-              {(eventsData || []).map((show, index) => {
-                return (
-                  <CardEvent
-                    title={show.title}
-                    img={show.image}
-                    date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-                    price={0}
-                    key={index}
-                    href={`/preview/${show._id}`}
-                  />
-                );
-              })}
+              {(eventsData || [])
+                .filter((event) => event.is_live === true)
+                .map((show, index) => {
+                  return (
+                    <CardEvent
+                      title={show.title}
+                      img={show.image}
+                      date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                      price={0}
+                      key={index}
+                      href={`/preview/${show._id}`}
+                    />
+                  );
+                })}
             </section>
           )}
+          {!isLoading && isEventEmpty.length < 1 && <h1 className="text-center">No live event</h1>}
         </section>
       </MainLayout>
     </div>

@@ -6,7 +6,7 @@ import { useAppThunkDispatch } from '../../redux/store';
 import { signUpUser, signInUser } from '../../redux/actions/auth';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -100,7 +100,6 @@ const SignUp = () => {
   };
   return (
     <div>
-      <ToastContainer />
       <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
         <div className="w-full sm:max-w-md p-5 mx-auto">
           <div className="flex justify-center py-3">

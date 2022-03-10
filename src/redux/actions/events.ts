@@ -11,6 +11,7 @@ import {
 import { setLoading } from '../reducers/loaderSlice';
 // import { AppDispatch } from '../store';
 import { CLOUDINARY_URL } from '../../utils/constants';
+import { AxiosError } from 'axios';
 
 // export const getEvents = () => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
 
@@ -36,6 +37,16 @@ interface TicketsRes {
     tickets: object;
   };
 }
+type AxiosRes = {
+  data: CreateRes;
+};
+type CreateRes = {
+  data: {
+    _id: string;
+  };
+  message: string;
+  status: boolean;
+};
 export const getMyEvents = createAsyncThunk('getmyevents', async (userData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
@@ -127,19 +138,43 @@ export const getEvent = createAsyncThunk('getevent', async (id: string, thunkAPI
 export const createEvent = createAsyncThunk('createEvent', async (eventData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
-    const response = await Api.events.createEvent(eventData);
+    const response: AxiosRes = await Api.events.createEvent(eventData);
+    const data: CreateRes = response.data;
     thunkAPI.dispatch(setLoading(false));
     console.log(response);
     return {
       status: true,
-      message: 'Event created successfully',
+      message: data?.message,
+      id: data.data._id,
+    };
+  } catch (error) {
+    const err = error as AxiosError;
+    thunkAPI.dispatch(setLoading(false));
+    return {
+      status: false,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: err?.response?.data?.message as never,
+    };
+  }
+});
+
+export const goLiveEvent = createAsyncThunk('goLiveEvent', async (eventData: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const response: AxiosRes = await Api.events.goLiveEvent(eventData);
+    thunkAPI.dispatch(setLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Event is live successfully',
     };
   } catch (error) {
     console.error(error);
     thunkAPI.dispatch(setLoading(false));
     return {
       status: false,
-      message: 'Error In creating event',
+      message: 'Error In going live event',
     };
   }
 });
@@ -221,6 +256,29 @@ export const createTicket = createAsyncThunk(
     try {
       thunkAPI.dispatch(setLoading(true));
       const response = await Api.events.createTicket(ticketData);
+      thunkAPI.dispatch(setLoading(false));
+      console.log(response);
+      return {
+        status: true,
+        message: 'Ticket created successfully',
+      };
+    } catch (error) {
+      console.error(error);
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        message: 'Error In creating Ticket',
+      };
+    }
+  },
+);
+
+export const createOneTicket = createAsyncThunk(
+  'createoneticket',
+  async (ticketData: object, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const response = await Api.events.createOneTicket(ticketData);
       thunkAPI.dispatch(setLoading(false));
       console.log(response);
       return {

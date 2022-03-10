@@ -11,7 +11,7 @@ import { ThunkAppDispatch, RootState } from '../../../redux/store';
 import { useSelector } from 'react-redux';
 // import { AlertNote } from '../../components/shared/Common';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { signInAdmin } from '../../../redux/actions/admin';
 
@@ -23,14 +23,9 @@ type PayLoad = {
 const SigninAdmin = () => {
   const dispatch: ThunkAppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthorized } = useSelector((state: RootState) => state.admin);
+
   const { isLoading } = useSelector((state: RootState) => state.loader);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      navigate('/dashboard');
-    }
-  }, [isAuthorized]);
   const [loginDetails, setLoginDetails] = useState({
     email: '',
     password: '',
@@ -54,21 +49,19 @@ const SigninAdmin = () => {
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
-          console.log('success', payload);
           toast.success(payload.message);
+          navigate('/dashboard');
         } else {
-          console.log('error', payload);
           toast.error(payload.message);
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
-      <ToastContainer />
       <div className="text-3xl font-rubik font-bold">Admin Sign In</div>
       <div className="w-full sm:max-w-md p-5 mx-auto">
         <div className="flex justify-center py-10">
