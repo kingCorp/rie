@@ -1,26 +1,34 @@
 import React from 'react';
 import './index.css';
 
-// type Props = {
-//   title?: string;
-//   date?: string;
-//   price?: number;
-//   href?: string;
-//   booked?: boolean;
-// };
+type Props = {
+  ticket_title?: string;
+  show_title?: string;
+  start_date?: string;
+  start_time?: string;
+  price?: number;
+  href?: string;
+  booked?: boolean;
+  image?: string;
+  capacity?: number;
+};
 
-export default function TicketEvent() {
+export default function TicketEvent(props: Props) {
+  const ticketback = props.image;
   return (
     <div className="w-full">
-      <div className="rounded-2xl h-40 w-5/6 md:w-3/4 lg:w-3/5 m-auto mb-10 relative uppercase overflow-hidden  font-rubik pl-8 py-4 back-img text-white bg-gradient-to-r from-red-600 to-gray-600">
+      <div
+        className="rounded-2xl h-40 w-5/6 md:w-3/4 lg:w-3/5 m-auto mb-10 relative uppercase overflow-hidden font-rubik pl-8 py-4 text-white bg-no-repeat bg-cover"
+        style={{ backgroundImage: `url(${ticketback as string})` }}
+      >
         <div className="h-4 w-8 bg-gray-100 absolute top-0 right-1/4 rounded-b-full"></div>
         <div className="h-4 w-8 bg-gray-100 absolute bottom-0 right-1/4 rounded-t-full"></div>
 
         <div>
-          <p className="font-bold text-xl">talk WIth Oge</p>
+          <p className="font-bold text-xl">{props.show_title}</p>
           <p className="font-bold text-xs">Live session</p>
           <p>
-            01 November <span className="ml-3">9:00PM</span>{' '}
+            {props.start_date} <span className="ml-3">{props.start_time}</span>{' '}
           </p>
           <span className="flex pt-4">
             <div>
@@ -38,10 +46,10 @@ export default function TicketEvent() {
             <div className=" absolute hidden md:block right-0 top-0 text-center rotate-box pt-3 mr-2">
               {' '}
               <div>
-                <p className="font-bold text-lg">talk WIth Oge</p>
+                <p className="font-bold text-lg">{props.ticket_title}</p>
                 <p className="font-bold text-xs">Live session</p>
                 <p className="text-xs">
-                  01 November <span className="ml-3">9:00PM</span>{' '}
+                  {props.start_date} <span className="ml-3">{props.start_time}</span>{' '}
                 </p>
 
                 <span className="flex pt-4 justify-around">

@@ -95,13 +95,12 @@ export const Navbar = () => {
                         <div className="pop-list  pop-list-top">My Events</div>
                       </Link>
                     )}
-                    <Link to={paths.PROFILE} state={{ from: 'ticket' }}>
-                      <div
-                        className={`pop-list ${Auth?.getRole() === 'user' ? 'pop-list-top' : ''}`}
-                      >
-                        My Tickets
-                      </div>
-                    </Link>
+                    {Auth?.getRole() === 'user' && (
+                      <Link to={paths.PROFILE} state={{ from: 'ticket' }}>
+                        <div className="pop-list pop-list-top">My Tickets</div>
+                      </Link>
+                    )}
+
                     <Link to={paths.PROFILE} state={{ from: 'booked' }}>
                       <div className="pop-list ">Booked Events</div>
                     </Link>
