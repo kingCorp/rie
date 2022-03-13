@@ -179,9 +179,9 @@ const EventPreview = () => {
   }, []);
 
   const [signUpDetails, setSignUpDetails] = useState({
-    fullname: 'New User',
+    fullname: '',
     email: '',
-    password: 'default',
+    password: '',
     phone: '',
   });
 
@@ -207,6 +207,7 @@ const EventPreview = () => {
         if (payload.status) {
           toast.success(payload.message);
           setTicketsList(eventData.tickets);
+          window.location.reload;
         } else {
           toast.error(payload.message);
         }
@@ -268,7 +269,7 @@ const EventPreview = () => {
                               <span className=" text-xs text-gray-500">Price</span>
                               <p>N{ticket.price}</p>
                             </div>
-
+                            {/* 
                             <div className="text-center px-3">
                               <span className=" text-xs text-gray-500">Sold</span>
                               <p>{ticket.total_amount_purchased}</p>
@@ -276,7 +277,7 @@ const EventPreview = () => {
                             <div className=" text-center px-3">
                               <span className=" text-xs text-gray-500">Ticket Limit</span>
                               <p>{ticket.capacity}</p>
-                            </div>
+                            </div> */}
                             <div className=" text-center px-3">
                               <span className=" text-xs text-gray-500">Sale Ends</span>
                               <p>{moment(eventData.end_date).format('MMMM Do YYYY')}</p>
@@ -311,6 +312,7 @@ const EventPreview = () => {
                     aria-describedby="modal-modal-description"
                   >
                     <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
+                    <button onClick={handleClose} className="flex justify-right">close</button>
                       <p className="uppercase font-bold text-xl"> {open.title}</p>
                       <p className="uppercase font-bold text-lg"> N{open.price}</p>
                       <form onSubmit={handleCartSubmit}>
@@ -401,8 +403,8 @@ const EventPreview = () => {
                   'Only a user can make payment'
                 )
               ) : (
-                <div className="flex align-center bg-red">
-                  <ButtonAction name="Sign up" onClick={() => setOpenForm(true)} />
+                <div className="grid place-content-center">
+                  <ButtonAction name="Buy ticket" onClick={() => setOpenForm(true)} />
                 </div>
               )}
             </div>
@@ -414,17 +416,29 @@ const EventPreview = () => {
               aria-describedby="modal-modal-description"
             >
               <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
+              <button onClick={handleClose} className="flex justify-right">close</button>
                 <p className="uppercase font-bold text-xl">
                   We need this info help purchase your ticket
                 </p>
                 <form onSubmit={handleSubmit}>
+                  <InputField
+                    name="fullname"
+                    label="Full name"
+                    type="text"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                  />
                   <InputField
                     name="email"
                     label="Email-Address"
                     type="email"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
                   />
-
+                  <InputField
+                    name="password"
+                    label="Password"
+                    type="password"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                  />
                   <InputField
                     name="phone"
                     label="Phone"
