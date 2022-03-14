@@ -90,11 +90,16 @@ const EditTicket = ({ handleClose, open, ticket }: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="w-4/5 md:w-1/3 m-auto rounded-xl overflow-hidden mt-40">
-          <div className="text-center py-4 bg-gray-50 ">
+        <div className="w-4/5 md:w-1/3 m-auto rounded-xl overflow-hidden mt-40 bg-gray-50">
+          <div>
+            <button onClick={handleClose} className="m-4">
+              close
+            </button>
+          </div>
+          <div className="text-center py-4 ">
             <h2 className="font-bold font-rubik text-2xl">Edit Ticket</h2>
           </div>
-          <div className=" bg-gray-50 flex flex-col items-center pt-6 sm:pt-0 homebg">
+          <div className=" flex flex-col items-center pt-6 sm:pt-0 homebg">
             <div className="w-full sm:max-w-md p-5 mx-auto">
               <form onSubmit={handleSubmit}>
                 <InputField

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { ButtonAction, InputField, Loader } from '../../components/shared/Common';
+import { ButtonAction, InputField, Loader, NavlinkDefault } from '../../components/shared/Common';
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvent, getTickets, submitTicketPayment } from '../../redux/actions/events';
@@ -15,6 +15,7 @@ import { Modal } from '@mui/material';
 import { v4 } from 'uuid';
 import { toast } from 'react-toastify';
 import { signUpUser } from '../../redux/actions/auth';
+import { paths } from '../../utils/constants';
 
 type PayLoad = {
   status: boolean;
@@ -312,7 +313,9 @@ const EventPreview = () => {
                     aria-describedby="modal-modal-description"
                   >
                     <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
-                    <button onClick={handleClose} className="flex justify-right">close</button>
+                      <button onClick={handleClose} className="flex justify-right">
+                        close
+                      </button>
                       <p className="uppercase font-bold text-xl"> {open.title}</p>
                       <p className="uppercase font-bold text-lg"> N{open.price}</p>
                       <form onSubmit={handleCartSubmit}>
@@ -404,7 +407,7 @@ const EventPreview = () => {
                 )
               ) : (
                 <div className="grid place-content-center">
-                  <ButtonAction name="Buy ticket" onClick={() => setOpenForm(true)} />
+                  <NavlinkDefault name="Buy ticket" path={paths.SIGNUP} />
                 </div>
               )}
             </div>
@@ -416,7 +419,9 @@ const EventPreview = () => {
               aria-describedby="modal-modal-description"
             >
               <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
-              <button onClick={handleClose} className="flex justify-right">close</button>
+                <button onClick={handleClose} className="flex justify-right">
+                  close
+                </button>
                 <p className="uppercase font-bold text-xl">
                   We need this info help purchase your ticket
                 </p>
