@@ -344,3 +344,48 @@ export const getUserTickets = createAsyncThunk('user/tickets', async (data: obje
     };
   }
 });
+
+export const checkTicketIn = createAsyncThunk('ticket/checkin', async (data: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    const response = await Api.events.checkInTicket(data);
+    thunkAPI.dispatch(setLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: 'Ticket Checked In',
+    };
+  } catch (error) {
+    thunkAPI.dispatch(setLoading(false));
+    const err = error as AxiosError;
+    return {
+      status: false,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: err?.response?.data?.message as never,
+    };
+  }
+});
+
+export const checkTicketOut = createAsyncThunk(
+  'ticket/checkout',
+  async (data: object, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const response = await Api.events.checkOutTicket(data);
+      thunkAPI.dispatch(setLoading(false));
+      console.log(response);
+      return {
+        status: true,
+        message: 'Ticket Checked Out',
+      };
+    } catch (error) {
+      thunkAPI.dispatch(setLoading(false));
+      const err = error as AxiosError;
+      return {
+        status: false,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: err?.response?.data?.message as never,
+      };
+    }
+  },
+);
