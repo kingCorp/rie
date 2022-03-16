@@ -1,7 +1,5 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import eve from '../../assets/img/eve1.png';
-import eve4 from '../../assets/img/eve4.png';
 import { Loader } from '../../components/shared/Common';
 import TicketEvent from '../../components/TicketEvent';
 import { getUserTickets } from '../../redux/actions/events';
@@ -70,6 +68,7 @@ const Tickets = () => {
       .catch((err) => {
         console.error(err);
       });
+    // eslint-disable-next-line
   }, []);
   return (
     <section className="mt-6 mb-6">

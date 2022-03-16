@@ -4,6 +4,7 @@ import Back from '../../components/shared/Back/Back';
 import { TabButtonAction } from '../../components/shared/Common';
 import Event from './Event';
 import EventSubscribers from './EventSubscribers';
+import ScanTicket from './ScanTicket';
 
 const EventDetails = () => {
   const [active, setActive] = useState('event');
@@ -31,6 +32,13 @@ const EventDetails = () => {
               active={active === 'sub' ? true : false}
             />
           </li>
+          <li className="w-full flex justify-center">
+            <TabButtonAction
+              onClick={() => makeActive('scan')}
+              name="Scan"
+              active={active === 'scan' ? true : false}
+            />
+          </li>
         </ul>
 
         {active == 'event' && (
@@ -41,6 +49,11 @@ const EventDetails = () => {
         {active == 'sub' && (
           <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
             <EventSubscribers />
+          </div>
+        )}
+        {active == 'scan' && (
+          <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
+            <ScanTicket />
           </div>
         )}
       </MainLayout>

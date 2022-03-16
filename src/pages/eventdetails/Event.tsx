@@ -149,7 +149,7 @@ const Event = () => {
                 <h3 className="mt-4 font-bold px-3">Go Live {eventData.is_live}</h3>
                 <label
                   htmlFor="toggle-example-checked"
-                  className="flex relative items-center mb-4 cursor-pointer"
+                  className="flex relative items-center mb-4 cursor-pointer w-10"
                 >
                   {eventData.is_live && (
                     <input
@@ -157,13 +157,14 @@ const Event = () => {
                       id="toggle-example-checked"
                       className="sr-only text-xs"
                       checked
+                      onChange={(e) => goLive(e)}
                     />
                   )}
                   {!eventData.is_live && (
                     <input
                       type="checkbox"
                       id="toggle-example-checked"
-                      className="sr-only text-xs"
+                      className="sr-only text-xs "
                       onChange={(e) => goLive(e)}
                     />
                   )}
