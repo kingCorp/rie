@@ -354,8 +354,8 @@ const EventPreview = () => {
                     key={key}
                   >
                     <p className="font-bold uppercase">{cartitem.title}</p>
-                    <p>₦{cartitem.price}</p>
                     <p>{cartitem.quantity}</p>
+                    <p>₦{cartitem.price}</p>
                     <p>₦{cartitem.total}</p>
                     <div
                       className="absolute top-0 right-0 cursor-pointer"
