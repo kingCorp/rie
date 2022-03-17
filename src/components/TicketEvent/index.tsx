@@ -1,4 +1,5 @@
 import React from 'react';
+import QRCode from 'qrcode.react';
 import './index.css';
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
   booked?: boolean;
   image?: string;
   capacity?: number;
+  code?: string;
 };
 
 export default function TicketEvent(props: Props) {
@@ -43,8 +45,14 @@ export default function TicketEvent(props: Props) {
         </div>
         <div className="design-box h-full absolute right-0 top-0">
           <div className="relative w-full h-full">
+            <QRCode
+              id={props.code}
+              value={props.code || ''}
+              size={50}
+              level={'H'}
+              includeMargin={true}
+            />
             <div className=" absolute hidden md:block right-0 top-0 text-center rotate-box pt-3 mr-2">
-              {' '}
               <div>
                 <p className="font-bold text-lg">{props.ticket_title}</p>
                 <p className="font-bold text-xs">Live session</p>

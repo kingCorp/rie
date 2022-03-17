@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import QrReader from 'react-qr-scanner';
 import { ButtonAction, InputField } from '../../components/shared/Common';
 import { useAppSelector } from '../../redux/store';
 import Api from '../../services/apis';
@@ -35,8 +35,8 @@ const ScanTicket = (props) => {
   return (
     <div>
       <select onChange={(e) => setSelected(e.target.value)}>
-        <option value={'environment'}>Back Camera</option>
-        <option value={'user'}>Front Camera</option>
+        <option value={'rear'}>Back Camera</option>
+        <option value={'front'}>Front Camera</option>
       </select>
       {process && (
         <QrReader

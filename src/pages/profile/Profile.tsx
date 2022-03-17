@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { TabButtonAction } from '../../components/shared/Common';
-import BookedEvent from './BookedEvents';
 import MyEvent from './MyEvents';
 import Tickets from './Tickets';
 import { useLocation } from 'react-router-dom';
 import Auth from '../../middleware/storage';
+import ProfileInfo from './ProfileInfo';
 
 interface LocationState {
   from: string;
@@ -49,19 +49,11 @@ const Profile = () => {
             />
           </li>
         )}
-
         <li className="w-full flex justify-center">
           <TabButtonAction
-            onClick={() => makeActive('booked')}
-            name="Booked Events"
-            active={active === 'booked' ? true : false}
-          />
-        </li>
-        <li className="w-full flex justify-center">
-          <TabButtonAction
-            onClick={() => makeActive('timeline')}
-            name="Timeline"
-            active={active === 'timeline' ? true : false}
+            onClick={() => makeActive('profile')}
+            name="Profile Info"
+            active={active === 'profile' ? true : false}
           />
         </li>
       </ul>
@@ -70,19 +62,14 @@ const Profile = () => {
           <MyEvent />
         </div>
       )}
-      {active == 'booked' && (
-        <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
-          <BookedEvent />
-        </div>
-      )}
       {active == 'ticket' && Auth?.getRole() === 'user' && (
         <div className="">
           <Tickets />
         </div>
       )}
-      {active == 'timeline' && (
+      {active == 'profile' && (
         <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
-          <BookedEvent />
+          <ProfileInfo />
         </div>
       )}
     </MainLayout>
