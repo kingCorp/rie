@@ -89,6 +89,7 @@ const Tickets = () => {
               booked={code.is_checked_in}
               image={code.ticket.show.image}
               capacity={code.ticket.capacity}
+              code={code.code}
               key={index}
             />
           );

@@ -72,7 +72,7 @@ const EventSubscribers = () => {
   const handleCheck = async (checked_in: boolean, ticket_id: string, code: string) => {
     setCurrentCode(code);
     if (checked_in) {
-      await dispatch(checkTicketOut({ ticket_id, code }))
+      await dispatch(checkTicketOut({ data: { ticket_id, code } as object, showID: id as string }))
         .then((res) => {
           const payload = res.payload as PayLoad;
           if (payload.status) {
@@ -85,7 +85,7 @@ const EventSubscribers = () => {
           console.error(err);
         });
     } else {
-      await dispatch(checkTicketIn({ ticket_id, code }))
+      await dispatch(checkTicketIn({ data: { ticket_id, code } as object, showID: id as string }))
         .then((res) => {
           const payload = res.payload as PayLoad;
           if (payload.status) {
@@ -159,9 +159,11 @@ const EventSubscribers = () => {
                         </TableCell>
                         <TableCell>
                           {code.is_checked_in ? (
-                            <div className="p-3 rounded-xl bg-green-500">Checked In</div>
+                            <div className="text-right font-[700] text-lime-500">Checked In</div>
                           ) : (
-                            <div className="p-3 rounded-xl bg-orange-500">Not Checked In</div>
+                            <div className="text-right font-[700] text-orange-500">
+                              Not Checked In
+                            </div>
                           )}
                         </TableCell>
                       </TableRow>

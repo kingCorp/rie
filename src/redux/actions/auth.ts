@@ -3,7 +3,7 @@
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
 import { setUser, setUserId, setRole } from '../reducers/authSlice';
-import { setLoading } from '../reducers/loaderSlice';
+import { setAccountLoading, setLoading } from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -231,3 +231,37 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
     };
   }
 });
+
+type axres = {
+  data: {
+    message: string;
+  };
+};
+interface AccountDetails {
+  name: string;
+  number: string;
+  bank_name: string;
+}
+
+export const addAccountDetails = createAsyncThunk(
+  'add/account',
+  async (data: AccountDetails, thunkAPI) => {
+    thunkAPI.dispatch(setAccountLoading(true));
+    try {
+      const response = await Api.auth.addOrganizerAccountDetails(data);
+      const res: axres = response;
+      thunkAPI.dispatch(setAccountLoading(false));
+      return {
+        status: true as boolean,
+        message: res.data.message,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+      return {
+        status: false as boolean,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: error.response?.data?.message as never,
+      };
+    }
+  },
+);
