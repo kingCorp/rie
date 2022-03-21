@@ -12,6 +12,12 @@
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+.text-tao {
+  color: white;
+}
+.text-tao p {
+  mix-blend-mode: exclusion;
+}
 
 /* .back-img {
   background-image: linear-gradient(to right, #aa1f1a, #aa1f1a, transparent, #aa1f1a),

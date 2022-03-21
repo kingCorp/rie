@@ -2,6 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoading: false,
+  accountLoading: false,
+  closeEventLoading: false,
+  deleteEventLoading: false,
+  commissionLoading: false,
 };
 
 export const loaderSlice = createSlice({
@@ -11,11 +15,29 @@ export const loaderSlice = createSlice({
     setLoading: (state, action) => {
       state.isLoading = action.payload as boolean;
     },
+    setAccountLoading: (state, action) => {
+      state.accountLoading = action.payload as boolean;
+    },
+    setCloseEventLoading: (state, action) => {
+      state.closeEventLoading = action.payload as boolean;
+    },
+    setDeleteEventLoading: (state, action) => {
+      state.deleteEventLoading = action.payload as boolean;
+    },
+    setCommissionLoading: (state, action) => {
+      state.commissionLoading = action.payload as boolean;
+    },
   },
 });
 
 // actions
-export const { setLoading } = loaderSlice.actions;
+export const {
+  setLoading,
+  setAccountLoading,
+  setCloseEventLoading,
+  setCommissionLoading,
+  setDeleteEventLoading,
+} = loaderSlice.actions;
 
 // reducer
 export const loaderReducer = loaderSlice.reducer;

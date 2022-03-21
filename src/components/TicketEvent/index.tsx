@@ -20,7 +20,7 @@ export default function TicketEvent(props: Props) {
   return (
     <div className="w-full">
       <div
-        className="rounded-2xl h-40 w-5/6 md:w-3/4 lg:w-3/5 m-auto mb-10 relative uppercase overflow-hidden font-rubik pl-8 py-4 text-white bg-no-repeat bg-cover"
+        className="rounded-2xl h-40 w-5/6 md:w-3/4 lg:w-3/5 m-auto mb-10 relative uppercase overflow-hidden font-rubik pl-8 py-4 text-white bg-no-repeat bg-cover text-tao "
         style={{ backgroundImage: `url(${ticketback as string})` }}
       >
         <div className="h-4 w-8 bg-gray-100 absolute top-0 right-1/4 rounded-b-full"></div>
@@ -43,7 +43,7 @@ export default function TicketEvent(props: Props) {
             </div>
           </span>
         </div>
-        <div className="design-box h-full absolute right-0 top-0">
+        <div className="design-box h-full absolute right-0 top-0 text-tao">
           <div className="relative w-full h-full">
             <QRCode
               id={props.code}
