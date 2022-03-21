@@ -11,7 +11,6 @@ const ScanTicket = (props) => {
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(false);
-  const [selected, setSelected] = useState('environment');
 
   const searchTicket = async (code) => {
     const data = {
@@ -34,13 +33,9 @@ const ScanTicket = (props) => {
 
   return (
     <div>
-      <select onChange={(e) => setSelected(e.target.value)}>
-        <option value={'rear'}>Back Camera</option>
-        <option value={'front'}>Front Camera</option>
-      </select>
       {process && (
         <QrReader
-          facingMode={selected}
+          facingMode='rear'
           delay={500}
           onResult={(result, error) => {
             if (result) {
