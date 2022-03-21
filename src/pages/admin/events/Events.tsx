@@ -1,10 +1,239 @@
-import React from 'react';
+import { Modal } from '@mui/material';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../../components/admin/AdminLayout';
+import CardEvent from '../../../components/CardEvent';
+import { ButtonAction, InputField, Loader } from '../../../components/shared/Common';
+import { getEvents } from '../../../redux/actions/events';
+import { useAppSelector, useAppThunkDispatch } from '../../../redux/store';
+import cancel from '../../../assets/img/canceledit.svg';
+import { closeEvent, deleteEvent, setCommission } from '../../../redux/actions/admin';
+import { toast } from 'react-toastify';
+interface EventProps {
+  commission_percentage: number;
+  created_at: string;
+  description: string;
+  end_date: string | Date;
+  end_time: string;
+  image: string;
+  is_cashed_out: boolean;
+  is_closed: boolean;
+  is_live: boolean;
+  is_security_requested: boolean;
+  is_tag_requested: boolean;
+  number_of_tickets_sold: number;
+  organizer: string;
+  start_date: string | Date;
+  start_time: string;
+  tickets: [];
+  title: string;
+  total_amount_sold: number;
+  updated_at: string;
+  venue: string;
+  _id: string;
+}
 
+type PayLoad = {
+  status: boolean;
+  message: string;
+};
 const AdminEvents = () => {
+  const dispatch = useAppThunkDispatch();
+
+  const { deleteEventLoading, closeEventLoading, commissionLoading } = useAppSelector(
+    (state) => state.loader,
+  );
+  const [eventsData, setEventsData] = useState([] as Array<EventProps>);
+  const [commisionData, setCommissionData] = useState({
+    show_id: '',
+    commission_percentage: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCommissionData({
+      ...commisionData,
+      [name]: Number(value),
+    });
+  };
+
+  const [open, setOpen] = useState({ status: true, showId: '' });
+  const handleOpen = (showId: string) => {
+    setOpen({ status: true, showId: showId });
+    setCommissionData({
+      show_id: showId,
+      commission_percentage: '',
+    });
+  };
+  const handleClose = () => setOpen({ status: false, showId: '' });
+
+  const { events } = useAppSelector((state) => state.events);
+  const { isLoading } = useAppSelector((state) => state.loader);
+  useEffect(() => {
+    setEventsData(events);
+  }, [events]);
+
+  const handleCloseEvent = async () => {
+    await dispatch(closeEvent(open.showId))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          toast.success(payload.message);
+        } else {
+          console.log('error', payload);
+          toast.error(payload.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+  const handleDeleteEvent = async () => {
+    await dispatch(deleteEvent(open.showId))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          toast.success(payload.message);
+        } else {
+          console.log('error', payload);
+          toast.error(payload.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await dispatch(setCommission(commisionData))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          toast.success(payload.message);
+          setCommissionData({
+            ...commisionData,
+            commission_percentage: '',
+          });
+        } else {
+          console.log('error', payload);
+          toast.error(payload.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    const anony = async () => {
+      return (await dispatch(getEvents({}))) as unknown;
+    };
+    anony()
+      .then((ress) => {
+        console.log(ress);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <AdminLayout>
       <p className="text-2xl font-bold">Events</p>
+      <section className="bg-white p-1 lg:px-10 lg:py-10">
+        <h2 className="text-4xl font-extrabold py-10" id="#selling">
+          Events
+        </h2>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
+            {(eventsData || []).map((show, index) => {
+              return (
+                <CardEvent
+                  title={show.title}
+                  img={show.image}
+                  date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                  price={0}
+                  key={index}
+                  onClick={() => handleOpen(show._id)}
+                />
+              );
+            })}
+            <Modal
+              open={open.status}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div className=" w-11/12 md:w-2/4 lg:w-1/3 m-auto bg-gray-50 rounded-xl overflow-hidden mt-40 p-3">
+                <div>
+                  <button onClick={handleClose} className="m-4">
+                    <img src={cancel} alt="cancel" className="w-6" />
+                  </button>
+                </div>
+                <div className="text-center py-4 ">
+                  <h2 className="font-bold font-rubik text-2xl">Event Actions</h2>
+                </div>
+                <div className=" flex flex-col items-center pt-6 sm:pt-0 homebg">
+                  <div className="w-full sm:max-w-md p-5 mx-auto">
+                    <div className=" space-y-8">
+                      <div className="m-auto w-max">
+                        {closeEventLoading ? (
+                          <ButtonAction
+                            name="Close Event"
+                            onClick={() => handleCloseEvent()}
+                            loading
+                            disabled
+                          />
+                        ) : (
+                          <ButtonAction name="Close Event" onClick={() => handleCloseEvent()} />
+                        )}
+                      </div>
+                      <div className="m-auto w-max">
+                        {deleteEventLoading ? (
+                          <ButtonAction
+                            name="Delete Event"
+                            onClick={() => handleDeleteEvent()}
+                            loading
+                            disabled
+                          />
+                        ) : (
+                          <ButtonAction name="Delete Event" onClick={() => handleDeleteEvent()} />
+                        )}
+                      </div>
+
+                      <div className="">
+                        <p className="text-center font-rubik font-bold text-lg mb-5">
+                          Set Commission Percentage
+                        </p>
+                        <form onSubmit={handleSubmit}>
+                          <InputField
+                            name="commission_percentage"
+                            label="Commission Percentage"
+                            type="number"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                              handleChange(e);
+                            }}
+                          />
+                          <div className="m-auto w-max">
+                            {commissionLoading ? (
+                              <ButtonAction name="Submit" disabled loading />
+                            ) : (
+                              <ButtonAction name="Submit" type="submit" />
+                            )}
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+          </section>
+        )}
+      </section>
     </AdminLayout>
   );
 };

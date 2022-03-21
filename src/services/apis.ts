@@ -14,6 +14,7 @@ const Api = {
     sendResetTokenOrganizer: (data: object) => ApiHandler.post('/organizer/send_token', data),
     changePasswordUser: (data: object) => ApiHandler.post('/user/change_password', data),
     changePasswordOrganizer: (data: object) => ApiHandler.post('/organizer/change_password', data),
+    addOrganizerAccountDetails: (data: object) => ApiHandler.post('/organizer/account/add', data),
   },
   user: {
     userDetails: () => ApiHandler.get('/user/getInfo'),
@@ -24,8 +25,10 @@ const Api = {
     getOrganizerEvents: () => ApiHandler.get('/organizer/shows'),
     createEvent: (data: object) => ApiHandler.post('/organizer/show/create', data),
     createTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/create', data),
-    checkInTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/check_in', data),
-    checkOutTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/check_out', data),
+    checkInTicket: (data: object, showID: string) =>
+      ApiHandler.post(`/organizer/show/ticket/check_in/${showID}`, data),
+    checkOutTicket: (data: object, showId: string) =>
+      ApiHandler.post(`/organizer/show/ticket/check_out/${showId}`, data),
     createOneTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/addOne', data),
     getTickets: (showId: string) => ApiHandler.get(`/organizer/show/tickets/${showId}`),
     editEvent: (showId: string, data: object) =>

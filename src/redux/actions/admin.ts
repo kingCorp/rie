@@ -2,7 +2,12 @@
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
 import { setAdmin, setOrganizers, setUsers } from '../reducers/adminSlice';
-import { setLoading } from '../reducers/loaderSlice';
+import {
+  setCloseEventLoading,
+  setCommissionLoading,
+  setDeleteEventLoading,
+  setLoading,
+} from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -103,3 +108,74 @@ export const getOrganizers = createAsyncThunk(
     }
   },
 );
+
+type axres = {
+  data: {
+    message: string;
+  };
+};
+export const closeEvent = createAsyncThunk('close/event', async (showID: string, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setCloseEventLoading(true));
+    const response = await Api.admin.closeShow({ show_id: showID });
+    const res: axres = response;
+    thunkAPI.dispatch(setCloseEventLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: res.data.message,
+    };
+  } catch (err) {
+    thunkAPI.dispatch(setCloseEventLoading(false));
+    const error = err as AxiosError;
+    return {
+      status: false as boolean,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: error.response?.data?.message as never,
+    };
+  }
+});
+
+export const deleteEvent = createAsyncThunk('delete/event', async (showID: string, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setDeleteEventLoading(true));
+    const response = await Api.admin.showDelete(showID);
+    const res: axres = response;
+    thunkAPI.dispatch(setDeleteEventLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: res.data.message,
+    };
+  } catch (err) {
+    thunkAPI.dispatch(setDeleteEventLoading(false));
+    const error = err as AxiosError;
+    return {
+      status: false as boolean,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: error.response?.data?.message as never,
+    };
+  }
+});
+
+export const setCommission = createAsyncThunk('set/commision', async (data: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setCommissionLoading(true));
+    const response = await Api.admin.setCommission(data);
+    const res: axres = response;
+    thunkAPI.dispatch(setCommissionLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: res.data.message,
+    };
+  } catch (err) {
+    thunkAPI.dispatch(setCommissionLoading(false));
+    const error = err as AxiosError;
+    return {
+      status: false as boolean,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: error.response?.data?.message as never,
+    };
+  }
+});
