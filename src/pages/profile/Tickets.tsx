@@ -72,29 +72,29 @@ const Tickets = () => {
   }, []);
   return (
     <section className="mt-6 mb-6">
-      {isLoading ? (
-        <Loader />
-      ) : (
-        (codes || []).map((code, index) => {
+      {isLoading && <Loader />}
+
+      {!isLoading &&
+        codes.length > 0 &&
+        codes.map((code, index) => {
           return (
             <TicketEvent
-              ticket_title={code.ticket.title}
-              show_title={code.ticket.show.title}
-              start_date={moment(code.ticket.show.start_date).format('MMMM Do')}
+              ticket_title={code.ticket?.title}
+              show_title={code.ticket?.show?.title}
+              start_date={moment(code.ticket?.show.start_date).format('MMMM Do')}
               start_time={moment(
-                moment(code.ticket.show.start_time, [moment.ISO_8601, 'HH:mm']),
+                moment(code.ticket?.show.start_time, [moment.ISO_8601, 'HH:mm']),
               ).format('LT')}
-              price={code.ticket.price}
+              price={code.ticket?.price}
               href={' '}
-              booked={code.is_checked_in}
-              image={code.ticket.show.image}
-              capacity={code.ticket.capacity}
-              code={code.code}
+              booked={code?.is_checked_in}
+              image={code.ticket?.show.image}
+              capacity={code.ticket?.capacity}
+              code={code?.code}
               key={index}
             />
           );
-        })
-      )}
+        })}
     </section>
   );
 };

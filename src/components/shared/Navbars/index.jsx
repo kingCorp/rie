@@ -100,12 +100,8 @@ export const Navbar = () => {
                         <div className="pop-list pop-list-top">My Tickets</div>
                       </Link>
                     )}
-
-                    <Link to={paths.PROFILE} state={{ from: 'booked' }}>
-                      <div className="pop-list ">Booked Events</div>
-                    </Link>
-                    <Link to={paths.PROFILE} state={{ from: 'timeline' }}>
-                      <div className="pop-list">Timeline</div>
+                    <Link to={paths.PROFILE} state={{ from: 'profile' }}>
+                      <div className="pop-list ">Profile</div>
                     </Link>
                     <div
                       className="pop-list pop-list-bottom"

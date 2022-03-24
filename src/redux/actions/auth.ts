@@ -96,6 +96,7 @@ type User = {
   fullname: string;
   phone: string;
   updated_at: Date;
+  accountInfo: [];
 };
 type SignInRes = {
   data: User;
@@ -215,6 +216,7 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
       thunkAPI.dispatch(setRole('organizer'));
       Auth.setRole('organizer');
       Auth.setUser(data.data);
+      Auth.setAccounts(data.data.accountInfo);
       Auth.setToken(data.token, data.token);
       return {
         status: true as boolean,
@@ -249,6 +251,29 @@ export const addAccountDetails = createAsyncThunk(
     thunkAPI.dispatch(setAccountLoading(true));
     try {
       const response = await Api.auth.addOrganizerAccountDetails(data);
+      const res: axres = response;
+      thunkAPI.dispatch(setAccountLoading(false));
+      return {
+        status: true as boolean,
+        message: res.data.message,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+      return {
+        status: false as boolean,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: error.response?.data?.message as never,
+      };
+    }
+  },
+);
+
+export const deleteAccountDetails = createAsyncThunk(
+  'delete/account',
+  async (accountId: string, thunkAPI) => {
+    thunkAPI.dispatch(setAccountLoading(true));
+    try {
+      const response = await Api.auth.organizerAccountDelete(accountId);
       const res: axres = response;
       thunkAPI.dispatch(setAccountLoading(false));
       return {

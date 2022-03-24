@@ -29,6 +29,7 @@ type InputFieldProps = {
   checked?: boolean;
   id?: string;
   onChange?: React.ChangeEventHandler;
+  readonly?: boolean;
 };
 
 type SelectFieldProps = {
@@ -102,6 +103,7 @@ export const InputField = ({
   value,
   id,
   onChange,
+  readonly,
 }: InputFieldProps) => {
   const [typeState, setTypeState] = useState(type);
   const handleType = () => {
@@ -124,6 +126,7 @@ export const InputField = ({
         name={name}
         value={value}
         placeholder={placeholder}
+        readOnly={readonly}
         className="py-2 px-3 border border-gray-500 focus:border-red-500 focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50 rounded-full shadow-sm disabled:bg-gray-100 mt-1 block w-full"
       />
       {type == 'password' && (

@@ -54,6 +54,13 @@ const Auth = {
     const user = JSON.parse(localStorage.getItem('user') as string) as User;
     return user;
   },
+  setAccounts: (accounts: []) => {
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+  },
+  getAccounts: () => {
+    const accounts = JSON.parse(localStorage.getItem('accounts') as string) as [];
+    return accounts;
+  },
 };
 
 export default Auth;

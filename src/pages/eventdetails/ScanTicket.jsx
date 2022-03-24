@@ -4,6 +4,8 @@ import QrReader from 'react-qr-scanner';
 import { ButtonAction, InputField } from '../../components/shared/Common';
 import { useAppSelector } from '../../redux/store';
 import Api from '../../services/apis';
+import { toast, ToastContainer } from 'react-toastify';
+
 
 const ScanTicket = (props) => {
   const { event } = useAppSelector((state) => state.events);
@@ -11,7 +13,6 @@ const ScanTicket = (props) => {
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(false);
-  const [selected, setSelected] = useState('environment');
 
   const searchTicket = async (code) => {
     const data = {
@@ -22,25 +23,23 @@ const ScanTicket = (props) => {
       setLoading(true);
       const res = await Api.events.searchTicket(data);
       console.log(res.data);
-      setResult(res.data);
+      setResult(res.data.data);
       setLoading(false);
       setProcess(false);
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      console.log(error?.response?.data?.message);
+      toast(error?.response?.data?.message);
       setProcess(false);
     }
   };
 
   return (
     <div>
-      <select onChange={(e) => setSelected(e.target.value)}>
-        <option value={'rear'}>Back Camera</option>
-        <option value={'front'}>Front Camera</option>
-      </select>
+      <ToastContainer />
       {process && (
         <QrReader
-          facingMode={selected}
+          facingMode="rear"
           delay={500}
           onResult={(result, error) => {
             if (result) {

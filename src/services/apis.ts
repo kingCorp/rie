@@ -15,6 +15,8 @@ const Api = {
     changePasswordUser: (data: object) => ApiHandler.post('/user/change_password', data),
     changePasswordOrganizer: (data: object) => ApiHandler.post('/organizer/change_password', data),
     addOrganizerAccountDetails: (data: object) => ApiHandler.post('/organizer/account/add', data),
+    organizerAccountDelete: (accountId: string) =>
+      ApiHandler.delete(`/organizer/account/delete/${accountId}`),
   },
   user: {
     userDetails: () => ApiHandler.get('/user/getInfo'),
