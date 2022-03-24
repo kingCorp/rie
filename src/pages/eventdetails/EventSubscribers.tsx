@@ -56,12 +56,15 @@ const EventSubscribers = () => {
   const { tickets, ticketsLoading } = useAppSelector((state) => state.events);
   const { isLoading } = useAppSelector((state) => state.loader);
   const [subTickets, setSubTickets] = useState([] as Array<Ticket>);
+  const [newTickets, setNewTickets] = useState([] as Array<Ticket>);
   const dispatch = useAppThunkDispatch();
 
   useEffect(() => {
     setSubTickets(tickets);
   }, [tickets]);
-
+  useEffect(() => {
+    setNewTickets(subTickets);
+  }, [subTickets]);
   // useEffect(()=>{
   //   (async()=>{
   //    return await dispatch(getTicke)
@@ -104,19 +107,21 @@ const EventSubscribers = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    if (value.length > 0) {
-      const newTickets = subTickets.filter((ticket) => {
-        return ticket.codes.filter((code) => code.code.match(value));
-      });
-      //const searchTickets = newTickets[0];
-      // setSubTickets(searchTickets);
-      console.log('search ticekt', newTickets, subTickets);
-    }
+    let searchableTickets = newTickets;
+    subTickets.forEach((ticket, index) => {
+      const NewCodes = ticket.codes.filter((cod) =>
+        cod.code.toLowerCase().includes(value.toLowerCase()),
+      );
+      searchableTickets = searchableTickets.filter((item) => item._id !== subTickets[index]._id);
+      searchableTickets = [...searchableTickets, { ...subTickets[index], codes: NewCodes }];
+    });
+    console.log(searchableTickets);
+    setNewTickets(searchableTickets);
   };
 
   return (
     <>
-      {console.log(subTickets)}
+      {/* {console.log(subTickets)} */}
       {ticketsLoading ? (
         <Loader />
       ) : (
@@ -149,7 +154,7 @@ const EventSubscribers = () => {
               />
             </div>
           </div>
-          {subTickets.map((ticket, ticketIndex) => (
+          {newTickets.map((ticket, ticketIndex) => (
             <div key={ticketIndex}>
               <div className="w-max mx-auto py-3 font-rubik font-bold uppercase text-lg">
                 {ticket.title}

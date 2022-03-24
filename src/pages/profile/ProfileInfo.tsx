@@ -1,17 +1,28 @@
 /* eslint-disable */
 import { FormControl, InputLabel, MenuItem, Modal, Select, SelectChangeEvent } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { ButtonAction, InputField } from '../../components/shared/Common';
 import Auth from '../../middleware/storage';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import cancel from '../../assets/img/canceledit.svg';
-import { addAccountDetails } from '../../redux/actions/auth';
+import { addAccountDetails, deleteAccountDetails } from '../../redux/actions/auth';
 import { toast, ToastContainer } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import { PAYSTACK_PUBLIC_KEY } from '../../utils/constants';
+import { setAccountLoading } from '../../redux/reducers/loaderSlice';
 type PayLoad = {
   status: boolean;
   message: string;
+};
+type Account = {
+  active: boolean;
+  _id: string;
+  organizer: string;
+  name: string;
+  number: string;
+  bank_name: string;
+  created_at: string;
+  updated_at: string;
 };
 const ProfileInfo = () => {
   const dispatch = useAppThunkDispatch();
@@ -19,6 +30,11 @@ const ProfileInfo = () => {
   const { accountLoading } = useAppSelector((state) => state.loader);
   const [banks, setBanks] = useState([]);
   const [accountVerify, setAccountVerify] = useState(false);
+  const [accounts, setAccounts] = useState(Auth.getAccounts() as Array<Account>);
+  const [deleteLoading, setDeleteLoading] = useState({
+    accountId: '',
+    loading: false,
+  });
   const [accountDetails, setAccountDetails] = useState({
     name: '',
     number: '',
@@ -37,6 +53,9 @@ const ProfileInfo = () => {
       [name]: value,
     });
   };
+  useEffect(() => {
+    Auth.setAccounts(accounts as []);
+  }, [accounts]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,12 +107,14 @@ const ProfileInfo = () => {
 
   const verifyAccount = async () => {
     try {
+      dispatch(setAccountLoading(true));
       const res = await axios.get(
         `https://api.paystack.co/bank/resolve?account_number=${accountDetails.number}&bank_code=${selectValue}`,
         {
           headers: { Authorization: 'Bearer sk_test_dcb289326fc77eaf77e4f1b3f284a97160d8a4bd' },
         },
       );
+      dispatch(setAccountLoading(false));
       console.log(res.data.data);
       setAccountDetails({
         ...accountDetails,
@@ -112,6 +133,37 @@ const ProfileInfo = () => {
   useEffect(() => {
     fetchBanks();
   }, []);
+
+  const handleAccountDelete = async (accountId: string) => {
+    setDeleteLoading({
+      accountId: accountId,
+      loading: true,
+    });
+    await dispatch(deleteAccountDetails(accountId))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          setAccounts(accounts.filter((item) => item._id !== accountId));
+          setDeleteLoading({
+            accountId: '',
+            loading: false,
+          });
+          toast.success(payload.message);
+          setAccountDetails({
+            name: '',
+            number: '',
+            bank_name: '',
+          });
+          handleClose();
+        } else {
+          console.log('error', payload);
+          toast.error(payload.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <div className="bg-white-100 py-10">
@@ -194,8 +246,33 @@ const ProfileInfo = () => {
               </div>
             </div>
           </Modal>
+          <div>
+            {accounts?.map((account: Account, key) => (
+              <div
+                key={key}
+                className="flex justify-between rounded-lg shadow-lg p-5 items-center mt-8 space-x-5"
+              >
+                <div>
+                  <p>{account.bank_name}</p>
+                  <p>{account.name}</p>
+                  <p>{account.number}</p>
+                </div>
+                <div>
+                  <ButtonAction
+                    name="Delete"
+                    type="button"
+                    loading={
+                      deleteLoading.accountId === account._id ? deleteLoading.loading : false
+                    }
+                    onClick={() => handleAccountDelete(account._id)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
+
       <br />
     </div>
   );
