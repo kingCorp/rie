@@ -47,7 +47,7 @@ const EventDetails = () => {
           </div>
         )}
         {active == 'sub' && (
-          <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
+          <div className="py-4 px-1">
             <EventSubscribers />
           </div>
         )}
