@@ -5,18 +5,23 @@ import { paths } from '../../utils/constants';
 import { useAppThunkDispatch } from '../../redux/store';
 import { signUpUser, signInUser } from '../../redux/actions/auth';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { Link } from 'react-router-dom';
 
 type PayLoad = {
   status: boolean;
   message: string;
 };
-
+interface LocationState {
+  currentPath: string;
+}
 const SignUp = () => {
   const { isLoading } = useSelector((state: RootState) => state.loader);
+  const location = useLocation();
+  const { currentPath } = (location.state as LocationState) || { currentPath: false };
   const dispatch = useAppThunkDispatch();
   const navigate = useNavigate();
   const [signedUp, setSignedUp] = useState(false);
@@ -44,13 +49,6 @@ const SignUp = () => {
   const { isAuthorized } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (isAuthorized) {
-      navigate('/profile');
-    }
-    // eslint-disable-next-line
-  }, [isAuthorized]);
-
-  useEffect(() => {
     if (signedUp) {
       const anony = async () => {
         return await dispatch(
@@ -65,6 +63,7 @@ const SignUp = () => {
           const payload = res.payload as PayLoad;
           if (payload.status) {
             toast.success(payload.message);
+            currentPath ? navigate(currentPath) : navigate('/profile');
           } else {
             toast.error(payload.message);
           }
@@ -149,9 +148,13 @@ const SignUp = () => {
               )}
             </div>
             <div className="mt-6 text-center">
-              <a href={paths.SIGNIN} className="underline font-bold">
+              <Link
+                to={paths.SIGNIN}
+                className="underline font-bold"
+                state={{ currentPath: currentPath }}
+              >
                 Sign in
-              </a>
+              </Link>
             </div>
           </form>
         </div>

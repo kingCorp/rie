@@ -407,7 +407,11 @@ const EventPreview = () => {
                 )
               ) : (
                 <div className="grid place-content-center">
-                  <NavlinkDefault name="Buy ticket" path={paths.SIGNUP} />
+                  <NavlinkDefault
+                    name="Buy ticket"
+                    path={paths.SIGNUP}
+                    currentPath={'/preview/' + id}
+                  />
                 </div>
               )}
             </div>

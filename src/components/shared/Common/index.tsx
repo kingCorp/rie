@@ -7,8 +7,9 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { TailSpin } from 'react-loader-spinner';
 import eye from '../../../assets/img/eye.svg';
 import eyeOff from '../../../assets/img/eye-off.svg';
+import { Link } from 'react-router-dom';
 
-type NavLinkDarkProps = { path: string; name: string };
+type NavLinkDarkProps = { path: string; name: string; currentPath?: string };
 
 type ButtonActionProps = {
   onClick?: React.MouseEventHandler;
@@ -55,14 +56,15 @@ export const NavlinkDark = ({ path, name }: NavLinkDarkProps) => {
   );
 };
 
-export const NavlinkDefault = ({ path, name }: NavLinkDarkProps) => {
+export const NavlinkDefault = ({ path, name, currentPath }: NavLinkDarkProps) => {
   return (
-    <a
-      href={path}
+    <Link
+      to={path}
+      state={{ currentPath: currentPath }}
       className="text-white bg-red-600 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700"
     >
       {name}
-    </a>
+    </Link>
   );
 };
 

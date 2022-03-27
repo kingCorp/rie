@@ -38,12 +38,6 @@ const ForgotPassword = ({ handleClose, open, userType }: Props) => {
   const handleChangeOpen = () => setOpenChange(true);
   const handleChangeClose = () => setOpenChange(false);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      navigate('/profile');
-    }
-  }, [isAuthorized]);
-
   const [loginDetails, setLoginDetails] = useState({
     email: '',
   });
