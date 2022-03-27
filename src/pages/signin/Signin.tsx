@@ -6,7 +6,7 @@ import { paths } from '../../utils/constants';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { signInUser } from '../../redux/actions/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ThunkAppDispatch, RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 // import { AlertNote } from '../../components/shared/Common';
@@ -18,10 +18,15 @@ type PayLoad = {
   status: boolean;
   message: string;
 };
+interface LocationState {
+  currentPath: string;
+}
 
 const Signin = () => {
   const dispatch: ThunkAppDispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { currentPath } = (location.state as LocationState) || { currentPath: false };
   const { isAuthorized } = useSelector((state: RootState) => state.auth);
   const { isLoading } = useSelector((state: RootState) => state.loader);
 
@@ -57,9 +62,9 @@ const Signin = () => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
           toast.success(payload.message);
+          currentPath ? navigate(currentPath) : navigate('/profile');
         } else {
           toast.error(payload.message);
-          navigate('/profile');
         }
       })
       .catch((error) => {

@@ -32,12 +32,6 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
   const { isAuthorized } = useSelector((state: RootState) => state.auth);
   const isLoading = useSelector(getIsLoading);
 
-  useEffect(() => {
-    if (isAuthorized) {
-      navigate('/profile');
-    }
-  }, [isAuthorized]);
-
   const [loginDetails, setLoginDetails] = useState({
     email: '',
     password: '',

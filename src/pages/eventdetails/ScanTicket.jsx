@@ -6,15 +6,15 @@ import { useAppSelector } from '../../redux/store';
 import Api from '../../services/apis';
 import { toast, ToastContainer } from 'react-toastify';
 
-
 const ScanTicket = (props) => {
   const { event } = useAppSelector((state) => state.events);
   const [data, setData] = useState('No result');
+  const [code, setCode] = useState('');
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(false);
 
-  const searchTicket = async (code) => {
+  const searchTicket = async () => {
     const data = {
       code: code,
       show_id: event._id,
@@ -45,7 +45,8 @@ const ScanTicket = (props) => {
             if (result) {
               // eslint-disable-next-line
               // setData(result?.text);
-              searchTicket(result?.text);
+              // setCode(result?.text)
+              searchTicket();
             }
 
             if (error) {
@@ -63,7 +64,7 @@ const ScanTicket = (props) => {
         <InputField
           name="search"
           placeholder="Search tickets"
-          onChange={() => setData(e.target.value)}
+          onChange={(e) => setCode(e.target.value)}
         />
         <ButtonAction name="search" type="button" onClick={() => searchTicket(data)} />
       </div>

@@ -62,6 +62,7 @@ const EventSubscribers = () => {
   useEffect(() => {
     setSubTickets(tickets);
   }, [tickets]);
+
   useEffect(() => {
     setNewTickets(subTickets);
   }, [subTickets]);
@@ -121,12 +122,12 @@ const EventSubscribers = () => {
 
   return (
     <>
-      {/* {console.log(subTickets)} */}
+      {console.log(subTickets, newTickets)}
       {ticketsLoading ? (
         <Loader />
       ) : (
         <div>
-          <div className="p-4">
+          <div className="w-max mx-auto py-3 font-rubik font-bold uppercase text-lg">
             <label htmlFor="table-search" className="sr-only">
               Search
             </label>
@@ -159,66 +160,68 @@ const EventSubscribers = () => {
               <div className="w-max mx-auto py-3 font-rubik font-bold uppercase text-lg">
                 {ticket.title}
               </div>
-              <TableContainer component={Paper}>
-                <Table stickyHeader aria-label="sticky table" sx={{ minWidth: 650 }}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Full name</TableCell>
-                      <TableCell>Code</TableCell>
-                      <TableCell align="right">Email</TableCell>
-                      <TableCell align="right">Phone</TableCell>
-                      <TableCell align="right">Action</TableCell>
-                      <TableCell align="right">Bought</TableCell>
-                      <TableCell align="right">Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    {ticket.codes.map((code, codeIndex) => (
-                      <TableRow
-                        key={codeIndex}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {code.user.fullname}
-                        </TableCell>
-                        <TableCell align="right">{code.code.toLocaleUpperCase()}</TableCell>
-                        <TableCell align="right">{code.user.email}</TableCell>
-                        <TableCell align="right">{code.user.phone}</TableCell>
-                        <TableCell align="right">
-                          <button
-                            type="button"
-                            className="w-40 py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700 flex justify-center"
-                            onClick={() => {
-                              handleCheck(code.is_checked_in, ticket._id, code.code) as unknown;
-                            }}
-                          >
-                            {isLoading && currentCode === code.code ? (
-                              <TailSpin color="white" height={20} width={20} />
-                            ) : code.is_checked_in ? (
-                              'Check Out'
-                            ) : (
-                              'Check In'
-                            )}
-                          </button>
-                        </TableCell>
-                        <TableCell align="right">
-                          {moment(code.created_at).format('MMMM Do YYYY')}
-                        </TableCell>
-                        <TableCell>
-                          {code.is_checked_in ? (
-                            <div className="text-right font-[700] text-lime-500">Checked In</div>
-                          ) : (
-                            <div className="text-right font-[700] text-orange-500">
-                              Not Checked In
-                            </div>
-                          )}
-                        </TableCell>
+              <div className="overflow-x-auto lg:w-auto">
+                <TableContainer component={Paper}>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Full name</TableCell>
+                        <TableCell>Code</TableCell>
+                        <TableCell align="right">Email</TableCell>
+                        <TableCell align="right">Phone</TableCell>
+                        <TableCell align="right">Action</TableCell>
+                        <TableCell align="right">Bought</TableCell>
+                        <TableCell align="right">Status</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    </TableHead>
+
+                    <TableBody>
+                      {ticket.codes.map((code, codeIndex) => (
+                        <TableRow
+                          key={codeIndex}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {code.user.fullname}
+                          </TableCell>
+                          <TableCell align="right">{code.code.toLocaleUpperCase()}</TableCell>
+                          <TableCell align="right">{code.user.email}</TableCell>
+                          <TableCell align="right">{code.user.phone}</TableCell>
+                          <TableCell align="right">
+                            <button
+                              type="button"
+                              className="w-40 py-2  text-base font-medium rounded-full text-white bg-red-600 hover:bg-gray-700 flex justify-center"
+                              onClick={() => {
+                                handleCheck(code.is_checked_in, ticket._id, code.code) as unknown;
+                              }}
+                            >
+                              {isLoading && currentCode === code.code ? (
+                                <TailSpin color="white" height={20} width={20} />
+                              ) : code.is_checked_in ? (
+                                'Check Out'
+                              ) : (
+                                'Check In'
+                              )}
+                            </button>
+                          </TableCell>
+                          <TableCell align="right">
+                            {moment(code.created_at).format('MMMM Do YYYY')}
+                          </TableCell>
+                          <TableCell>
+                            {code.is_checked_in ? (
+                              <div className="text-right font-[700] text-lime-500">Checked In</div>
+                            ) : (
+                              <div className="text-right font-[700] text-orange-500">
+                                Not Checked In
+                              </div>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
             </div>
           ))}
         </div>
