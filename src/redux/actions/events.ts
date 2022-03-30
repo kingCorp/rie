@@ -10,7 +10,7 @@ import {
   setTicketsLoading,
   setUserTickets,
 } from '../reducers/eventSlice';
-import { setLoading } from '../reducers/loaderSlice';
+import { setCashOutLoading, setLoading } from '../reducers/loaderSlice';
 // import { AppDispatch } from '../store';
 import { CLOUDINARY_URL } from '../../utils/constants';
 import { AxiosError } from 'axios';
@@ -385,6 +385,28 @@ export const checkTicketOut = createAsyncThunk('ticket/checkout', async (data: C
   } catch (error) {
     thunkAPI.dispatch(setLoading(false));
     const err = error as AxiosError;
+    return {
+      status: false,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: err?.response?.data?.message as never,
+    };
+  }
+});
+
+export const requestCashOut = createAsyncThunk('cash/out', async (show: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setCashOutLoading(true));
+    const response: AxiosRes = await Api.events.cashOut(show);
+    const data: CreateRes = response.data;
+    thunkAPI.dispatch(setCashOutLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: data?.message,
+    };
+  } catch (error) {
+    const err = error as AxiosError;
+    thunkAPI.dispatch(setCashOutLoading(false));
     return {
       status: false,
       //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

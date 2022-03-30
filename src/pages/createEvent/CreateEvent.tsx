@@ -164,6 +164,7 @@ const CreateEvent = () => {
               name="end_date"
               label="End Date"
               type="date"
+              min={yourDate.toISOString().split('T')[0]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
             <InputField

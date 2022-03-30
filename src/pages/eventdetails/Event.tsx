@@ -2,14 +2,18 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { useState, useEffect } from 'react';
-import { getEvent, getTickets, goLiveEvent } from '../../redux/actions/events';
+import { getEvent, getTickets, goLiveEvent, requestCashOut } from '../../redux/actions/events';
 import penedit from '../../assets/img/penedit.svg';
-import { ButtonAction, Loader } from '../../components/shared/Common';
+import { ButtonAction, ButtonSpinner, Loader } from '../../components/shared/Common';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import CreateTicket from '../createTicket/CreateTicket';
 import EditTicket from '../editTicket/EditTicket';
-
+import { toast } from 'react-toastify';
+type PayLoad = {
+  status: boolean;
+  message: string;
+};
 interface EventProps {
   commission_percentage: number;
   created_at: string;
@@ -49,7 +53,7 @@ interface Ticket {
 const Event = () => {
   const { id } = useParams();
   const { event, tickets, ticketsLoading } = useAppSelector((state) => state.events);
-  const { isLoading } = useAppSelector((state) => state.loader);
+  const { isLoading, cashOutLoading } = useAppSelector((state) => state.loader);
   const [eventData, setEventData] = useState({} as EventProps);
   const [ticketsList, setTicketsList] = useState([] as Array<Ticket>);
 
@@ -108,6 +112,21 @@ const Event = () => {
     await dispatch(goLiveEvent(data));
     await dispatch(getEvent(id as string));
   };
+  const checkCashDate = new Date().getTime() > new Date(eventData.end_date).getTime();
+  const handleCashOut = async () => {
+    await dispatch(requestCashOut({ show_id: eventData._id }))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          return toast.success(payload.message);
+        } else {
+          return toast.warn(payload.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <div>
@@ -119,7 +138,7 @@ const Event = () => {
         <div className="bg-gray-100">
           <div className="lg:grid  lg:grid-cols-12 gap-x-10 px-10 md:px-20  pt-10">
             <div className=" lg:col-span-8 w-full font-rubik py-5">
-              <div className="px-3 flex flex-col md:flex-row md:items-center">
+              <div className="px-3 flex flex-col md:flex-row md:items-center justify-between">
                 <h2 className="font-bold text-2xl mr-8">{eventData.title}</h2>
                 <span className=" mr-8">
                   {moment(eventData.start_date as Date).format('MMMM Do YYYY')}
@@ -128,6 +147,25 @@ const Event = () => {
                   {moment(moment(eventData.start_time, [moment.ISO_8601, 'HH:mm'])).format('LT')}
                 </span>
                 <span className="">{eventData.venue}</span>
+                <div>
+                  {checkCashDate ? (
+                    <button
+                      className=" text-white font-rubik px-4 py-2 bg-red-600 rounded-full hover:bg-gray-400"
+                      type="button"
+                      onClick={() => handleCashOut()}
+                    >
+                      {cashOutLoading ? <ButtonSpinner /> : 'Request Cash Out'}
+                    </button>
+                  ) : (
+                    <button
+                      className=" text-white font-rubik px-4 py-2 bg-red-600 rounded-full opacity-30"
+                      type="button"
+                      disabled
+                    >
+                      Request Cash Out
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="mt-4">

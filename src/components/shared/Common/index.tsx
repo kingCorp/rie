@@ -216,3 +216,10 @@ export const Loader = () => {
     </div>
   );
 };
+export const ButtonSpinner = () => {
+  return (
+    <div className="flex items-center justify-center px-14">
+      <TailSpin color="white" height={20} width={20} />
+    </div>
+  );
+};
