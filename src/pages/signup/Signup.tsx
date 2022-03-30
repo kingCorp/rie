@@ -46,7 +46,7 @@ const SignUp = () => {
     });
   };
 
-  const { isAuthorized } = useSelector((state: RootState) => state.auth);
+  // const { isAuthorized } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     if (signedUp) {

@@ -6,6 +6,7 @@ const initialState = {
   closeEventLoading: false,
   deleteEventLoading: false,
   commissionLoading: false,
+  cashOutLoading: false,
 };
 
 export const loaderSlice = createSlice({
@@ -27,6 +28,9 @@ export const loaderSlice = createSlice({
     setCommissionLoading: (state, action) => {
       state.commissionLoading = action.payload as boolean;
     },
+    setCashOutLoading: (state, action) => {
+      state.cashOutLoading = action.payload as boolean;
+    },
   },
 });
 
@@ -37,6 +41,7 @@ export const {
   setCloseEventLoading,
   setCommissionLoading,
   setDeleteEventLoading,
+  setCashOutLoading,
 } = loaderSlice.actions;
 
 // reducer

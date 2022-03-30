@@ -123,6 +123,10 @@ const CreateEvent = () => {
     // document.getElementById('#image')?.click();
     fileRef?.click();
   };
+
+  const yourDate = new Date();
+
+  console.log(yourDate.toISOString().split('T')[0]);
   return (
     <MainLayout>
       <div className="text-center py-4 bg-gray-50 ">
@@ -153,12 +157,14 @@ const CreateEvent = () => {
               name="start_date"
               label="Start Date"
               type="date"
+              min={yourDate.toISOString().split('T')[0]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
             <InputField
               name="end_date"
               label="End Date"
               type="date"
+              min={yourDate.toISOString().split('T')[0]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
             <InputField

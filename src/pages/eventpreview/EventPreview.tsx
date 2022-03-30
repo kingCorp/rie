@@ -217,7 +217,7 @@ const EventPreview = () => {
         console.log(error);
       });
   };
-
+  console.log(ticketsList);
   return (
     <>
       <MainLayout>
@@ -291,16 +291,19 @@ const EventPreview = () => {
                                 ).format('LT')}
                               </p>
                             </div>
-
-                            <div
-                              className="cursor-pointer px-4 "
-                              onClick={() => {
-                                handleOpen(ticket._id, ticket.title, ticket.price);
-                                handleCartItem(ticket.title, ticket.price, ticket._id);
-                              }}
-                            >
-                              <img src={cartimg} alt="pendit" className="w-5" />
-                            </div>
+                            {ticket.capacity === ticket.purchased ? (
+                              <p className="text-center font-bold">SOLD OUT</p>
+                            ) : (
+                              <div
+                                className="cursor-pointer px-4 "
+                                onClick={() => {
+                                  handleOpen(ticket._id, ticket.title, ticket.price);
+                                  handleCartItem(ticket.title, ticket.price, ticket._id);
+                                }}
+                              >
+                                <img src={cartimg} alt="pendit" className="w-5" />
+                              </div>
+                            )}
                           </div>
                         );
                       })
