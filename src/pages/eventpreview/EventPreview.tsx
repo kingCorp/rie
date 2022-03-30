@@ -292,7 +292,7 @@ const EventPreview = () => {
                               </p>
                             </div>
                             {ticket.capacity === ticket.purchased ? (
-                              <p className="text-center font-bold">SOLD OUT</p>
+                              <p className="text-center font-bold text-red-500">SOLD OUT</p>
                             ) : (
                               <div
                                 className="cursor-pointer px-4 "
