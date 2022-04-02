@@ -340,8 +340,8 @@ const Event = () => {
           <div className=" flex flex-col items-center pt-6 sm:pt-0 homebg">
             <div className="w-full sm:max-w-md p-5 mx-auto">
               <p>Title: {eventData.title}</p>
-              <p>Total sold: N{eventData.total_amount_sold}</p>
-              <p>Total Ticket: {eventData.number_of_tickets_sold}</p>
+              <p>Total Amount Sold: N{eventData.total_amount_sold}</p>
+              <p>Total Ticket Sold: {eventData.number_of_tickets_sold}</p>
               <p>Commission: {eventData.commission_percentage}%</p>
               <br />
               <p className="font-bold">Organizer account details</p>
