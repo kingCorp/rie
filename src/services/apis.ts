@@ -19,7 +19,8 @@ const Api = {
       ApiHandler.delete(`/organizer/account/delete/${accountId}`),
   },
   user: {
-    userDetails: () => ApiHandler.get('/user/getInfo'),
+    userDetails: () => ApiHandler.get('/user/get_info'),
+    organizerDetails: () => ApiHandler.get('/organizer/get_info'),
   },
   events: {
     events: () => ApiHandler.get('/show/all'),

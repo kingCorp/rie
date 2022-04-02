@@ -10,6 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import { PAYSTACK_PUBLIC_KEY } from '../../utils/constants';
 import { setAccountLoading } from '../../redux/reducers/loaderSlice';
+import Api from '../../services/apis';
 type PayLoad = {
   status: boolean;
   message: string;
@@ -27,6 +28,7 @@ type Account = {
 const ProfileInfo = () => {
   const dispatch = useAppThunkDispatch();
   const [user] = useState(Auth.getUser());
+  const [role] = useState(Auth.getRole());
   const { accountLoading } = useAppSelector((state) => state.loader);
   const [banks, setBanks] = useState([]);
   const [accountVerify, setAccountVerify] = useState(false);
@@ -132,6 +134,7 @@ const ProfileInfo = () => {
 
   useEffect(() => {
     fetchBanks();
+    userInfo();
   }, []);
 
   const handleAccountDelete = async (accountId: string) => {
@@ -163,6 +166,16 @@ const ProfileInfo = () => {
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const userInfo = async () => {
+    try {
+      console.log(role);
+      const res = role == 'user' ? await Api.user.userDetails() : await Api.user.organizerDetails();
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
