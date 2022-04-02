@@ -222,7 +222,7 @@ const Event = () => {
                       id="toggle-example-checked"
                       className="sr-only text-xs"
                       checked
-                      onChange={(e) => goLive(e)}
+                      // onChange={(e) => goLive(e)}
                     />
                   )}
                   {!eventData.is_live && (

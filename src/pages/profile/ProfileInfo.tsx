@@ -71,6 +71,7 @@ const ProfileInfo = () => {
             number: '',
             bank_name: '',
           });
+          userInfo();
           handleClose();
         } else {
           console.log('error', payload);
