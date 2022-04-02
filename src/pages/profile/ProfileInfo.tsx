@@ -15,7 +15,7 @@ type PayLoad = {
   status: boolean;
   message: string;
 };
-type Account = {
+export type Account = {
   active: boolean;
   _id: string;
   organizer: string;
@@ -32,7 +32,7 @@ const ProfileInfo = () => {
   const { accountLoading } = useAppSelector((state) => state.loader);
   const [banks, setBanks] = useState([]);
   const [accountVerify, setAccountVerify] = useState(false);
-  const [accounts, setAccounts] = useState(Auth.getAccounts() as Array<Account>);
+  const [accounts, setAccounts] = useState([] as Array<Account>);
   const [deleteLoading, setDeleteLoading] = useState({
     accountId: '',
     loading: false,
@@ -85,7 +85,11 @@ const ProfileInfo = () => {
   const [selectValue, setSelectValue] = useState('');
   const handleSelect = (e: SelectChangeEvent) => {
     setSelectValue(e.target.value as string);
-    console.log(e.target.value);
+    setAccountDetails({
+      ...accountDetails,
+      bank_name: e.target.value,
+    });
+    console.log(e.target.value, e.target);
   };
 
   const fetchBanks = async () => {
@@ -172,7 +176,8 @@ const ProfileInfo = () => {
     try {
       console.log(role);
       const res = role == 'user' ? await Api.user.userDetails() : await Api.user.organizerDetails();
-      console.log(res.data);
+      console.log(res.data.data.accountInfo);
+      setAccounts(res.data.data.accountInfo);
     } catch (error) {
       console.log(error);
     }
@@ -190,6 +195,36 @@ const ProfileInfo = () => {
       {Auth.getRole() == 'organizer' && (
         <div>
           <h2 className="font-bold">Account Information</h2>
+          <div>
+            {accounts?.map((account: Account, key) => (
+              <div
+                key={key}
+                className="flex justify-between rounded-lg shadow-lg p-5 items-center mt-8 space-x-5"
+              >
+                <div>
+                  {banks.map((bank: { name: string; code: string }, i) => {
+                    if (bank.code == account.bank_name) {
+                      return <p>{bank.name}</p>;
+                    }
+                    return;
+                  })}
+                  <p>{account.name}</p>
+                  <p>{account.number}</p>
+                </div>
+                <div>
+                  <ButtonAction
+                    name="Delete"
+                    type="button"
+                    loading={
+                      deleteLoading.accountId === account._id ? deleteLoading.loading : false
+                    }
+                    onClick={() => handleAccountDelete(account._id)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <br />
           <div className="mt-6">
             <ButtonAction name="Add" onClick={handleOpen} />
           </div>
@@ -259,30 +294,6 @@ const ProfileInfo = () => {
               </div>
             </div>
           </Modal>
-          <div>
-            {accounts?.map((account: Account, key) => (
-              <div
-                key={key}
-                className="flex justify-between rounded-lg shadow-lg p-5 items-center mt-8 space-x-5"
-              >
-                <div>
-                  <p>{account.bank_name}</p>
-                  <p>{account.name}</p>
-                  <p>{account.number}</p>
-                </div>
-                <div>
-                  <ButtonAction
-                    name="Delete"
-                    type="button"
-                    loading={
-                      deleteLoading.accountId === account._id ? deleteLoading.loading : false
-                    }
-                    onClick={() => handleAccountDelete(account._id)}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       )}
 
