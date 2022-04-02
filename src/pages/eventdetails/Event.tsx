@@ -61,9 +61,9 @@ const Event = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [openEdit, setOpenEdit] = useState(false);
-  const handleOpenEdit = () => setOpenEdit(true);
-  const handleCloseEdit = () => setOpenEdit(false);
+  const [openEdit, setOpenEdit] = useState({ state: false, ticketId: '' });
+  const handleOpenEdit = (ticketId: string) => setOpenEdit({ state: true, ticketId: ticketId });
+  const handleCloseEdit = () => setOpenEdit({ state: false, ticketId: '' });
 
   useEffect(() => {
     setEventData(event as EventProps);
@@ -250,14 +250,14 @@ const Event = () => {
                           </div>
                           <EditTicket
                             handleClose={handleCloseEdit}
-                            open={openEdit}
+                            open={openEdit.ticketId === ticket._id ? openEdit.state : false}
                             ticket={ticket}
                           />
 
                           <div
                             className="cursor-pointer px-4 "
                             onClick={() => {
-                              handleOpenEdit();
+                              handleOpenEdit(ticket._id);
                             }}
                           >
                             <img src={penedit} alt="pendit" className="w-5" />
