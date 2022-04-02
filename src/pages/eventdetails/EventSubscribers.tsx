@@ -126,7 +126,7 @@ const EventSubscribers = () => {
       {ticketsLoading ? (
         <Loader />
       ) : (
-        <div>
+        <div className="p-3">
           <div className="w-max mx-auto py-3 font-rubik font-bold uppercase text-lg">
             <label htmlFor="table-search" className="sr-only">
               Search
