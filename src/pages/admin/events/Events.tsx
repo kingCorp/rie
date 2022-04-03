@@ -7,7 +7,12 @@ import { ButtonAction, InputField, Loader } from '../../../components/shared/Com
 import { getEvents } from '../../../redux/actions/events';
 import { useAppSelector, useAppThunkDispatch } from '../../../redux/store';
 import cancel from '../../../assets/img/canceledit.svg';
-import { closeEvent, deleteEvent, setCommission } from '../../../redux/actions/admin';
+import {
+  closeEvent,
+  deleteEvent,
+  setCommission,
+  toggleCashOut,
+} from '../../../redux/actions/admin';
 import { toast } from 'react-toastify';
 interface EventProps {
   commission_percentage: number;
@@ -21,6 +26,7 @@ interface EventProps {
   is_live: boolean;
   is_security_requested: boolean;
   is_tag_requested: boolean;
+  is_cash_out_requested: boolean;
   number_of_tickets_sold: number;
   organizer: string;
   start_date: string | Date;
@@ -40,9 +46,8 @@ type PayLoad = {
 const AdminEvents = () => {
   const dispatch = useAppThunkDispatch();
 
-  const { deleteEventLoading, closeEventLoading, commissionLoading } = useAppSelector(
-    (state) => state.loader,
-  );
+  const { deleteEventLoading, closeEventLoading, commissionLoading, toggleCashOutLoading } =
+    useAppSelector((state) => state.loader);
   const [eventsData, setEventsData] = useState([] as Array<EventProps>);
   const [commisionData, setCommissionData] = useState({
     show_id: '',
@@ -57,7 +62,7 @@ const AdminEvents = () => {
     });
   };
 
-  const [open, setOpen] = useState({ status: true, showId: '' });
+  const [open, setOpen] = useState({ status: false, showId: '' });
   const handleOpen = (showId: string) => {
     setOpen({ status: true, showId: showId });
     setCommissionData({
@@ -87,6 +92,7 @@ const AdminEvents = () => {
       .catch((err) => {
         console.error(err);
       });
+    handleClose();
   };
   const handleDeleteEvent = async () => {
     await dispatch(deleteEvent(open.showId))
@@ -102,6 +108,25 @@ const AdminEvents = () => {
       .catch((err) => {
         console.error(err);
       });
+    handleClose();
+  };
+
+  const handleToggleCashOut = async (cashOutState: boolean) => {
+    await dispatch(toggleCashOut({ show_id: open.showId, cash_out_state: cashOutState }))
+      .then((res) => {
+        const payload = res.payload as PayLoad;
+        if (payload.status) {
+          toast.success(payload.message);
+        } else {
+          console.log('error', payload);
+          toast.error(payload.message);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    await dispatch(getEvents({}));
+    handleClose();
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -122,6 +147,7 @@ const AdminEvents = () => {
       .catch((err) => {
         console.error(err);
       });
+    handleClose();
   };
 
   useEffect(() => {
@@ -158,7 +184,21 @@ const AdminEvents = () => {
                   price={0}
                   key={index}
                   onClick={() => handleOpen(show._id)}
-                />
+                >
+                  {show.is_cash_out_requested ? (
+                    show.is_cashed_out ? (
+                      <div className=" w-max bg-green-400 text-white rounded absolute top-2 right-2 p-1">
+                        Cashout Approved
+                      </div>
+                    ) : (
+                      <div className=" w-max bg-orange-400 text-white rounded absolute top-2 right-2 p-1">
+                        Cashout Requested
+                      </div>
+                    )
+                  ) : (
+                    <div></div>
+                  )}
+                </CardEvent>
               );
             })}
             <Modal
@@ -189,6 +229,16 @@ const AdminEvents = () => {
                           />
                         ) : (
                           <ButtonAction name="Close Event" onClick={() => handleCloseEvent()} />
+                        )}
+                      </div>
+                      <div className="m-auto w-max">
+                        {toggleCashOutLoading ? (
+                          <ButtonAction name="Approve Cashout" loading disabled />
+                        ) : (
+                          <ButtonAction
+                            name="Approve Cashout"
+                            onClick={() => handleToggleCashOut(true)}
+                          />
                         )}
                       </div>
                       <div className="m-auto w-max">

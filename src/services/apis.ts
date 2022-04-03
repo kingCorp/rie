@@ -55,6 +55,7 @@ const Api = {
     setCommission: (data: object) => ApiHandler.post('/admin/show/setCommission', data),
     closeShow: (data: object) => ApiHandler.post('/admin/show/close', data),
     showDelete: (showId: string) => ApiHandler.delete(`/admin/show/delete/${showId}`),
+    toggleCashOut: (data: object) => ApiHandler.post('/admin/show/cashout/toggle', data),
   },
 };
 
