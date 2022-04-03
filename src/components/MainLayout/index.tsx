@@ -9,12 +9,10 @@ export default function MainLayout(props: {
   // const home = window.location.pathname;
   // console.log(home, paths.HOME);
   return (
-    <div className="bg-gray-100 ">
+    <div className="bg-gray-100">
       <Navbar />
-      <div className="bg-gray-100 overflow-x-auto">
-        {props.children}
-        <Footer />
-      </div>
+      <div className="bg-gray-100 overflow-x-auto">{props.children}</div>
+      <Footer />
     </div>
   );
 }

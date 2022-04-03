@@ -181,7 +181,7 @@ const CreateEvent = () => {
             />
             <CheckField
               name="is_security_requested"
-              label="Is Security Requested"
+              label="Do you need security personnel?"
               type="checkbox"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleCheckBox(e, 'is_security_requested')
@@ -189,7 +189,7 @@ const CreateEvent = () => {
             />
             <CheckField
               name="is_tag_requested"
-              label="Is Tag Requested"
+              label="Do you require tags?"
               type="checkbox"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleCheckBox(e, 'is_tag_requested')

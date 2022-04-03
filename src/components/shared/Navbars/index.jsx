@@ -3,19 +3,20 @@ import React, { Fragment } from 'react';
 import rt from '../../../assets/img/rieicon.png';
 import { paths } from '../../../utils/constants';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { clearState } from '../../../redux/reducers/authSlice';
 import Popover from '@mui/material/Popover';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import './index.css';
 import { Link } from 'react-router-dom';
 import Auth from '../../../middleware/storage';
+import { NavLink } from 'react-router-dom';
 
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const location = useLocation();
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -32,6 +33,7 @@ export const Navbar = () => {
     localStorage.clear();
     navigate(paths.HOME);
   };
+  console.log(location.pathname);
   return (
     <Fragment>
       <nav className="bg-white border-gray-200 px-4  md:px-2 py-2.5 rounded dark:bg-gray-800">
@@ -155,54 +157,49 @@ export const Navbar = () => {
           >
             <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
               <li>
-                <Link
+                <NavLink
                   to={paths.HOME}
-                  className="block py-2 pr-4 pl-3 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 dark:text-white "
-                  aria-current="page"
+                  className={`block py-2 pr-4 pl-3 md:p-0 ${
+                    location.pathname === paths.HOME ? 'text-red-700' : ''
+                  }`}
                 >
                   Home
-                </Link>
+                </NavLink>
               </li>
               {/* <li>
-                <Link
+                <NavLink
                   to={paths.SELLING}
                   className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Selling Hot
-                </Link>
+                </NavLink>
               </li> */}
               <li>
-                <Link
+                <NavLink
                   to={paths.EVENTS}
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className={`block py-2 pr-4 pl-3 md:p-0 ${
+                    location.pathname === paths.EVENTS ? 'text-red-700' : ''
+                  }`}
                 >
                   Events
-                </Link>
+                </NavLink>
               </li>
               {/* <li>
-                <Link
+                <NavLink
                   to={paths.ABOUT}
                   className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   About
-                </Link>
+                </NavLink>
               </li> */}
               {/* <li>
-                <Link
+                <NavLink
                   to={paths.UPCOMING}
                   className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Upcoming
-                </Link>
+                </NavLink>
               </li> */}
-              <li>
-                <input
-                  type="text"
-                  id="email-adress-icon"
-                  className="block py-2 pr-4 pl-3 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Search events..."
-                />
-              </li>
             </ul>
           </div>
         </div>
