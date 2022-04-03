@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
@@ -10,6 +11,13 @@ import { Link } from 'react-router-dom';
 import CreateTicket from '../createTicket/CreateTicket';
 import EditTicket from '../editTicket/EditTicket';
 import { toast } from 'react-toastify';
+import { Modal } from '@mui/material';
+import cancel from '../../assets/img/canceledit.svg';
+import { Account } from '../profile/ProfileInfo';
+import Api from '../../services/apis';
+import { PAYSTACK_PUBLIC_KEY } from '../../utils/constants';
+import axios from 'axios';
+
 type PayLoad = {
   status: boolean;
   message: string;
@@ -56,10 +64,16 @@ const Event = () => {
   const { isLoading, cashOutLoading } = useAppSelector((state) => state.loader);
   const [eventData, setEventData] = useState({} as EventProps);
   const [ticketsList, setTicketsList] = useState([] as Array<Ticket>);
+  const [accounts, setAccounts] = useState([] as Array<Account>);
+  const [banks, setBanks] = useState([]);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [openCashout, setOpenCashout] = useState(false);
+  const handleOpenCashout = () => setOpenCashout(true);
+  const handleCloseCashout = () => setOpenCashout(false);
 
   const [openEdit, setOpenEdit] = useState({ state: false, ticketId: '' });
   const handleOpenEdit = (ticketId: string) => setOpenEdit({ state: true, ticketId: ticketId });
@@ -84,8 +98,15 @@ const Event = () => {
       .catch((err) => {
         console.error(err);
       });
+
     // eslint-disable-next-line
   }, [eventData]);
+
+  useEffect(() => {
+    userInfo();
+    fetchBanks();
+    // eslint-disable-next-line
+  }, []);
 
   const dispatch = useAppThunkDispatch();
 
@@ -118,20 +139,42 @@ const Event = () => {
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
+          handleCloseCashout();
           return toast.success(payload.message);
         } else {
+          handleCloseCashout();
           return toast.warn(payload.message);
         }
       })
       .catch((err) => {
+        handleCloseCashout();
         console.error(err);
       });
+  };
+
+  const userInfo = async () => {
+    try {
+      const res = await Api.user.organizerDetails();
+      setAccounts(res.data.data.accountInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchBanks = async () => {
+    try {
+      const res = await axios.get('https://api.paystack.co/bank', {
+        headers: { Authorization: 'Bearer ' + PAYSTACK_PUBLIC_KEY },
+      });
+      setBanks(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div>
       <CreateTicket handleClose={handleClose} showId={eventData._id} open={open} />
-
       {isLoading ? (
         <Loader />
       ) : (
@@ -147,24 +190,8 @@ const Event = () => {
                   {moment(moment(eventData.start_time, [moment.ISO_8601, 'HH:mm'])).format('LT')}
                 </span>
                 <span className="">{eventData.venue}</span>
-                <div>
-                  {checkCashDate ? (
-                    <button
-                      className=" text-white font-rubik px-4 py-2 bg-red-600 rounded-full hover:bg-gray-400"
-                      type="button"
-                      onClick={() => handleCashOut()}
-                    >
-                      {cashOutLoading ? <ButtonSpinner /> : 'Request Cash Out'}
-                    </button>
-                  ) : (
-                    <button
-                      className=" text-white font-rubik px-4 py-2 bg-red-600 rounded-full opacity-30"
-                      type="button"
-                      disabled
-                    >
-                      Request Cash Out
-                    </button>
-                  )}
+                <div className="p-3">
+                  {checkCashDate && <ButtonAction name="Cashout" onClick={handleOpenCashout} />}
                 </div>
               </div>
 
@@ -195,7 +222,7 @@ const Event = () => {
                       id="toggle-example-checked"
                       className="sr-only text-xs"
                       checked
-                      onChange={(e) => goLive(e)}
+                      // onChange={(e) => goLive(e)}
                     />
                   )}
                   {!eventData.is_live && (
@@ -295,6 +322,58 @@ const Event = () => {
           </div>
         </div>
       )}
+      <Modal
+        open={openCashout}
+        onClose={handleCloseCashout}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div className="w-11/12 md:w-2/4 lg:w-1/3 m-auto bg-gray-50 rounded-xl overflow-hidden mt-40">
+          <div>
+            <button onClick={handleCloseCashout} className="m-4">
+              <img src={cancel} alt="cancel" className="w-6" />
+            </button>
+          </div>
+          <div className="text-center py-4 ">
+            <h2 className="font-bold font-rubik text-2xl">Cashout Information</h2>
+          </div>
+          <div className=" flex flex-col items-center pt-6 sm:pt-0 homebg">
+            <div className="w-full sm:max-w-md p-5 mx-auto">
+              <p>Title: {eventData.title}</p>
+              <p>Total Amount Sold: N{eventData.total_amount_sold}</p>
+              <p>Total Ticket Sold: {eventData.number_of_tickets_sold}</p>
+              <p>Commission: {eventData.commission_percentage}%</p>
+              <br />
+              <p className="font-bold">Organizer account details</p>
+              <br />
+              <div>
+                {accounts?.map((account: Account, key) => (
+                  <div key={key}>
+                    <div>
+                      {banks.map((bank: { name: string; code: string }, i) => {
+                        if (bank.code == account.bank_name) {
+                          return <p>Bank: {bank.name}</p>;
+                        }
+                        return;
+                      })}
+                      <p>Account Name: {account.name}</p>
+                      <p>Account Number: {account.number}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <br />
+              <button
+                className=" text-white font-rubik px-4 py-2 bg-red-600 rounded-full hover:bg-gray-400"
+                type="button"
+                onClick={() => handleCashOut()}
+              >
+                {cashOutLoading ? <ButtonSpinner /> : 'Request Cash Out'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
