@@ -7,6 +7,7 @@ import {
   setCommissionLoading,
   setDeleteEventLoading,
   setLoading,
+  setToggleCashOutLoading,
 } from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
@@ -171,6 +172,28 @@ export const setCommission = createAsyncThunk('set/commision', async (data: obje
     };
   } catch (err) {
     thunkAPI.dispatch(setCommissionLoading(false));
+    const error = err as AxiosError;
+    return {
+      status: false as boolean,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: error.response?.data?.message as never,
+    };
+  }
+});
+
+export const toggleCashOut = createAsyncThunk('cashout/toggle', async (data: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setToggleCashOutLoading(true));
+    const response = await Api.admin.toggleCashOut(data);
+    const res: axres = response;
+    thunkAPI.dispatch(setToggleCashOutLoading(false));
+    console.log(response);
+    return {
+      status: true,
+      message: res.data.message,
+    };
+  } catch (err) {
+    thunkAPI.dispatch(setToggleCashOutLoading(false));
     const error = err as AxiosError;
     return {
       status: false as boolean,
