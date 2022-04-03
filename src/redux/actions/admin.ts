@@ -1,4 +1,5 @@
 /* eslint/no-unsafe-member-access: 0 */ // --> OFF
+/* eslint-disable */
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
 import { setAdmin, setOrganizers, setUsers } from '../reducers/adminSlice';
