@@ -40,21 +40,21 @@ axiosApiInstance.interceptors.response.use(
     }
 
     //refresh token
-    if (error.response.status === 401 && !originalRequest._retry && url) {
-      originalRequest._retry = true;
-      const token = await Auth.getToken();
-      const refreshToken = await Auth.getRefreshToken();
+    // if (error.response.status === 401 && !originalRequest._retry && url) {
+    //   originalRequest._retry = true;
+    //   const token = await Auth.getToken();
+    //   const refreshToken = await Auth.getRefreshToken();
 
-      const credentials = {
-        access_token: token,
-        refresh_token: refreshToken,
-      };
-      const response = await Api.auth.refreshToken(credentials);
-      const { access_token, refresh_token } = response.data.data;
-      await Auth.setToken(access_token, refresh_token);
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
-      return axiosApiInstance(originalRequest);
-    }
+    //   const credentials = {
+    //     access_token: token,
+    //     refresh_token: refreshToken,
+    //   };
+    //   const response = await Api.auth.refreshToken(credentials);
+    //   const { access_token, refresh_token } = response.data.data;
+    //   await Auth.setToken(access_token, refresh_token);
+    //   axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
+    //   return axiosApiInstance(originalRequest);
+    // }
     return Promise.reject(error);
   },
 );
