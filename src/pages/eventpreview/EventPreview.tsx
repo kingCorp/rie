@@ -317,7 +317,7 @@ const EventPreview = () => {
                   >
                     <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
                       <button onClick={handleClose} className="flex justify-right">
-                        close
+                        X
                       </button>
                       <p className="uppercase font-bold text-xl"> {open.title}</p>
                       <p className="uppercase font-bold text-lg"> N{open.price}</p>

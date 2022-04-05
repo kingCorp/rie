@@ -64,7 +64,7 @@ const ScanTicket = (props) => {
             if (result) {
               // eslint-disable-next-line
               // setData(result?.text);
-              // setCode(result?.text)
+              setCode(result?.text);
               searchTicket();
             }
 
