@@ -3,6 +3,7 @@ export const paths = {
   HOME: '/',
   ABOUT: '/about',
   ADMIN: '/admin',
+  ADMIN_SIGN_UP: '/admin/signup',
   ADMIN_EVENTS: '/admin/events',
   ADMIN_USERS: '/admin/users',
   ADMIN_ORGANIZERS: '/admin/organizers',
