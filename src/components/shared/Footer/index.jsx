@@ -63,7 +63,7 @@ export const Footer = () => {
                 </li>
                 <li className="mb-4">
                   <a
-                    href="#"
+                    href="https://twitter.com/rieticket?s=21&t=b3DOCsnWvJVy-au0gFFl6Q"
                     target="_blank"
                     rel="noreferrer"
                     className="text-dark-300 hover:underline"
