@@ -174,7 +174,7 @@ export default function Home() {
               to={paths.EVENTS}
               className="flex w-40 justify-center py-2  text-base font-medium border rounded-full text-white border-white hover:bg-red-700"
             >
-              see more
+              click to see more
             </Link>
           </div>
         )}
