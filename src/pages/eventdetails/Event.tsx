@@ -252,7 +252,7 @@ const Event = () => {
                           </div>
                           <div className=" text-center px-3">
                             <span className=" text-xs text-gray-500">Price</span>
-                            <p>N{ticket.price}</p>
+                            <p>₦{ticket.price}</p>
                           </div>
 
                           <div className="text-center px-3">

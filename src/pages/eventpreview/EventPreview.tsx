@@ -268,7 +268,7 @@ const EventPreview = () => {
                             </div>
                             <div className=" text-center px-3">
                               <span className=" text-xs text-gray-500">Price</span>
-                              <p>N{ticket.price}</p>
+                              <p>₦{ticket.price}</p>
                             </div>
                             {/* 
                             <div className="text-center px-3">
@@ -412,7 +412,7 @@ const EventPreview = () => {
                 <div className="grid place-content-center">
                   <NavlinkDefault
                     name="Buy ticket"
-                    path={paths.SIGNUP}
+                    path={paths.SIGNIN}
                     currentPath={'/preview/' + id}
                   />
                 </div>
