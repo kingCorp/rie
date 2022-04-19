@@ -139,7 +139,7 @@ export default function Home() {
         </div>
       </section> */}
       <section className="bg-gray-900 p-5 lg:px-20 lg:py-20">
-        <h2 className="text-4xl font-extrabold text-white" id="#selling">
+        <h2 className="text-4xl font-extrabold text-white text-center" id="#events">
           Events
         </h2>
 

@@ -120,9 +120,6 @@ const Tickets = () => {
                       Time
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Quantity
-                    </th>
-                    <th scope="col" className="px-6 py-3">
                       Price
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -155,8 +152,7 @@ const Tickets = () => {
                               moment(code.ticket?.show.start_time, [moment.ISO_8601, 'HH:mm']),
                             ).format('LT')}
                           </td>
-                          <td className="px-6 py-4">{code.ticket?.purchased}</td>
-                          <td className="px-6 py-4">{code.ticket?.total_amount_purchased}</td>
+                          <td className="px-6 py-4">{code.ticket?.price}</td>
                           <td className="px-6 py-4 text-right">
                             <button
                               type="button"

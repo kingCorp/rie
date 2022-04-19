@@ -3,8 +3,8 @@ import MainLayout from '../../components/MainLayout';
 const About = () => {
   return (
     <MainLayout>
-      <div className="lg:m-8 sm:m-1">
-        <p className="text-3xl font-bold text-center"> ABOUT</p>
+      <div className="m-3 my-8">
+        <p className="text-3xl font-bold text-center">ABOUT</p>
         <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           RIE Ticket is an online ticketing platform with the sole aim of providing ticketing
           services to our clients on different range of events that can ensure maximum satisfaction
