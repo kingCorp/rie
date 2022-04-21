@@ -80,7 +80,7 @@ const Tickets = () => {
         <>
           {codes.length < 1 && (
             <div className="mt-6 mb-6 text-center h-96">
-              <h1>You have no ticket</h1>
+              <h1>You have no tickets</h1>
             </div>
           )}
           {view && (
