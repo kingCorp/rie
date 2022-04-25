@@ -75,12 +75,12 @@ const Events = () => {
   return (
     <div>
       <MainLayout>
-        <section className="bg-white p-1 lg:px-10 lg:py-10">
+        <section className="bg-white p-1 lg:px-10 lg:py-10 px-4">
           <h2 className="text-4xl font-extrabold py-10" id="#selling">
             Events
           </h2>
 
-          <div className="w-max mx-auto py-3 font-rubik font-bold uppercase text-lg">
+          <div className="w-max mx-auto py-3 px-3 font-rubik font-bold uppercase text-lg">
             <label htmlFor="table-search" className="sr-only">
               Search
             </label>

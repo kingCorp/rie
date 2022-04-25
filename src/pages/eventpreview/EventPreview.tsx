@@ -291,7 +291,7 @@ const EventPreview = () => {
                                 ).format('LT')}
                               </p>
                             </div>
-                            {ticket.capacity === ticket.purchased ? (
+                            {ticket.capacity <= ticket.purchased ? (
                               <p className="text-center font-bold text-red-500">SOLD OUT</p>
                             ) : (
                               <div
