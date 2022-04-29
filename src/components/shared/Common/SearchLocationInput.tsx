@@ -43,8 +43,8 @@ export default function SearchLocationInput({ setVenue, venue, label, name }: Pr
     setVenue(e.target.value);
     setOpen(true);
     await autocompletePlaces(e.target.value)
-      .then((res) => {})
-      .catch((err) => {});
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   const handleSelect = (location: string) => {

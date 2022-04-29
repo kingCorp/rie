@@ -48,6 +48,7 @@ const CreateEvent = () => {
       ...eventDetails,
       venue: venue,
     });
+    // eslint-disable-next-line
   }, [venue]);
 
   const handleCheckBox = (
