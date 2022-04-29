@@ -1,4 +1,5 @@
 /* eslint/no-unsafe-member-access: 0 */ // --> OFF
+/* eslint-disable */
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
 import { setAdmin, setOrganizers, setUsers } from '../reducers/adminSlice';
@@ -32,6 +33,12 @@ type AxiosRes = {
   data: SignInRes;
 };
 
+type SignUpRes = {
+  data: User;
+  message: string;
+  status: boolean;
+};
+
 export const signInAdmin = createAsyncThunk('admin/signin', async (userData: object, thunkAPI) => {
   try {
     thunkAPI.dispatch(setLoading(true));
@@ -51,6 +58,30 @@ export const signInAdmin = createAsyncThunk('admin/signin', async (userData: obj
   } catch (error) {
     const err = error as AxiosError;
     thunkAPI.dispatch(setLoading(false));
+    return {
+      status: false,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: err.response?.data?.message as never,
+    };
+  }
+});
+
+export const signUpAdmin = createAsyncThunk('users/signup', async (userData: object, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(setLoading(true));
+    console.log(userData);
+      const response = await Api.admin.signUp(userData);
+      const res: AxiosRes = response;
+      const data: SignUpRes = res.data;
+      console.log(response);
+      return {
+        status: true,
+        message: data.message,
+      };
+  } catch (error) {
+    const err = error as AxiosError;
+    thunkAPI.dispatch(setLoading(false));
+    console.log(err.response);
     return {
       status: false,
       //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

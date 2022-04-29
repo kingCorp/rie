@@ -19,7 +19,6 @@ export default function CardEvent({
   img,
   title,
   date,
-  price,
   href,
   booked,
   onClick,

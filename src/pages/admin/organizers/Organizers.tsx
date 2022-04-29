@@ -41,7 +41,7 @@ const AdminOrganizers = () => {
   }, []);
   return (
     <AdminLayout>
-      <p className="text-2xl font-bold">Organizers</p>
+      <p className="text-3xl font-bold mt-4 mb-4">Organizers</p>
       {isLoading ? (
         <Loader />
       ) : (

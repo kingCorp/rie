@@ -62,6 +62,7 @@ export const signUpUser = createAsyncThunk('users/signup', async (userData: Auth
   } catch (error) {
     const err = error as AxiosError;
     thunkAPI.dispatch(setLoading(false));
+    console.log(err.response);
     return {
       status: false,
       //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

@@ -83,7 +83,7 @@ const CreateTicket = ({ handleClose, open, showId }: Props) => {
         <div className="w-4/5 md:w-1/3 m-auto bg-gray-50 rounded-xl overflow-hidden mt-40">
           <div>
             <button onClick={handleClose} className="m-4">
-              close
+              X
             </button>
           </div>
           <div className="text-center py-4 ">

@@ -42,7 +42,7 @@ export default function Paystack({
     onSuccess: () => {
       setReference(componentProps.reference);
     },
-    onClose: () => alert('Bruh Chill'),
+    onClose: () => alert('Transaction closed'),
   };
 
   return (

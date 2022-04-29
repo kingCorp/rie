@@ -86,6 +86,7 @@ const SignUp = () => {
     await dispatch(signUpUser({ data: signUpDetails, userType: selectValue }))
       .then((res) => {
         const payload = res.payload as PayLoad;
+        console.log(payload, res);
         if (payload.status) {
           toast.success(payload.message);
           setSignedUp(true);

@@ -44,7 +44,7 @@ const AdminUsers = () => {
   return (
     <AdminLayout>
       <div className="">
-        <p className="text-2xl font-bold">Users</p>
+        <p className="text-3xl font-bold mt-4 mb-4">Users</p>
         {isLoading ? (
           <Loader />
         ) : (

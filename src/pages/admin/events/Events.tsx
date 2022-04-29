@@ -166,11 +166,8 @@ const AdminEvents = () => {
 
   return (
     <AdminLayout>
-      <p className="text-2xl font-bold">Events</p>
+      <p className="text-3xl font-bold mb-4 mt-4">Events</p>
       <section className="bg-white p-1 lg:px-10 lg:py-10">
-        <h2 className="text-4xl font-extrabold py-10" id="#selling">
-          Events
-        </h2>
         {isLoading ? (
           <Loader />
         ) : (

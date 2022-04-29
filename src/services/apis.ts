@@ -48,6 +48,7 @@ const Api = {
   },
   admin: {
     signIn: (data: object) => ApiHandler.post('/admin/login', data),
+    signUp: (data: object) => ApiHandler.post('/admin/register', data),
     details: () => ApiHandler.get('/admin/details'),
     users: () => ApiHandler.get('/admin/user/all'),
     organizers: () => ApiHandler.get('/admin/organizer/all'),

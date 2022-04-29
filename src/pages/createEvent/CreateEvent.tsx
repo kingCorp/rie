@@ -8,6 +8,7 @@ import { handleFileUpload } from '../../redux/actions/events';
 import { useAppSelector } from '../../redux/store';
 import imgbg from '../../assets/img/imgbg.png';
 import { useNavigate } from 'react-router-dom';
+import SearchLocationInput from '../../components/shared/Common/SearchLocationInput';
 
 type PayLoad = {
   status: boolean;
@@ -27,6 +28,8 @@ const CreateEvent = () => {
   const { isLoading } = useAppSelector((state) => state.loader);
   const [previewImage, setPreviewImage] = useState(imgbg);
 
+  const [venue, setVenue] = useState('');
+
   const [eventDetails, setEventDetails] = useState({
     title: '',
     description: '',
@@ -39,6 +42,13 @@ const CreateEvent = () => {
     is_security_requested: false,
     is_tag_requested: false,
   });
+
+  useEffect(() => {
+    setEventDetails({
+      ...eventDetails,
+      venue: venue,
+    });
+  }, [venue]);
 
   const handleCheckBox = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -147,12 +157,13 @@ const CreateEvent = () => {
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
-            <InputField
+            {/* <InputField
               name="venue"
               label="Venue"
               type="text"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
-            />
+            /> */}
+            <SearchLocationInput name="venue" label="Venue" venue={venue} setVenue={setVenue} />
             <InputField
               name="start_date"
               label="Start Date"
@@ -181,7 +192,7 @@ const CreateEvent = () => {
             />
             <CheckField
               name="is_security_requested"
-              label="Is Security Requested"
+              label="Do you need security personnel?"
               type="checkbox"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleCheckBox(e, 'is_security_requested')
@@ -189,7 +200,7 @@ const CreateEvent = () => {
             />
             <CheckField
               name="is_tag_requested"
-              label="Is Tag Requested"
+              label="Do you require tags?"
               type="checkbox"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleCheckBox(e, 'is_tag_requested')
