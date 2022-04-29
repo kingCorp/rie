@@ -137,7 +137,7 @@ const SignUp = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
             <SelectField
-              label="Are you a show promoter?"
+              label="Are you an Event Organizer?"
               value={selectValue}
               onChange={handleSelect}
             />
