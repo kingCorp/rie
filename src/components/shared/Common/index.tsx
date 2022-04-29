@@ -223,3 +223,11 @@ export const ButtonSpinner = () => {
     </div>
   );
 };
+
+export const MidLoader = () => {
+  return (
+    <div className="flex items-center justify-center p-14">
+      <TailSpin color="red" height={30} width={30} />
+    </div>
+  );
+};
