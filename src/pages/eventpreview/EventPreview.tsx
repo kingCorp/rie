@@ -294,14 +294,16 @@ const EventPreview = () => {
                             {ticket.capacity <= ticket.purchased ? (
                               <p className="text-center font-bold text-red-500">SOLD OUT</p>
                             ) : (
-                              <div
-                                className="cursor-pointer px-4 "
-                                onClick={() => {
-                                  handleOpen(ticket._id, ticket.title, ticket.price);
-                                  handleCartItem(ticket.title, ticket.price, ticket._id);
-                                }}
-                              >
-                                <img src={cartimg} alt="pendit" className="w-5" />
+                              <div className="flex justify-center">
+                                <button
+                                  onClick={() => {
+                                    handleOpen(ticket._id, ticket.title, ticket.price);
+                                    handleCartItem(ticket.title, ticket.price, ticket._id);
+                                  }}
+                                  className="cursor-pointer font-bold bg-red-600 text-white rounded-2xl p-2 "
+                                >
+                                  Buy
+                                </button>
                               </div>
                             )}
                           </div>
@@ -418,49 +420,6 @@ const EventPreview = () => {
                 </div>
               )}
             </div>
-
-            <Modal
-              open={openForm}
-              onClose={() => setOpenForm(false)}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <div className="bg-white w-4/5 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4">
-                <button onClick={handleClose} className="flex justify-right">
-                  close
-                </button>
-                <p className="uppercase font-bold text-xl">
-                  We need this info help purchase your ticket
-                </p>
-                <form onSubmit={handleSubmit}>
-                  <InputField
-                    name="fullname"
-                    label="Full name"
-                    type="text"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
-                  />
-                  <InputField
-                    name="email"
-                    label="Email-Address"
-                    type="email"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
-                  />
-                  <InputField
-                    name="password"
-                    label="Password"
-                    type="password"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
-                  />
-                  <InputField
-                    name="phone"
-                    label="Phone"
-                    type="text"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
-                  />
-                  <ButtonAction type="submit" name="Sign up" />
-                </form>
-              </div>
-            </Modal>
           </div>
         )}
       </MainLayout>

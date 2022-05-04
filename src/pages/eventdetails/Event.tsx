@@ -257,7 +257,7 @@ const Event = () => {
 
                           <div className="text-center px-3">
                             <span className=" text-xs text-gray-500">Sold</span>
-                            <p>{ticket.total_amount_purchased}</p>
+                            <p>{ticket.purchased}</p>
                           </div>
                           <div className=" text-center px-3">
                             <span className=" text-xs text-gray-500">Ticket Limit</span>
@@ -294,6 +294,7 @@ const Event = () => {
                     })
                   )}
                 </div>
+                <h3 className="mt-4 font-bold px-3">Tickets sold <span className="ml-2">{eventData.number_of_tickets_sold}</span></h3>
               </div>
 
               <div
