@@ -88,7 +88,6 @@ const EventPreview = () => {
   const [cart, setCart] = useState([] as Array<CartItem>);
 
   const [reference, setReference] = useState('');
-  const [openForm, setOpenForm] = useState(false);
 
   const handleCartItem = (title: string, price: number, id: string) => {
     const index = v4();
@@ -108,12 +107,13 @@ const EventPreview = () => {
 
   const handleCartSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (cartItem.quantity > 0) {
-      setCart((cart) => [...cart, cartItem]);
-      handleClose();
-    } else {
-      toast.warn('Quantity cannot be 0');
-    }
+    handleClose();
+    // if (cartItem.quantity > 0) {
+    //   setCart((cart) => [...cart, cartItem]);
+    //   handleClose();
+    // } else {
+    //   toast.warn('Quantity cannot be 0');
+    // }
   };
 
   useEffect(() => {
@@ -179,45 +179,7 @@ const EventPreview = () => {
     // eslint-disable-next-line
   }, []);
 
-  const [signUpDetails, setSignUpDetails] = useState({
-    fullname: '',
-    email: '',
-    password: '',
-    phone: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setSignUpDetails({
-      ...signUpDetails,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('submits');
-    e.preventDefault();
-    if (signUpDetails.email === '' || signUpDetails.password === '') {
-      toast('Kindly fill all fields');
-      return;
-    }
-
-    await dispatch(signUpUser({ data: signUpDetails, userType: 'yes' }))
-      .then((res) => {
-        const payload = res.payload as PayLoad;
-        if (payload.status) {
-          toast.success(payload.message);
-          setTicketsList(eventData.tickets);
-          window.location.reload;
-        } else {
-          toast.error(payload.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  console.log(ticketsList);
+  console.log(cart, cartTotal);
   return (
     <>
       <MainLayout>
@@ -226,7 +188,12 @@ const EventPreview = () => {
           <Loader />
         ) : (
           <div className="bg-gray-100">
-            <div className="lg:grid  lg:grid-cols-12 gap-x-10 px-10 md:px-20  pt-10">
+            <div className="lg:grid  lg:grid-cols-12 gap-x-10 px-5 md:px-20  pt-5">
+            <div className="lg:col-span-4 w-full h-90 lg:hidden md:hidden">
+                <div className="rounded-xl h-full overflow-hidden">
+                  <img src={eventData.image} alt="gaming" className="w-full h-full object-cover " />
+                </div>
+              </div>
               <div className=" lg:col-span-8 w-full font-rubik py-5">
                 <div className="px-3 flex flex-col md:flex-row md:items-center">
                   <h2 className="font-bold text-2xl mr-8">{eventData.title}</h2>
@@ -330,138 +297,71 @@ const EventPreview = () => {
                           type="number"
                           // value={cartItem.quantity}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setCartItem({
-                              ...cartItem,
-                              quantity: Number(e.target.value),
-                              total: cartItem.price * Number(e.target.value),
-                            });
+                            console.log(cartItem);
+                            // setCartItem({
+                            //   ...cartItem,
+                            //   quantity: Number(e.target.value),
+                            //   total: cartItem.price * Number(e.target.value),
+                            // });
+                            // setCart((cart) => [...cart, cartItem]);
+                            setCart([
+                              {
+                                ...cartItem,
+                                quantity: Number(e.target.value),
+                                total: cartItem.price * Number(e.target.value),
+                              },
+                            ]);
                           }}
                         />
-                        <ButtonAction type="submit" name="Add to cart" />
+                        <div className="flex justify-center">
+                          {/* <ButtonAction type="submit" name="Buy" /> */}
+                          {Auth.isAuthenticated() ? (
+                            Auth.getRole() == 'user' ? (
+                              cart.length === 0 || cart[0].quantity < 1 ? (
+                                <Paystack
+                                  email={user.email}
+                                  name={user.fullname}
+                                  phone={user.phone}
+                                  amount={cartTotal}
+                                  setReference={setReference}
+                                  disabled
+                                />
+                              ) : (
+                                <Paystack
+                                  email={user.email}
+                                  name={user.fullname}
+                                  phone={user.phone}
+                                  amount={cartTotal}
+                                  setReference={setReference}
+                                />
+                              )
+                            ) : (
+                              'Only a user can make payment'
+                            )
+                          ) : (
+                            <div className="grid place-content-center">
+                              <NavlinkDefault
+                                name="Buy ticket"
+                                path={paths.SIGNIN}
+                                currentPath={'/preview/' + id}
+                              />
+                            </div>
+                          )}
+                        </div>
                       </form>
                     </div>
                   </Modal>
                 </div>
               </div>
-              <div className="lg:col-span-4 w-full h-96 p-5">
+              <div className="lg:col-span-4 w-full h-96 lg:block md:block hidden mb-20">
                 <div className="rounded-xl h-full overflow-hidden">
                   <img src={eventData.image} alt="gaming" className="w-full h-full object-cover " />
                 </div>
               </div>
             </div>
-
-            <div className="bg-white w-11/12 md:w-1/3 m-auto p-5 rounded-xl mt-40 font-rubik text-center space-y-4 mb-7">
-              <p className="font-bold text-xl">Cart</p>
-              {(cart || []).map((cartitem, key) => {
-                return (
-                  <div
-                    className="flex bg-gray-100 p-3 rounded-xl shadow-lg justify-evenly relative"
-                    key={key}
-                  >
-                    <p className="font-bold uppercase">{cartitem.title}</p>
-                    <p>{cartitem.quantity}</p>
-                    <p>₦{cartitem.price}</p>
-                    <p>₦{cartitem.total}</p>
-                    <div
-                      className="absolute top-0 right-0 cursor-pointer"
-                      onClick={() => {
-                        deleteCartItem(cartitem.index);
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                );
-              })}
-              <p className="font-bold">Total: ₦{cartTotal}</p>
-              {Auth.isAuthenticated() ? (
-                Auth.getRole() == 'user' ? (
-                  cart.length === 0 ? (
-                    <Paystack
-                      email={user.email}
-                      name={user.fullname}
-                      phone={user.phone}
-                      amount={cartTotal}
-                      setReference={setReference}
-                      disabled
-                    />
-                  ) : (
-                    <Paystack
-                      email={user.email}
-                      name={user.fullname}
-                      phone={user.phone}
-                      amount={cartTotal}
-                      setReference={setReference}
-                    />
-                  )
-                ) : (
-                  'Only a user can make payment'
-                )
-              ) : (
-                <div className="grid place-content-center">
-                  <NavlinkDefault
-                    name="Buy ticket"
-                    path={paths.SIGNIN}
-                    currentPath={'/preview/' + id}
-                  />
-                </div>
-              )}
-            </div>
           </div>
         )}
       </MainLayout>
-      {/* <div className="bg-black bg-opacity-80">
-        <div
-          onClick={() => {
-            navigate(-1);
-          }}
-          className=" w-max flex items-center cursor-pointer text-white  hover:text-red-600 ease-out duration-300 p-4"
-        >
-          <img className="w-10  ml-6 inline" src={back} /> <span className="font-bold">Back</span>
-        </div>
-
-        <div className="flex justify-center py-60   font-rubik">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <div className="flex flex-col md:flex-row w-3/4 justify-center bg-white rounded-xl overflow-hidden">
-              <div>
-                <img src={eventData.image} className="w-full h-full object-cover" />
-              </div>
-              <div className=" w-full border-2 border-white bg-white relative p-4">
-                <h1 className="font-bold text-4xl mb-2">{eventData.title}</h1>
-                <p className=" font-bold mb-2">
-                  {moment(eventData.start_date).format('MMMM Do YYYY')}
-                </p>
-                <p className=" font-bold mb-2">
-                  {moment(moment(eventData.start_time, [moment.ISO_8601, 'HH:mm'])).format('LT')}
-                </p>
-                <p className=" font-bold mb-2">{eventData.venue}</p>
-                <p>{eventData.description}</p>
-                <div className="bottom-5 right-5  md:absolute justify-center mt-16">
-                  <div className="m-auto md:flex md:flex-col  w-max text-center">
-                    <p className="font-bold text-3xl">N15,000</p>
-                    <ButtonAction name="Buy Ticket" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div> */}
     </>
   );
 };
