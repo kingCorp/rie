@@ -2,7 +2,6 @@ import { Modal } from '@mui/material';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../../components/admin/AdminLayout';
-import CardEvent from '../../../components/CardEvent';
 import { ButtonAction, InputField, Loader } from '../../../components/shared/Common';
 import { getEvents } from '../../../redux/actions/events';
 import { useAppSelector, useAppThunkDispatch } from '../../../redux/store';
@@ -14,6 +13,8 @@ import {
   toggleCashOut,
 } from '../../../redux/actions/admin';
 import { toast } from 'react-toastify';
+import { paths } from '../../../utils/constants';
+import CardEvent2 from '../../../components/CardEvent2';
 interface EventProps {
   commission_percentage: number;
   created_at: string;
@@ -174,13 +175,14 @@ const AdminEvents = () => {
           <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
             {(eventsData || []).map((show, index) => {
               return (
-                <CardEvent
+                <CardEvent2
                   title={show.title}
                   img={show.image}
                   date={moment(show.start_date as Date).format('MMMM Do YYYY')}
                   price={0}
                   key={index}
                   onClick={() => handleOpen(show._id)}
+                  href={paths.EVENT_DETAIL_ADMIN}
                 >
                   {show.is_cash_out_requested ? (
                     show.is_cashed_out ? (
@@ -195,7 +197,7 @@ const AdminEvents = () => {
                   ) : (
                     <div></div>
                   )}
-                </CardEvent>
+                </CardEvent2>
               );
             })}
             <Modal

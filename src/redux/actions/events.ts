@@ -122,7 +122,7 @@ export const getEvent = createAsyncThunk('getevent', async (id: string, thunkAPI
     const res = response.data as Res;
     thunkAPI.dispatch(setEvent(res.data));
     thunkAPI.dispatch(setLoading(false));
-    console.log(response);
+    console.log('event detaisl.....', response);
     return {
       status: true,
       message: 'Event fetched successfully',

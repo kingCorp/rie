@@ -179,7 +179,6 @@ const EventPreview = () => {
     // eslint-disable-next-line
   }, []);
 
-  console.log(cart, cartTotal);
   return (
     <>
       <MainLayout>

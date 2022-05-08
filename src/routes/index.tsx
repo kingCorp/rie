@@ -25,6 +25,7 @@ import AdminEvents from '../pages/admin/events/Events';
 import AdminOrganizers from '../pages/admin/organizers/Organizers';
 import Toc from '../pages/toc/Toc';
 import SignUpAdmin from '../pages/admin/signupadmin/SignupAdmin';
+import AdminEvent from '../pages/admin/eventdetails/AdminEvent';
 
 const AppRoutes = () => {
   return (
@@ -58,6 +59,7 @@ const AppRoutes = () => {
           <Route element={<ProtectedAdminRoutes />}>
             <Route path={paths.DASHBOARD} element={<Dashboard />} />
             <Route path={paths.ADMIN_SIGN_UP} element={<SignUpAdmin />} />
+            <Route path={paths.EVENT_DETAIL_ADMIN} element={<AdminEvent />} />
             <Route path={paths.ADMIN_EVENTS} element={<AdminEvents />} />
             <Route path={paths.ADMIN_USERS} element={<AdminUsers />} />
             <Route path={paths.ADMIN_ORGANIZERS} element={<AdminOrganizers />} />
