@@ -13,7 +13,6 @@ import {
   toggleCashOut,
 } from '../../../redux/actions/admin';
 import { toast } from 'react-toastify';
-import { paths } from '../../../utils/constants';
 import CardEvent2 from '../../../components/CardEvent2';
 interface EventProps {
   commission_percentage: number;
@@ -182,7 +181,7 @@ const AdminEvents = () => {
                   price={0}
                   key={index}
                   onClick={() => handleOpen(show._id)}
-                  href={paths.EVENT_DETAIL_ADMIN}
+                  href={`/admin/event/${show._id}`}
                 >
                   {show.is_cash_out_requested ? (
                     show.is_cashed_out ? (
