@@ -230,6 +230,8 @@ const AdminEvent = () => {
                 <p className="text-lg font-bold">{eventData.organizer?.email}</p>
               </div>
 
+              <button className="bg-red-500 p-2 rounded-full text-white"onClick={() => setOpenCashout(true)}> CASHOUT INFO</button>
+
               <div className="mt-4">
                 <h3 className="mt-4 font-bold px-3">Tickets</h3>
                 <div>
@@ -335,13 +337,7 @@ const AdminEvent = () => {
                 ))}
               </div>
               <br />
-              <button
-                className=" text-white font-rubik px-4 py-2 bg-red-600 rounded-full hover:bg-gray-400"
-                type="button"
-                onClick={() => handleCashOut()}
-              >
-                {cashOutLoading ? <ButtonSpinner /> : 'Request Cash Out'}
-              </button>
+             
             </div>
           </div>
         </div>

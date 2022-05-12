@@ -195,6 +195,13 @@ const Event = () => {
                 </div>
               </div>
 
+              {eventData.is_cashed_out && (
+                <div className="flex p-2">
+                  <p className="font-bold text-xl ">Cashout payment : </p>
+                  <p className="text-xl font-bold text-green-400 ml-4">PAID</p>
+                </div>
+              )}
+
               <div className="mt-4">
                 <div className="relative">
                   <div
@@ -294,7 +301,9 @@ const Event = () => {
                     })
                   )}
                 </div>
-                <h3 className="mt-4 font-bold px-3">Tickets sold <span className="ml-2">{eventData.number_of_tickets_sold}</span></h3>
+                <h3 className="mt-4 font-bold px-3">
+                  Tickets sold <span className="ml-2">{eventData.number_of_tickets_sold}</span>
+                </h3>
               </div>
 
               <div
@@ -344,6 +353,7 @@ const Event = () => {
               <p>Total Amount Sold: N{eventData.total_amount_sold}</p>
               <p>Total Ticket Sold: {eventData.number_of_tickets_sold}</p>
               <p>Commission: {eventData.commission_percentage}%</p>
+
               <br />
               <p className="font-bold">Organizer account details</p>
               <br />
