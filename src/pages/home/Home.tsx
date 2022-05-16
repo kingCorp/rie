@@ -148,7 +148,10 @@ export default function Home() {
         ) : (
           <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
             {(eventsData || [])
-              .filter((event) => event.is_live === true)
+              .filter((event) => {
+                const checkCashDate = new Date().getTime() < new Date(event.end_date).getTime();
+                return event.is_live === true && event.is_closed === false && checkCashDate;
+              })
               .slice(0, 8)
               .map((show, index) => {
                 return (
