@@ -23,7 +23,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install Dependencies With NPM
-      run: npm
+      run: npm i
 
     - name: Run react build script
       env:
