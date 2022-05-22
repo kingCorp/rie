@@ -21,19 +21,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    
-    - name: Install Yarn Globally
-      run: npm install -g yarn
 
-    - name: Install Dependencies With Yarn
-      run: yarn
+    - name: Install Dependencies With NPM
+      run: npm
 
     - name: Run react build script
       env:
         CI: false
       run: |
-          yarn install
-          REACT_APP_PUBLIC_CLOUDINARY_PRESET=${{ secrets.PROD_REACT_APP_PUBLIC_CLOUDINARY_PRESET }} REACT_APP_CLOUDINARY_CLOUD_NAME=${{ secrets.PROD_REACT_APP_CLOUDINARY_CLOUD_NAME }} REACT_APP_GOOOGLE_AUTOCOMPLETE_API_KEY=${{ secrets.PROD_REACT_APP_GOOOGLE_AUTOCOMPLETE_API_KEY }} REACT_APP_PAYSTACK_PUBLIC_KEY=${{ secrets.PROD_REACT_APP_PAYSTACK_PUBLIC_KEY }} yarn build
+          npm install
+          REACT_APP_PUBLIC_CLOUDINARY_PRESET=${{ secrets.PROD_REACT_APP_PUBLIC_CLOUDINARY_PRESET }} REACT_APP_CLOUDINARY_CLOUD_NAME=${{ secrets.PROD_REACT_APP_CLOUDINARY_CLOUD_NAME }} REACT_APP_GOOOGLE_AUTOCOMPLETE_API_KEY=${{ secrets.PROD_REACT_APP_GOOOGLE_AUTOCOMPLETE_API_KEY }} REACT_APP_PAYSTACK_PUBLIC_KEY=${{ secrets.PROD_REACT_APP_PAYSTACK_PUBLIC_KEY }} npm run build
 
     - name: Archive Build
       uses: actions/upload-artifact@v2
