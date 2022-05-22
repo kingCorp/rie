@@ -11,6 +11,8 @@ import { useAppSelector, useAppThunkDispatch } from '../../redux/store';
 import { getEvents } from '../../redux/actions/events';
 import moment from 'moment';
 import Auth from '../../middleware/storage';
+import { Loader } from '../../components/shared/Common';
+import Featured from '../../components/shared/Feature';
 
 export interface EventProps {
   commission_percentage: number;
@@ -21,6 +23,7 @@ export interface EventProps {
   image: string;
   is_cashed_out: boolean;
   is_closed: boolean;
+  is_live: boolean;
   is_security_requested: boolean;
   is_tag_requested: boolean;
   number_of_tickets_sold: number;
@@ -32,14 +35,16 @@ export interface EventProps {
   total_amount_sold: number;
   updated_at: string;
   venue: string;
+  _id: string;
 }
 
 export default function Home() {
   const [eventsData, setEventsData] = useState([] as Array<EventProps>);
 
   const { events } = useAppSelector((state) => state.events);
+  const { isLoading } = useAppSelector((state) => state.loader);
   useEffect(() => {
-    setEventsData(events.slice(0, 8));
+    setEventsData(events);
   }, [events]);
 
   const dispatch = useAppThunkDispatch();
@@ -57,6 +62,9 @@ export default function Home() {
       });
     // eslint-disable-next-line
   }, []);
+
+  const isEventEmpty = eventsData.filter((event) => event.is_live === true);
+  console.log(isEventEmpty, eventsData);
   return (
     <MainLayout>
       <div className="relative bg-white overflow-hidden head">
@@ -65,7 +73,7 @@ export default function Home() {
             <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:pl-40 lg:px-8 xl:mt-28">
               <div className="sm:text-center lg:text-left">
                 <p className="lg:text-2xl font-bold lg:text-gray-800 sm:mt-5 sm:text-lg sm:font-bold">
-                  seamles access to
+                  seamless access to
                 </p>
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                   all Experience
@@ -131,31 +139,48 @@ export default function Home() {
         </div>
       </section> */}
       <section className="bg-gray-900 p-5 lg:px-20 lg:py-20">
-        <h2 className="text-4xl font-extrabold text-white" id="#selling">
+        <h2 className="text-4xl font-extrabold text-white text-center" id="#events">
           Events
         </h2>
-        <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-          {(eventsData || []).map((show, index) => {
-            return (
-              <CardEvent
-                title={show.title}
-                img={show.image}
-                date={moment(show.start_date as Date).format('MMMM Do YYYY')}
-                price={0}
-                key={index}
-                href={`/preview/${index}`}
-              />
-            );
-          })}
-        </section>
-        <div className="w-full flex justify-center pt-10">
-          <Link
-            to={paths.EVENTS}
-            className="flex w-40 justify-center py-2  text-base font-medium border rounded-full text-white border-white hover:bg-red-700"
-          >
-            see more
-          </Link>
-        </div>
+
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+            {(eventsData || [])
+              .filter((event) => {
+                const checkCashDate = new Date().getTime() < new Date(event.end_date).getTime();
+                return event.is_live === true && event.is_closed === false && checkCashDate;
+              })
+              .slice(0, 8)
+              .map((show, index) => {
+                return (
+                  <CardEvent
+                    title={show.title}
+                    img={show.image}
+                    date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                    price={0}
+                    key={index}
+                    href={`/preview/${show._id}`}
+                  />
+                );
+              })}
+          </section>
+        )}
+        {!isLoading && isEventEmpty.length < 1 && (
+          <h1 className="text-white text-center">No live event</h1>
+        )}
+
+        {!isLoading && isEventEmpty.length > 0 && (
+          <div className="w-full flex justify-center pt-10">
+            <Link
+              to={paths.EVENTS}
+              className="flex w-40 justify-center py-2  text-base font-medium border rounded-full text-white border-white hover:bg-red-700"
+            >
+              see more
+            </Link>
+          </div>
+        )}
       </section>
 
       {/* PAGE INFO WITH CARDS UPCOMING  */}
@@ -186,6 +211,7 @@ export default function Home() {
           </a>
         </div>
       </section> */}
+      <Featured />
     </MainLayout>
   );
 }

@@ -8,6 +8,9 @@ const initialState = {
   upcomingEvents: [],
   pastEvents: [],
   uploadedUrl: '',
+  tickets: [],
+  userTickets: [],
+  ticketsLoading: false,
 };
 
 export const eventSlice = createSlice({
@@ -29,12 +32,29 @@ export const eventSlice = createSlice({
     setUploadedUrl: (state, action) => {
       state.uploadedUrl = action.payload as string;
     },
+    setTickets: (state, action) => {
+      state.tickets = action.payload as [];
+    },
+    setTicketsLoading: (state, action) => {
+      state.ticketsLoading = action.payload as boolean;
+    },
+    setUserTickets: (state, action) => {
+      state.userTickets = action.payload as [];
+    },
   },
 });
 
 // actions
-export const { setEvents, setEvent, setMyEvents, setPastEvents, setUploadedUrl } =
-  eventSlice.actions;
+export const {
+  setEvents,
+  setEvent,
+  setMyEvents,
+  setPastEvents,
+  setUploadedUrl,
+  setTickets,
+  setTicketsLoading,
+  setUserTickets,
+} = eventSlice.actions;
 
 // reducer
 export const eventReducer = eventSlice.reducer;

@@ -1,8 +1,9 @@
+/* eslint/no-unsafe-member-access: 0 */ // --> OFF
 /* eslint-disable */
 import Auth from '../../middleware/storage';
 import Api from '../../services/apis';
 import { setUser, setUserId, setRole } from '../reducers/authSlice';
-import { setLoading } from '../reducers/loaderSlice';
+import { setAccountLoading, setLoading } from '../reducers/loaderSlice';
 import { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
@@ -62,9 +63,11 @@ export const signUpUser = createAsyncThunk('users/signup', async (userData: Auth
   } catch (error) {
     const err = error as AxiosError;
     thunkAPI.dispatch(setLoading(false));
+    console.log(err.response);
     return {
       status: false,
-      message: err.message,
+      //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      message: err.response?.data?.message as never,
     };
   }
 });
@@ -96,6 +99,7 @@ type User = {
   fullname: string;
   phone: string;
   updated_at: Date;
+  accountInfo: [];
 };
 type SignInRes = {
   data: User;
@@ -103,6 +107,86 @@ type SignInRes = {
   status: boolean;
   token: string;
 };
+
+export const sendResetToken = createAsyncThunk(
+  'users/reset_token',
+  async (userData: AuthData, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+
+      if (userData.userType === 'user') {
+        const response = await Api.auth.sendResetTokenUser(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      } else {
+        const response = await Api.auth.sendResetTokenOrganizer(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: "Select if you're a show promoter, because this email doesn't exist",
+      };
+    }
+  },
+);
+
+export const changePassword = createAsyncThunk(
+  'users/change_password',
+  async (userData: AuthData, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+
+      if (userData.userType === 'user') {
+        const response = await Api.auth.changePasswordUser(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      } else {
+        const response = await Api.auth.changePasswordOrganizer(userData.data);
+        const res: AxiosRes = response;
+        const data: SignInRes = res.data;
+        console.log(response);
+        thunkAPI.dispatch(setLoading(false));
+
+        return {
+          status: true as boolean,
+          message: data.message,
+        };
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      thunkAPI.dispatch(setLoading(false));
+      return {
+        status: false,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: "Select if you're a show promoter, because this email doesn't exist",
+      };
+    }
+  },
+);
 
 export const signInUser = createAsyncThunk('users/signin', async (userData: AuthData, thunkAPI) => {
   try {
@@ -119,6 +203,7 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
       thunkAPI.dispatch(setRole('user'));
       Auth.setToken(data.token, data.token);
       Auth.setRole('user');
+      Auth.setUser(data.data);
       return {
         status: true as boolean,
         message: data.message,
@@ -133,6 +218,8 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
       thunkAPI.dispatch(setUserId(data.data._id));
       thunkAPI.dispatch(setRole('organizer'));
       Auth.setRole('organizer');
+      Auth.setUser(data.data);
+      Auth.setAccounts(data.data.accountInfo);
       Auth.setToken(data.token, data.token);
       return {
         status: true as boolean,
@@ -150,104 +237,59 @@ export const signInUser = createAsyncThunk('users/signin', async (userData: Auth
   }
 });
 
-export const signInMember =
-  (credentials: { email: string; password: string }, type: string) =>
-  async (dispatch: (arg0: any) => void) => {
-    dispatch(setLoading(true));
-    try {
-      const res = await Api.auth.signInEmail(credentials);
-      const { data } = res;
-      console.log(data);
-      Auth.setToken(data.token, data.token);
-      await dispatch(getProfileMember(type));
-      dispatch(setLoading(false));
-      toast(data.message);
-      return true;
-    } catch (error) {
-      dispatch(setLoading(false));
-      const err = error as AxiosError;
-      console.log(err?.response?.data?.message as never);
-      toast(err?.response?.data?.message);
-      return false;
-    }
+type axres = {
+  data: {
+    message: string;
   };
+};
+interface AccountDetails {
+  name: string;
+  number: string;
+  bank_name: string;
+}
 
-export const signUpMember =
-  (
-    credentials: { email: string; password: string; fullname: string; phone: string },
-    type: string,
-  ) =>
-  async (dispatch: (arg0: { payload: any; type: string }) => void) => {
-    dispatch(setLoading(true));
+export const addAccountDetails = createAsyncThunk(
+  'add/account',
+  async (data: AccountDetails, thunkAPI) => {
+    thunkAPI.dispatch(setAccountLoading(true));
     try {
-      if (type == 'user') {
-        const res = await Api.auth.signUpEmail(credentials);
-        const { data } = res.data;
-        console.log(data);
-      } else {
-        const res = await Api.auth.signUpOrganizerEmail(credentials);
-        const { data } = res.data;
-        console.log(data);
-      }
-
-      // await signInMember({ email: credentials.email, password: credentials.password });
-      dispatch(setLoading(false));
-      return true;
-    } catch (error) {
-      dispatch(setLoading(false));
-      const err = error as AxiosError;
-      console.log(err?.response?.data?.message as never);
-      toast(err?.response?.data?.message);
-      return false;
+      const response = await Api.auth.addOrganizerAccountDetails(data);
+      const res: axres = response;
+      thunkAPI.dispatch(setAccountLoading(false));
+      return {
+        status: true as boolean,
+        message: res.data.message,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+      return {
+        status: false as boolean,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: error.response?.data?.message as never,
+      };
     }
-  };
+  },
+);
 
-export const forgotPasswordMember =
-  (credentials: { email: string }) =>
-  async (dispatch: (arg0: { payload: any; type: string }) => void) => {
-    dispatch(setLoading(true));
+export const deleteAccountDetails = createAsyncThunk(
+  'delete/account',
+  async (accountId: string, thunkAPI) => {
+    thunkAPI.dispatch(setAccountLoading(true));
     try {
-      const res = await Api.auth.forgotPassword(credentials);
-      const { data } = res.data;
-      toast('forgot password link has been sent to you email');
-      console.log(data);
-      dispatch(setLoading(false));
-      return true;
-    } catch (error) {
-      dispatch(setLoading(false));
-      const err = error as AxiosError;
-      console.log(err?.response?.data?.message as never);
-      toast(err?.response?.data?.message);
-      return false;
+      const response = await Api.auth.organizerAccountDelete(accountId);
+      const res: axres = response;
+      thunkAPI.dispatch(setAccountLoading(false));
+      return {
+        status: true as boolean,
+        message: res.data.message,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+      return {
+        status: false as boolean,
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        message: error.response?.data?.message as never,
+      };
     }
-  };
-
-export const getProfileMember =
-  (type: string) => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
-    dispatch(setLoading(true));
-    try {
-      if (type == 'user') {
-        const res = await Api.user.userDetails();
-        const { data } = res.data;
-        console.log('profile', data);
-        // dispatch(setUser(data));
-        // dispatch(setUserId(data._id));
-        // dispatch(setRole(data.type));
-      } else {
-        const res = await Api.user.organizerDetails();
-        const { data } = res.data;
-        console.log('profile', data);
-        // dispatch(setUser(data));
-        // dispatch(setUserId(data._id));
-        // dispatch(setRole(data.type));
-      }
-      dispatch(setLoading(false));
-      return true;
-    } catch (error) {
-      dispatch(setLoading(false));
-      const err = error as AxiosError;
-      console.log(err?.response?.data?.message as never);
-      toast(err?.response?.data?.message);
-      return false;
-    }
-  };
+  },
+);

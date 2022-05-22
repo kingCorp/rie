@@ -1,0 +1,25 @@
+.design-box {
+  width: 27.5%;
+
+  border-left: 3px dashed rgb(243 244 246);
+}
+
+.tiny-text {
+  font-size: xx-small;
+}
+
+.rotate-box {
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.text-tao {
+  color: white;
+}
+.text-tao p {
+  mix-blend-mode: exclusion;
+}
+
+/* .back-img {
+  background-image: linear-gradient(to right, #aa1f1a, #aa1f1a, transparent, #aa1f1a),
+    url('../../assets/img/backticket.jpeg');
+} */

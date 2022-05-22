@@ -5,17 +5,23 @@ import { paths } from '../../utils/constants';
 import { useAppThunkDispatch } from '../../redux/store';
 import { signUpUser, signInUser } from '../../redux/actions/auth';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { Link } from 'react-router-dom';
 
 type PayLoad = {
   status: boolean;
   message: string;
 };
-
+interface LocationState {
+  currentPath: string;
+}
 const SignUp = () => {
+  const { isLoading } = useSelector((state: RootState) => state.loader);
+  const location = useLocation();
+  const { currentPath } = (location.state as LocationState) || { currentPath: false };
   const dispatch = useAppThunkDispatch();
   const navigate = useNavigate();
   const [signedUp, setSignedUp] = useState(false);
@@ -40,36 +46,32 @@ const SignUp = () => {
     });
   };
 
-  const { isAuthorized } = useSelector((state: RootState) => state.auth);
+  // const { isAuthorized } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (isAuthorized) {
-      navigate('/profile');
+    if (signedUp) {
+      const anony = async () => {
+        return await dispatch(
+          signInUser({
+            data: { email: signUpDetails.email, password: signUpDetails.password },
+            userType: selectValue,
+          }),
+        );
+      };
+      anony()
+        .then((res) => {
+          const payload = res.payload as PayLoad;
+          if (payload.status) {
+            toast.success(payload.message);
+            currentPath ? navigate(currentPath) : navigate('/profile');
+          } else {
+            toast.error(payload.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-    // eslint-disable-next-line
-  }, [isAuthorized]);
-
-  useEffect(() => {
-    const anony = async () => {
-      return await dispatch(
-        signInUser({
-          data: { email: signUpDetails.email, password: signUpDetails.password },
-          userType: selectValue,
-        }),
-      );
-    };
-    anony()
-      .then((res) => {
-        const payload = res.payload as PayLoad;
-        if (payload.status) {
-          toast.success(payload.message);
-        } else {
-          toast.error(payload.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     // eslint-disable-next-line
   }, [signedUp]);
 
@@ -84,6 +86,7 @@ const SignUp = () => {
     await dispatch(signUpUser({ data: signUpDetails, userType: selectValue }))
       .then((res) => {
         const payload = res.payload as PayLoad;
+        console.log(payload, res);
         if (payload.status) {
           toast.success(payload.message);
           setSignedUp(true);
@@ -97,7 +100,6 @@ const SignUp = () => {
   };
   return (
     <div>
-      <ToastContainer />
       <div className="w-full min-h-screen bg-gray-50 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 homebg">
         <div className="w-full sm:max-w-md p-5 mx-auto">
           <div className="flex justify-center py-3">
@@ -135,17 +137,25 @@ const SignUp = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
             />
             <SelectField
-              label="Are you a show promoter?"
+              label="Are you an Event Organizer?"
               value={selectValue}
               onChange={handleSelect}
             />
             <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-              <ButtonAction name="Sign up" type="submit" />
+              {isLoading ? (
+                <ButtonAction name="Sign up" type="submit" disabled loading />
+              ) : (
+                <ButtonAction name="Sign up" type="submit" />
+              )}
             </div>
             <div className="mt-6 text-center">
-              <a href={paths.SIGNIN} className="underline font-bold">
+              <Link
+                to={paths.SIGNIN}
+                className="underline font-bold"
+                state={{ currentPath: currentPath }}
+              >
                 Sign in
-              </a>
+              </Link>
             </div>
           </form>
         </div>

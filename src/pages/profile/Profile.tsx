@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout';
 import { TabButtonAction } from '../../components/shared/Common';
-import BookedEvent from './BookedEvents';
 import MyEvent from './MyEvents';
 import Tickets from './Tickets';
 import { useLocation } from 'react-router-dom';
-//import { useAppSelector } from '../../redux/store';
 import Auth from '../../middleware/storage';
+import ProfileInfo from './ProfileInfo';
 
 interface LocationState {
   from: string;
@@ -14,11 +13,13 @@ interface LocationState {
 
 const Profile = () => {
   const location = useLocation();
-  const { from } = (location.state as LocationState) || { from: 'ticket' };
+  const { from } = (location.state as LocationState) || {
+    from: Auth?.getRole() === 'organizer' ? 'myevent' : 'ticket',
+  };
 
   //const { auth } = useAppSelector((state) => state);
 
-  const [active, setActive] = useState('ticket');
+  const [active, setActive] = useState(Auth?.getRole() === 'organizer' ? 'myevent' : 'ticket');
 
   const makeActive = (tab: string) => {
     setActive(tab);
@@ -39,25 +40,20 @@ const Profile = () => {
             />
           </li>
         )}
+        {Auth?.getRole() === 'user' && (
+          <li className="w-full flex justify-center">
+            <TabButtonAction
+              onClick={() => makeActive('ticket')}
+              name="My Tickets"
+              active={active === 'ticket' ? true : false}
+            />
+          </li>
+        )}
         <li className="w-full flex justify-center">
           <TabButtonAction
-            onClick={() => makeActive('ticket')}
-            name="My Tickets"
-            active={active === 'ticket' ? true : false}
-          />
-        </li>
-        <li className="w-full flex justify-center">
-          <TabButtonAction
-            onClick={() => makeActive('booked')}
-            name="Booked Events"
-            active={active === 'booked' ? true : false}
-          />
-        </li>
-        <li className="w-full flex justify-center">
-          <TabButtonAction
-            onClick={() => makeActive('timeline')}
-            name="Timeline"
-            active={active === 'timeline' ? true : false}
+            onClick={() => makeActive('profile')}
+            name="Profile Info"
+            active={active === 'profile' ? true : false}
           />
         </li>
       </ul>
@@ -66,19 +62,14 @@ const Profile = () => {
           <MyEvent />
         </div>
       )}
-      {active == 'booked' && (
-        <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
-          <BookedEvent />
-        </div>
-      )}
-      {active == 'ticket' && (
-        <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
+      {active == 'ticket' && Auth?.getRole() === 'user' && (
+        <div className="">
           <Tickets />
         </div>
       )}
-      {active == 'timeline' && (
+      {active == 'profile' && (
         <div className="lg:px-8 py-4 sm:px-1 flex justify-center">
-          <BookedEvent />
+          <ProfileInfo />
         </div>
       )}
     </MainLayout>

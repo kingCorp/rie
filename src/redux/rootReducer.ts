@@ -1,5 +1,5 @@
 import { connectRouter } from 'connected-react-router';
-
+import { adminReducer } from './reducers/adminSlice';
 import { authReducer } from './reducers/authSlice';
 import { loaderReducer } from './reducers/loaderSlice';
 import { eventReducer } from './reducers/eventSlice';
@@ -10,4 +10,5 @@ export const createRootReducer = (history: BrowserHistory) => ({
   loader: loaderReducer,
   auth: authReducer,
   events: eventReducer,
+  admin: adminReducer,
 });

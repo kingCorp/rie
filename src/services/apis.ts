@@ -11,16 +11,53 @@ const Api = {
     refreshToken: (data: object) => ApiHandler.post('/user/refresh-token', data),
     forgotPassword: (data: object) => ApiHandler.post('/forgot_password', data),
     logout: (data: object) => ApiHandler.post('/user/logout', data),
+    sendResetTokenUser: (data: object) => ApiHandler.post('/user/send_token', data),
+    sendResetTokenOrganizer: (data: object) => ApiHandler.post('/organizer/send_token', data),
+    changePasswordUser: (data: object) => ApiHandler.post('/user/change_password', data),
+    changePasswordOrganizer: (data: object) => ApiHandler.post('/organizer/change_password', data),
+    addOrganizerAccountDetails: (data: object) => ApiHandler.post('/organizer/account/add', data),
+    organizerAccountDelete: (accountId: string) =>
+      ApiHandler.delete(`/organizer/account/delete/${accountId}`),
   },
   user: {
-    userDetails: () => ApiHandler.get('/user/getInfo'),
-    organizerDetails: () => ApiHandler.get('/organizer/getInfo'),
+    userDetails: () => ApiHandler.get('/user/get_info'),
+    organizerDetails: () => ApiHandler.get('/organizer/get_info'),
   },
   events: {
     events: () => ApiHandler.get('/show/all'),
     event: (id: string) => ApiHandler.get(`/show/details/${id}`),
     getOrganizerEvents: () => ApiHandler.get('/organizer/shows'),
     createEvent: (data: object) => ApiHandler.post('/organizer/show/create', data),
+    createTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/create', data),
+    checkInTicket: (data: object, showID: string) =>
+      ApiHandler.post(`/organizer/show/ticket/check_in/${showID}`, data),
+    checkOutTicket: (data: object, showId: string) =>
+      ApiHandler.post(`/organizer/show/ticket/check_out/${showId}`, data),
+    createOneTicket: (data: object) => ApiHandler.post('/organizer/show/ticket/addOne', data),
+    getTickets: (showId: string) => ApiHandler.get(`/organizer/show/tickets/${showId}`),
+    editEvent: (showId: string, data: object) =>
+      ApiHandler.put(`/organizer/show/edit/${showId}`, data),
+    editTicket: (id: string, data: object) => ApiHandler.put(`/organizer/ticket/edit/${id}`, data),
+    payTicket: (data: object) => ApiHandler.post('/user/tickets/pay', data),
+    goLiveEvent: (data: object) => ApiHandler.post('/organizer/show/go_live', data),
+    getUserTickets: () => ApiHandler.get('/user/tickets'),
+    searchTicket: (data: object) => ApiHandler.post('/organizer/show/searchByCode', data),
+    cashOut: (data: object) => ApiHandler.post('/organizer/show/requestForCashOut', data),
+  },
+  places: {
+    searchPlaces: (key: string, input: string) => ApiHandler.getplaces(`key=${key}&input=${input}`),
+  },
+  admin: {
+    signIn: (data: object) => ApiHandler.post('/admin/login', data),
+    signUp: (data: object) => ApiHandler.post('/admin/register', data),
+    details: () => ApiHandler.get('/admin/details'),
+    users: () => ApiHandler.get('/admin/user/all'),
+    organizers: () => ApiHandler.get('/admin/organizer/all'),
+    showTickets: (showID: string) => ApiHandler.get(`/admin/show/tickets/${showID}`),
+    setCommission: (data: object) => ApiHandler.post('/admin/show/setCommission', data),
+    closeShow: (data: object) => ApiHandler.post('/admin/show/close', data),
+    showDelete: (showId: string) => ApiHandler.delete(`/admin/show/delete/${showId}`),
+    toggleCashOut: (data: object) => ApiHandler.post('/admin/show/cashout/toggle', data),
   },
 };
 

@@ -4,5 +4,17 @@ import Auth from '../middleware/storage';
 import { paths } from '../utils/constants';
 
 export default function ProtectedRoutes() {
-  return Auth.isAuthenticated() ? <Outlet /> : <Navigate to={paths.SIGNIN} />;
+  if (Auth.isAuthenticated() && (Auth.getRole() === 'user' || Auth.getRole() === 'organizer')) {
+    return <Outlet />;
+  } else {
+    return <Navigate to={paths.SIGNIN} />;
+  }
+}
+
+export function ProtectedAdminRoutes() {
+  if (Auth.isAuthenticated() && Auth.getRole() === 'admin') {
+    return <Outlet />;
+  } else {
+    return <Navigate to={paths.ADMIN} />;
+  }
 }
