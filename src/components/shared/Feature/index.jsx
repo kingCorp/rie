@@ -36,7 +36,7 @@ const Featured = () => {
                   </svg>
                 </div>
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
-                  Total control event
+                  Total control of your event(s)
                 </p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
@@ -94,7 +94,7 @@ const Featured = () => {
                 </p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Immediately after your event you will can request for a transfer.
+                You can request a transfer immediately after your event.
               </dd>
             </div>
 
@@ -120,7 +120,7 @@ const Featured = () => {
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Notifications</p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Instant notifications at all time.
+                Instant notifications at all times.
               </dd>
             </div>
           </dl>
