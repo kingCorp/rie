@@ -328,7 +328,7 @@ const AdminEvent = () => {
               <p className="font-bold">Organizer account details</p>
               <br />
               <div>
-                {eventData?.organizer.accountInfo?.map((account: Account, key) => (
+                {(eventData?.organizer?.accountInfo || []).map((account: Account, key) => (
                   <div key={key}>
                     <div>
                       {banks.map((bank: { name: string; code: string }, i) => {
