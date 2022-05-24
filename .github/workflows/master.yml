@@ -1,0 +1,61 @@
+on:
+  push:
+    branches:
+      - master
+
+name: 🚀 Deploy to production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Dependencies With NPM
+      run: npm i
+
+    - name: Run react build script
+      env:
+        CI: false
+      run: |
+          npm install
+          REACT_APP_PUBLIC_CLOUDINARY_PRESET=${{ secrets.PROD_REACT_APP_PUBLIC_CLOUDINARY_PRESET }} REACT_APP_CLOUDINARY_CLOUD_NAME=${{ secrets.PROD_REACT_APP_CLOUDINARY_CLOUD_NAME }} REACT_APP_GOOOGLE_AUTOCOMPLETE_API_KEY=${{ secrets.PROD_REACT_APP_GOOOGLE_AUTOCOMPLETE_API_KEY }} REACT_APP_PAYSTACK_PUBLIC_KEY=${{ secrets.PROD_REACT_APP_PAYSTACK_PUBLIC_KEY }} npm run build
+
+    - name: Archive Build
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build
+
+  deploy: 
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Build
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+          
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /
+          local-dir: build/
