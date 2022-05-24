@@ -17,8 +17,8 @@ const Sidebar = () => {
     navigate(paths.ADMIN);
   };
   return (
-    <aside className="md:w-80 md:h-screen" aria-label="Sidebar">
-      <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-900">
+    <aside className="md:h-screen" aria-label="Sidebar">
+      <div className="overflow-y-auto py-4 px-3 rounded dark:bg-gray-900">
         <Link to={paths.DASHBOARD} className="flex pl-2.5 mb-5">
           <img src={rt} alt="logo" className="object-center sm:h-12 md:h-16 lg:w-30 lg:h-15" />
           <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white"></span>
@@ -36,7 +36,7 @@ const Sidebar = () => {
           <li>
             <Link
               to={paths.DASHBOARD}
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700"
             >
               <svg
                 className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -53,7 +53,7 @@ const Sidebar = () => {
           <li>
             <Link
               to={paths.ADMIN_EVENTS}
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700"
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -92,7 +92,7 @@ const Sidebar = () => {
           <li>
             <Link
               to={paths.ADMIN_USERS}
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-700"
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 cursor-pointer dark:hover:bg-gray-700"
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -112,7 +112,7 @@ const Sidebar = () => {
           <li>
             <Link
               to={paths.ADMIN_ORGANIZERS}
-              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-700"
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 cursor-pointer dark:hover:bg-gray-700"
             >
               <svg
                 className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -135,7 +135,7 @@ const Sidebar = () => {
               onClick={() => {
                 Logout();
               }}
-              className="flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

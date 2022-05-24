@@ -39,6 +39,7 @@ interface EventProps {
     fullname?: string;
     phone?: string;
     email?: string;
+    accountInfo?: [];
   };
   start_date: string | Date;
   start_time: string;
@@ -159,7 +160,7 @@ const AdminEvent = () => {
   const userInfo = async () => {
     try {
       const res = await Api.user.organizerDetails();
-      setAccounts(res.data.data.accountInfo);
+      // setAccounts(res.data.data.accountInfo);
     } catch (error) {
       console.log(error);
     }
@@ -230,7 +231,13 @@ const AdminEvent = () => {
                 <p className="text-lg font-bold">{eventData.organizer?.email}</p>
               </div>
 
-              <button className="bg-red-500 p-2 rounded-full text-white"onClick={() => setOpenCashout(true)}> CASHOUT INFO</button>
+              <button
+                className="bg-red-500 p-2 rounded-full text-white"
+                onClick={() => setOpenCashout(true)}
+              >
+                {' '}
+                CASHOUT INFO
+              </button>
 
               <div className="mt-4">
                 <h3 className="mt-4 font-bold px-3">Tickets</h3>
@@ -321,7 +328,7 @@ const AdminEvent = () => {
               <p className="font-bold">Organizer account details</p>
               <br />
               <div>
-                {accounts?.map((account: Account, key) => (
+                {eventData?.organizer.accountInfo?.map((account: Account, key) => (
                   <div key={key}>
                     <div>
                       {banks.map((bank: { name: string; code: string }, i) => {
@@ -337,7 +344,6 @@ const AdminEvent = () => {
                 ))}
               </div>
               <br />
-             
             </div>
           </div>
         </div>
