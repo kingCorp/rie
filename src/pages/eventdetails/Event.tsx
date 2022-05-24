@@ -191,7 +191,9 @@ const Event = () => {
                 </span>
                 <span className="">{eventData.venue}</span>
                 <div className="p-3">
-                  {checkCashDate && <ButtonAction name="Cashout" onClick={handleOpenCashout} />}
+                  {checkCashDate && !eventData.is_cashed_out && (
+                    <ButtonAction name="Cashout" onClick={handleOpenCashout} />
+                  )}
                 </div>
               </div>
 
