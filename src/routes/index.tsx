@@ -26,8 +26,15 @@ import AdminOrganizers from '../pages/admin/organizers/Organizers';
 import Toc from '../pages/toc/Toc';
 import SignUpAdmin from '../pages/admin/signupadmin/SignupAdmin';
 import AdminEvent from '../pages/admin/eventdetails/AdminEvent';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-230086470-1');
 
 const AppRoutes = () => {
+  React.useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    console.log('shows -- ' + window.location.pathname);
+  }, []);
   return (
     <div>
       <BrowserRouter>
