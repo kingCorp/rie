@@ -111,11 +111,11 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
                 type="text"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
               />
-               <SelectField
-              label="Are you an Event Organizer?"
-              value={selectValue}
-              onChange={handleSelect}
-            />
+              <SelectField
+                label="Are you an Event Organizer?"
+                value={selectValue}
+                onChange={handleSelect}
+              />
               <div className="mt-2 sm:mt-2 sm:flex sm:justify-center lg:justify-start">
                 {isLoading ? (
                   <ButtonAction name="Change Password" type="submit" disabled loading />
