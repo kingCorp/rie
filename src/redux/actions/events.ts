@@ -78,7 +78,6 @@ export const getEvents = createAsyncThunk('getevents', async (userData: object, 
     const res = response.data as Res;
     thunkAPI.dispatch(setEvents(res.data.reverse()));
     thunkAPI.dispatch(setLoading(false));
-    console.log(response);
     return {
       status: true,
       message: 'Events fetched successfully',

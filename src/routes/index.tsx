@@ -34,7 +34,7 @@ const AppRoutes = () => {
   React.useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
     console.log('shows -- ' + window.location.pathname);
-  }, []);
+  });
   return (
     <div>
       <BrowserRouter>

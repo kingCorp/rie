@@ -64,7 +64,6 @@ export default function Home() {
   }, []);
 
   const isEventEmpty = eventsData.filter((event) => event.is_live === true);
-  console.log(isEventEmpty, eventsData);
   return (
     <MainLayout>
       <div className="relative bg-white overflow-hidden head">

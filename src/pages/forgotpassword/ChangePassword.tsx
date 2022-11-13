@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 // import { AlertNote } from '../../components/shared/Common';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { getIsLoading } from '../../redux/reducers/loaderSlice';
-import { ButtonAction, InputField } from '../../components/shared/Common';
+import { ButtonAction, InputField, SelectField } from '../../components/shared/Common';
 import { toast } from 'react-toastify';
 import { Modal } from '@mui/material';
 import { changePassword } from '../../redux/actions/auth';
@@ -38,6 +38,12 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
     token: '',
   });
 
+  const [selectValue, setSelectValue] = useState('user');
+
+  const handleSelect = (e: SelectChangeEvent) => {
+    setSelectValue(e.target.value);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginDetails({
@@ -48,7 +54,7 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await dispatch(changePassword({ data: loginDetails, userType: userType }))
+    await dispatch(changePassword({ data: loginDetails, userType: selectValue }))
       .then((res) => {
         const payload = res.payload as PayLoad;
         if (payload.status) {
@@ -105,7 +111,12 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
                 type="text"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
               />
-              <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+               <SelectField
+              label="Are you an Event Organizer?"
+              value={selectValue}
+              onChange={handleSelect}
+            />
+              <div className="mt-2 sm:mt-2 sm:flex sm:justify-center lg:justify-start">
                 {isLoading ? (
                   <ButtonAction name="Change Password" type="submit" disabled loading />
                 ) : (
@@ -113,7 +124,7 @@ const ChangePassword = ({ handleClose, open, userType }: Props) => {
                 )}
               </div>
 
-              <div className="mt-6 text-left">
+              <div className="mt-2 text-left">
                 <span>Dont have an account ? </span>
                 <a href={paths.SIGNUP} className="underline font-bold">
                   Sign up

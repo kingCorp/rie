@@ -178,10 +178,11 @@ export const changePassword = createAsyncThunk(
     } catch (error) {
       const err = error as AxiosError;
       thunkAPI.dispatch(setLoading(false));
+      console.log(err.response?.data?.message)
       return {
         status: false,
         //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        message: "Select if you're a show promoter, because this email doesn't exist",
+        message: err.response?.data?.message,
       };
     }
   },
