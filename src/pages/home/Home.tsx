@@ -27,7 +27,7 @@ export interface EventProps {
   is_security_requested: boolean;
   is_tag_requested: boolean;
   number_of_tickets_sold: number;
-  organizer: string;
+  organizer: { email: string };
   start_date: string | Date;
   start_time: string;
   tickets: [];
@@ -62,7 +62,6 @@ export default function Home() {
       });
     // eslint-disable-next-line
   }, []);
-
   const isEventEmpty = eventsData.filter((event) => event.is_live === true);
   return (
     <MainLayout>
@@ -148,8 +147,41 @@ export default function Home() {
           <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
             {(eventsData || [])
               .filter((event) => {
+                const specialOrganizer = [];
                 const checkCashDate = new Date().getTime() < new Date(event.end_date).getTime();
-                return event.is_live === true && event.is_closed === false && checkCashDate;
+                if (event.organizer?.email === 'entertainmentmbi@gmail.com') {
+                  specialOrganizer.push(event.organizer?.email);
+                }
+                return (
+                  event.is_live === true &&
+                  event.is_closed === false &&
+                  checkCashDate &&
+                  specialOrganizer.length > 0
+                );
+              })
+              .slice(0, 1)
+              .map((show, index) => {
+                return (
+                  <CardEvent
+                    title={show.title}
+                    img={show.image}
+                    date={moment(show.start_date as Date).format('MMMM Do YYYY')}
+                    price={0}
+                    key={index}
+                    href={`/preview/${show._id}`}
+                  />
+                );
+              })}
+
+            {(eventsData || [])
+              .filter((event) => {
+                const checkCashDate = new Date().getTime() < new Date(event.end_date).getTime();
+                return (
+                  event.is_live === true &&
+                  event.is_closed === false &&
+                  checkCashDate &&
+                  event.organizer?.email !== 'entertainmentmbi@gmail.com'
+                );
               })
               .slice(0, 8)
               .map((show, index) => {
@@ -166,6 +198,7 @@ export default function Home() {
               })}
           </section>
         )}
+
         {!isLoading && isEventEmpty.length < 1 && (
           <h1 className="text-white text-center">No live event</h1>
         )}
