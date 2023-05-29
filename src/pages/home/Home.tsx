@@ -43,6 +43,7 @@ export default function Home() {
 
   const { events } = useAppSelector((state) => state.events);
   const { isLoading } = useAppSelector((state) => state.loader);
+
   useEffect(() => {
     setEventsData(events);
   }, [events]);
@@ -62,6 +63,7 @@ export default function Home() {
       });
     // eslint-disable-next-line
   }, []);
+
   const isEventEmpty = eventsData.filter((event) => event.is_live === true);
   return (
     <MainLayout>
@@ -180,7 +182,8 @@ export default function Home() {
                   event.is_live === true &&
                   event.is_closed === false &&
                   checkCashDate &&
-                  event.organizer?.email !== 'entertainmentmbi@gmail.com'
+                  event.organizer?.email !== 'entertainmentmbi@gmail.com' &&
+                  event.organizer?.email !== 'kabirabdulsamad022@gmail.com'
                 );
               })
               .slice(0, 8)

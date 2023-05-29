@@ -22,7 +22,7 @@ interface EventProps {
   is_security_requested: boolean;
   is_tag_requested: boolean;
   number_of_tickets_sold: number;
-  organizer: string;
+  organizer: { email: string };
   start_date: string | Date;
   start_time: string;
   tickets: [];
@@ -116,7 +116,12 @@ const Events = () => {
               {(eventsData || [])
                 .filter((event) => {
                   const checkCashDate = new Date().getTime() < new Date(event.end_date).getTime();
-                  return event.is_live === true && event.is_closed === false && checkCashDate;
+                  return (
+                    event.is_live === true &&
+                    event.is_closed === false &&
+                    checkCashDate &&
+                    event.organizer?.email !== 'kabirabdulsamad022@gmail.com'
+                  );
                 })
                 .map((show, index) => {
                   return (
